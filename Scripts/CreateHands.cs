@@ -273,7 +273,7 @@ namespace Assets.Scripts
                     //等级少于等于分身等级,且场上等级总和少于等于分身限制数
                     if (card.Level <= Lrig.MyLrig.Level && (SetSigni.SigniLevelCount + card.Level) < Lrig.MyLrig.Limit)
                     {
-                        MyHands[i].UseBtn.SetActive(true);
+                        MyHands[i].ShowUseBtn(true);
                         int i1 = i;
                         MyHands[i].SetUseBtnDelegate(go =>
                         {
@@ -294,7 +294,7 @@ namespace Assets.Scripts
                 //法术牌
                 if (card.MyCardType == Card.CardType.法术卡)
                 {
-                    MyHands[i].UseBtn.SetActive(CountCost(card));
+                    MyHands[i].ShowUseBtn(CountCost(card));
                     //加个条件判断，要符合什么条件才能出
                     Card card1 = card;
                     int i1 = i;
@@ -382,7 +382,7 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < MyHands.Count; i++)
             {
-                MyHands[i].UseBtn.SetActive(false);
+                MyHands[i].ShowUseBtn(false);
             }
         }
 

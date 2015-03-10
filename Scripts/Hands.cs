@@ -45,7 +45,7 @@ namespace Assets.Scripts
             get { return _myCard; }
             set
             {
-                if(value==null)
+                if (value == null)
                     return;
                 _myCard = value;
                 Cardid = _myCard.CardId;
@@ -59,7 +59,7 @@ namespace Assets.Scripts
                 {
                     MyCostNum = _myCard.Cost[0].Num;
                     MyCostType = _myCard.Cost[0].MyEnerType;
-                }              
+                }
                 Level = _myCard.Level;
                 Limit = _myCard.Limit;
                 //UiTexture.mainTexture = MyCard.CardTexture;
@@ -145,5 +145,11 @@ namespace Assets.Scripts
             if (OnClickAction != null)
                 OnClickAction(gameObject);
         }
+
+        public void ShowUseBtn(bool bshow)
+        {
+            UseBtn.SetActive(bshow);
+        }
+
     }
 }
