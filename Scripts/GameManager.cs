@@ -11,7 +11,7 @@ namespace Assets.Scripts
         public MyRpc MyRpc;
         public static bool BLocalRound;
 
-		public ShowCard ShowCard;
+        public ShowCard ShowCard;
         public GameObject TwoDui;
         public GameObject ThreeDui;
 
@@ -25,7 +25,7 @@ namespace Assets.Scripts
         public EnerManager EnerManager;
         public Trash Trash;
         public Check Check;
-		public GameOver GameOver;
+        public GameOver GameOver;
         #endregion
         public enum GameState
         {
@@ -193,7 +193,7 @@ namespace Assets.Scripts
         /// <param name="num"></param>
         public void RpcCreateLifeCloth(int num)
         {
-            MyRpc.Rpc("SetOtherCloth", RPCMode.Others,num);
+            MyRpc.Rpc("SetOtherCloth", RPCMode.Others, num);
         }
 
         private void SetLrig()
@@ -228,7 +228,8 @@ namespace Assets.Scripts
                 Lrig.SetUp(card);
                 Lrig.ShowLrig(true);
 
-				ShowCard.ShowMyCard(card);
+                Debug.Log("ShowMyCard");
+                ShowCard.ShowMyCard(card);
                 RpcOtherLrig(card.CardId);
 
                 DataSource.LrigDeck.Remove(card);
@@ -467,11 +468,12 @@ namespace Assets.Scripts
             WordInfo.SetTheEndPhase(() =>
             {
                 CreateHands.DisTheUseBtn();
-                if(Rounds==1)
+                if (Rounds == 1)
                 {
                     MyGameState = GameState.结束阶段;
                     WordInfo.ShowTheEndPhaseBtn(false);
-                }else
+                }
+                else
                 {
                     MyGameState = GameState.攻击宣言阶段;
                 }
@@ -517,22 +519,22 @@ namespace Assets.Scripts
 
         private void AttackSayPhase()
         {
-//            if (Rounds == 1)
-//            {
-//                Reporting.text = "先手跳过攻击阶段";
-//                MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
-//                yield return new WaitForSeconds(1);
-//                MyGameState = GameState.结束阶段;
-//            }
-//            else
-//            {
-                AttackSay();
-                //yield return new WaitForSeconds(1);
-                MyGameState = GameState.精灵攻击阶段;
-                //                yield return new WaitForSeconds(1);
-                //                MyGameState = GameState.分身攻击阶段;
-                //                yield return new WaitForSeconds(1);
-                //                MyGameState = GameState.结束阶段;
+            //            if (Rounds == 1)
+            //            {
+            //                Reporting.text = "先手跳过攻击阶段";
+            //                MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
+            //                yield return new WaitForSeconds(1);
+            //                MyGameState = GameState.结束阶段;
+            //            }
+            //            else
+            //            {
+            AttackSay();
+            //yield return new WaitForSeconds(1);
+            MyGameState = GameState.精灵攻击阶段;
+            //                yield return new WaitForSeconds(1);
+            //                MyGameState = GameState.分身攻击阶段;
+            //                yield return new WaitForSeconds(1);
+            //                MyGameState = GameState.结束阶段;
             //}
         }
 
@@ -641,10 +643,10 @@ namespace Assets.Scripts
             MyRpc.Rpc("ShowOtherGuard", RPCMode.Others);
         }
 
-		public void RpcGameResult(string word)
-		{
-			MyRpc.Rpc ("ShowGameResult", RPCMode.Others, word);
-		}
+        public void RpcGameResult(string word)
+        {
+            MyRpc.Rpc("ShowGameResult", RPCMode.Others, word);
+        }
 
         #endregion
 
@@ -710,15 +712,15 @@ namespace Assets.Scripts
 
 
         //测试!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //                private void Start()
-        //                {
-        //                    MyGameState = GameState.准备阶段;
-        //                }
-        //        
-        //                private void GameTest()
-        //                {
-        //                    BLocalRound = true;
-        //                    MyGameState = GameState.竖置阶段;
-        //                }
+        //                        private void Start()
+        //                        {
+        //                            MyGameState = GameState.准备阶段;
+        //                        }
+        //                
+        //                        private void GameTest()
+        //                        {
+        //                            BLocalRound = true;
+        //                            MyGameState = GameState.竖置阶段;
+        //                        }
     }
 }

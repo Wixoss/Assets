@@ -7,17 +7,12 @@ namespace Assets.Scripts
 
 		public TweenRotation TweenRotation;
 		public TweenColor TweenColor;
-		public UITexture UITexture;
-
-		private void Awake()
-		{
-			gameObject.SetActive (false);
-		}
+		public UITexture UiTexture;
 
 		public void ShowMyCard(Card card)
 		{
 			Reset ();
-			UITexture.mainTexture = card.CardTexture;
+			UiTexture.mainTexture = card.CardTexture;
 			gameObject.SetActive (true);
 			Invoke ("DisMyCard", 1.5f);
 		}
