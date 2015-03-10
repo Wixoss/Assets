@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
@@ -12,7 +13,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 是否显示
         /// </summary>
-        public bool Bshow;
+        //public bool Bshow;
         /// <summary>
         /// 效果
         /// </summary>
@@ -31,8 +32,8 @@ namespace Assets.Scripts
         public Card.State MyState;
         public Card.Ener.EnerType MyEnerType;
         public int MyEnerNum;
-        public Card.Ener.EnerType MyCostType;
-        public int MyCostNum;
+		public List<string> MyCostType = new List<string>();
+        public List<int> MyCostNum = new List<int>();
         public int Level;
         public int Limit;
 
@@ -57,8 +58,11 @@ namespace Assets.Scripts
 
                 if (_myCard.Cost.Count > 0)
                 {
-                    MyCostNum = _myCard.Cost[0].Num;
-                    MyCostType = _myCard.Cost[0].MyEnerType;
+					for(int i=0;i<_myCard.Cost.Count;i++)
+					{
+						MyCostType.Add(_myCard.Cost[i].MyEnerType.ToString());
+						MyCostNum.Add(_myCard.Cost[i].Num);
+					}
                 }
                 Level = _myCard.Level;
                 Limit = _myCard.Limit;
@@ -127,17 +131,6 @@ namespace Assets.Scripts
             Reflash();
             Destroy(gameObject);
             //Breed.Instance().Get("Hands").Unspawn(gameObject);
-        }
-
-        private void OnEnable()
-        {
-            //            MyState = State.手牌;
-            Bshow = true;
-        }
-
-        private void OnDisable()
-        {
-            Bshow = false;
         }
 
         private void OnClick()
