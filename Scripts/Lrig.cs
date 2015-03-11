@@ -69,7 +69,8 @@ namespace Assets.Scripts
             {
                 if (DataSource.LrigDeck[i].MyCardType == Card.CardType.分身卡)
                 {
-                    if (DataSource.LrigDeck[i].Level == MyLrig.Level + 1)
+                    //是同一个角色的高一级分身
+                    if (DataSource.LrigDeck[i].Level == MyLrig.Level + 1 && DataSource.LrigDeck[i].Type == MyLrig.Type)
                     {
                         lrig.Add(DataSource.LrigDeck[i]);
                     }
@@ -89,15 +90,15 @@ namespace Assets.Scripts
                 return;
             }
             UpgradingLrig = CardInfo.SelectHands[0].MyCard;
-            if (UpgradingLrig.Cost[0].Num == 0)
+            if (UpgradingLrig.GrowCost.Count == 0)
             {
                 SetUp(UpgradingLrig);
-				GameManager.ShowCard.ShowMyCard(UpgradingLrig);
+                GameManager.ShowCard.ShowMyCard(UpgradingLrig);
                 DataSource.LrigDeck.Remove(UpgradingLrig);
             }
             else
             {
-                int enerTypeCount = UpgradingLrig.Cost.Count;
+                int enerTypeCount = UpgradingLrig.GrowCost.Count;
                 SetTheCost(0, enerTypeCount - 1, UpgradingLrig, () =>
                 {
                     SetUp(UpgradingLrig);
@@ -105,8 +106,8 @@ namespace Assets.Scripts
                     //Last Call
                     GameManager.RpcGrow();
                     GameManager.RpcOtherLrig(UpgradingLrig.CardId);
-					GameManager.ShowCard.ShowMyCard(UpgradingLrig);
-                });
+                    GameManager.ShowCard.ShowMyCard(UpgradingLrig);
+                }, true);
             }
         }
 
@@ -119,32 +120,57 @@ namespace Assets.Scripts
         /// <param name="max">费用的种类数(cost.count-1)</param>
         /// <param name="targetCard">需要费用的那张卡</param>
         /// <param name="successd">成功的回调</param>
-        public void SetTheCost(int num, int max, Card targetCard, Action successd)
+        /// <param name="bgrowcost">是否是成长费用</param>
+        public void SetTheCost(int num, int max, Card targetCard, Action successd, bool bgrowcost = false)
         {
             var cards = new List<Card>();
-            //var hands = new List<Hands>();
-            for (int i = 0; i < EnerManager.EnerCards.Count; i++)
+
+            if (bgrowcost)
             {
-                //万花等于任何颜色
-                if (EnerManager.EnerCards[i].MyEner.MyEnerType == targetCard.Cost[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
+                for (int i = 0; i < EnerManager.EnerCards.Count; i++)
                 {
-                    cards.Add(EnerManager.EnerCards[i]);
-                    //hands.Add(EnerManager.Eners[i]);
+                    //万花等于任何颜色
+                    if (EnerManager.EnerCards[i].MyEner.MyEnerType == targetCard.GrowCost[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
+                    {
+                        cards.Add(EnerManager.EnerCards[i]);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < EnerManager.EnerCards.Count; i++)
+                {
+                    //万花等于任何颜色
+                    if (EnerManager.EnerCards[i].MyEner.MyEnerType == targetCard.Cost[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
+                    {
+                        cards.Add(EnerManager.EnerCards[i]);
+                    }
                 }
             }
 
-            CardInfo.SetUp("所需 " + targetCard.Cost[num].MyEnerType + "色 费用 " + targetCard.Cost[num].Num + " 个", cards, targetCard.Cost[num].Num, () =>
+            string info;
+            if (bgrowcost)
+            {
+                info = "所需 " + targetCard.GrowCost[num].MyEnerType + "色 费用 " + targetCard.GrowCost[num].Num + " 个";
+            }
+            else
+            {
+                info = "所需 " + targetCard.Cost[num].MyEnerType + "色 费用 " + targetCard.Cost[num].Num + " 个";
+            }
+
+            CardInfo.SetUp(info, cards, bgrowcost ? targetCard.Cost[num].Num : targetCard.GrowCost[num].Num, () =>
             {
                 bool enough = true;
 
-                for (int i = 0; i < targetCard.Cost.Count; i++)
+                int count = bgrowcost ? targetCard.GrowCost.Count : targetCard.Cost.Count;
+
+                for (int i = 0; i < count; i++)
                 {
                     enough = BEnerEnough(targetCard, i);
                 }
 
                 if (enough)
                 {
-
                     Card card;
                     for (int i = 0; i < CardInfo.SelectHands.Count; i++)
                     {
@@ -157,7 +183,7 @@ namespace Assets.Scripts
                     {
                         num = num + 1;
                         //重复调用以达到目标
-                        SetTheCost(num, max, targetCard, successd);
+                        SetTheCost(num, max, targetCard, successd, bgrowcost);
                     }
                     else
                     {
@@ -188,12 +214,17 @@ namespace Assets.Scripts
             });
         }
 
-        private bool BEnerEnough(Card target, int num)
+        private bool BEnerEnough(Card target, int num, bool bgrowcost = false)
         {
             int all = 0;
             for (int i = 0; i < CardInfo.SelectHands.Count; i++)
             {
                 all += CardInfo.SelectHands[i].MyEnerNum;
+            }
+
+            if (bgrowcost)
+            {
+                return all >= target.GrowCost[num].Num;
             }
 
             return all >= target.Cost[num].Num;
@@ -242,7 +273,7 @@ namespace Assets.Scripts
                 yield return new WaitForSeconds(1);
                 i++;
 
-                if(i>=10)
+                if (i >= 10)
                 {
                     LifeCloth.CrashOtherCloth();
                     GameManager.RpcCrashOtherLifeCloth();
@@ -250,19 +281,19 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    if(Bguard != 0)
+                    if (Bguard != 0)
                     {
-                        if(Bguard == 1)
+                        if (Bguard == 1)
                         {
                             Bguard = 0;
                             yield break;
                         }
                         else if (Bguard == -1)
                         {
-                             LifeCloth.CrashOtherCloth();
-                             GameManager.RpcCrashOtherLifeCloth();
-                             Bguard = 0;
-                             yield break;
+                            LifeCloth.CrashOtherCloth();
+                            GameManager.RpcCrashOtherLifeCloth();
+                            Bguard = 0;
+                            yield break;
                         }
                     }
                 }

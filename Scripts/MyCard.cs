@@ -176,6 +176,10 @@ namespace Assets.Scripts
                 MyCardColor = GetCardColorByString(i.Element("Color").Value);
                 MyCardType = GetCardTypeByString(i.Element("CardType").Value);
 
+                if (i.Element("Level") != null)
+                {
+                    Level = Convert.ToInt16(i.Element("Level").Value);
+                }
                 if (i.Element("BBrust") != null)
                 {
                     HasBrust = Convert.ToInt16(i.Element("BBrust").Value) != 0;
