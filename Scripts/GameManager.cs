@@ -26,6 +26,7 @@ namespace Assets.Scripts
         public Trash Trash;
         public Check Check;
         public GameOver GameOver;
+        public ShowDeck ShowDeck;
         #endregion
         public enum GameState
         {
@@ -201,13 +202,13 @@ namespace Assets.Scripts
             Reporting.text = "放置0级分身";
 
             var lrig = new List<Card>();
-            for (int i = 0; i < DataSource.LrigDeck.Count; i++)
+            for (int i = 0; i < ShowDeck.LrigDeck.Count; i++)
             {
-                if (DataSource.LrigDeck[i].MyCardType == Card.CardType.分身卡)
+                if (ShowDeck.LrigDeck[i].MyCardType == Card.CardType.分身卡)
                 {
-                    if (DataSource.LrigDeck[i].Level == 0)
+                    if (ShowDeck.LrigDeck[i].Level == 0)
                     {
-                        lrig.Add(DataSource.LrigDeck[i]);
+                        lrig.Add(ShowDeck.LrigDeck[i]);
                     }
                 }
             }
@@ -228,11 +229,10 @@ namespace Assets.Scripts
                 Lrig.SetUp(card);
                 Lrig.ShowLrig(true);
 
-                Debug.Log("ShowMyCard");
                 ShowCard.ShowMyCard(card);
                 RpcOtherLrig(card.CardId);
 
-                DataSource.LrigDeck.Remove(card);
+                ShowDeck.LrigDeck.Remove(card);
                 CardInfo.ShowCardInfo(false);
 
                 if (Network.isClient)
@@ -654,11 +654,10 @@ namespace Assets.Scripts
 
         private void EndPhase()
         {
-            //yield return new WaitForSeconds(2);
-            End();
+            CreateHands.DesMyHandsOverSix ();         
         }
 
-        private void End()
+        public void End()
         {
             //if(hands.count>6)丢牌
             Reporting.text = "回合结束,控制权转移";

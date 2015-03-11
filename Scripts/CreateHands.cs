@@ -23,6 +23,7 @@ namespace Assets.Scripts
         //public UIGrid Grid;
         public GameObject MyChangeBtn;
         public GameObject MyEnerChagerBtn;
+        public GameObject MyDesBtn;
 
         public List<Hands> MyHands = new List<Hands>();
         public List<GameObject> OtherHands = new List<GameObject>();
@@ -43,6 +44,7 @@ namespace Assets.Scripts
             MyEnerChagerBtn.SetActive(false);
             UIEventListener.Get(MyChangeBtn).MyOnClick = ChangeMyHands;
             UIEventListener.Get(MyEnerChagerBtn).MyOnClick = EnerChange;
+            UIEventListener.Get(MyDesBtn).MyOnClick = DesHands;
         }
 
         /// <summary>
@@ -53,9 +55,12 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < 5; i++)
             {
-                var hand = DataSource.MainDeck[DataSource.MainDeck.Count - 1];
-                CreateMyFirstHands(hand);
-                DataSource.MainDeck.Remove(hand);
+                //var hand = DataSource.MainDeck[DataSource.MainDeck.Count - 1];
+                var card = GameManager.ShowDeck.MainDeck[GameManager.ShowDeck.MainDeck.Count-1];
+
+                CreateMyFirstHands(card);
+                //DataSource.MainDeck.Remove(hand);
+                GameManager.ShowDeck.MainDeck.Remove(card);
                 yield return new WaitForSeconds(0.2f);
             }
             Reposition();
@@ -108,14 +113,6 @@ namespace Assets.Scripts
                             Ener = MyHands[i1].Bselect ? MyHands[i1] : null;
                         }
                     }
-                    //                    for (int j = 0; j < MyHands.Count; j++)
-                    //                    {
-                    //                        if (Ener != MyHands[j])
-                    //                        {
-                    //                            MyHands[j].Bselect = false;
-                    //                            MyHands[j].UiTexture.color = Color.white;
-                    //                        }
-                    //                    }
                 };
             }
         }
@@ -143,6 +140,52 @@ namespace Assets.Scripts
             Invoke("Reposition", 1);
             GameManager.RpcEnerCharge();
         }
+
+		private Hands _desCard;
+
+		public void DesMyHandsOverSix()
+		{
+            MyDesBtn.SetActive(true);
+			if (MyHands.Count <= 6) 
+			{
+                MyDesBtn.SetActive(false);
+				GameManager.End();
+				return;
+			}
+			for (int i = MyHands.Count - 1; i >= 0; i--) 
+			{
+				int i1 = i;
+				MyHands[i].SetOnClickAction(o => 
+				{
+                    if (_desCard == null)
+					{
+                        _desCard = MyHands[i1];
+						MyHands[i1].Bselect = !MyHands[i1].Bselect;
+						MyHands[i1].UiTexture.color = MyHands[i1].Bselect ? Color.gray : Color.white;
+					}
+					else
+					{
+						if (MyHands[i1].Bselect)
+						{
+							MyHands[i1].Bselect = !MyHands[i1].Bselect;
+							MyHands[i1].UiTexture.color = MyHands[i1].Bselect ? Color.gray : Color.white;
+                            _desCard = MyHands[i1].Bselect ? MyHands[i1] : null;
+						}
+					}
+				});
+			}
+		}
+
+		private void DesHands()
+		{
+            if (_desCard != null) 
+			{
+                DestoryHands (_desCard);
+                Invoke("SetZero", 0.5f);
+                Invoke("Reposition", 1);
+			}
+            DesMyHandsOverSix();
+		}
 
         public void Reflash()
         {
@@ -181,10 +224,13 @@ namespace Assets.Scripts
                     MyHands.Remove(MyHands[i]);
                     MyHandCards.Remove(card);
                     var obj = InsObj(Hands, Vector3.zero, Vector3.zero, new Vector3(0.5f, 0.5f, 1), Parent);
-                    var random = Random.Range(0, DataSource.MainDeck.Count);
+                    //var random = Random.Range(0, DataSource.MainDeck.Count);
+                    var random = Random.Range(0, GameManager.ShowDeck.MainDeck.Count);
                     var hands = obj.GetComponent<Hands>();
-                    hands.CreateHands(DataSource.MainDeck[random]);
-                    DataSource.MainDeck[random] = card;
+                    //hands.CreateHands(DataSource.MainDeck[random]);
+                    hands.CreateHands(GameManager.ShowDeck.MainDeck[random]);
+                    //DataSource.MainDeck[random] = card;
+                    GameManager.ShowDeck.MainDeck[random] = card;
                     MyHands.Add(hands);
                     MyHandCards.Add(card);
                 }
@@ -209,11 +255,27 @@ namespace Assets.Scripts
             //var obj = Breed.Instance().Get("Hands").Spawn(Vector3.zero, Vector3.zero, new Vector3(0.5f, 0.5f, 1), Parent, true);
             var obj = InsObj(Hands, Vector3.zero, Vector3.zero, new Vector3(0.5f, 0.5f, 1), Parent);
             var hands = obj.GetComponent<Hands>();
-            var lastcard = DataSource.MainDeck[DataSource.MainDeck.Count - 1];
+            //var lastcard = DataSource.MainDeck[DataSource.MainDeck.Count - 1];
+
+            Card lastcard;
+            if (GameManager.ShowDeck.MainDeck.Count > 0)
+            {
+                lastcard = GameManager.ShowDeck.MainDeck [GameManager.ShowDeck.MainDeck.Count - 1];
+            } else
+            {
+                GameManager.ShowDeck.TrashToMainDeck();
+                if(GameManager.LifeCloth.LifeCloths.Count>0)
+                {
+                    //重构卡组掉一护甲
+                    GameManager.LifeCloth.CrashCloth();
+                }
+                lastcard = GameManager.ShowDeck.MainDeck [GameManager.ShowDeck.MainDeck.Count - 1];
+            }
             hands.MyCard = lastcard;
             MyHands.Add(hands);
             MyHandCards.Add(lastcard);
-            DataSource.MainDeck.Remove(lastcard);
+            //DataSource.MainDeck.Remove(lastcard);
+            GameManager.ShowDeck.MainDeck.Remove(lastcard);
             Reposition();
         }
 
@@ -271,7 +333,7 @@ namespace Assets.Scripts
                 if (card.MyCardType == Card.CardType.精灵卡)
                 {
                     //等级少于等于分身等级,且场上等级总和少于等于分身限制数
-                    if (card.Level <= Lrig.MyLrig.Level && (SetSigni.SigniLevelCount + card.Level) <= Lrig.MyLrig.Limit)
+					if (card.Level <= Lrig.MyLrig.Level && (SetSigni.SigniLevelCount + card.Level) <= Lrig.MyLrig.Limit && SetSigni.BEnety())
                     {
                         MyHands[i].ShowUseBtn(true);
                         int i1 = i;
@@ -520,6 +582,16 @@ namespace Assets.Scripts
             MyHands.Remove(MyHands[num]);
             Grid.Reposition();
         }
+
+		public void DestoryHands(Hands hands)
+		{
+			Trash.AddTrash(hands.MyCard);
+			GameManager.RpcOtherTrash(hands.MyCard.CardId);
+			hands.DestoryHands();
+			MyHandCards.Remove(hands.MyCard);
+			MyHands.Remove(hands);
+			Grid.Reposition();
+		}
 
         public IEnumerator DestoryOtherHands(int num)
         {

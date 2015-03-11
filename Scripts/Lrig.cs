@@ -51,7 +51,7 @@ namespace Assets.Scripts
         private void ShowLrigDeck()
         {
             CardInfo.ShowCardInfo(true);
-            CardInfo.SetUp("分身卡组", DataSource.LrigDeck, 0, () => CardInfo.ShowCardInfo(false));
+            CardInfo.SetUp("分身卡组", GameManager.ShowDeck.LrigDeck, 0, () => CardInfo.ShowCardInfo(false));
         }
 
         public void SetUp(Card card)
@@ -67,14 +67,14 @@ namespace Assets.Scripts
         public void Upgrade()
         {
             var lrig = new List<Card>();
-            for (int i = 0; i < DataSource.LrigDeck.Count; i++)
+            for (int i = 0; i < GameManager.ShowDeck.LrigDeck.Count; i++)
             {
-                if (DataSource.LrigDeck[i].MyCardType == Card.CardType.分身卡)
+                if (GameManager.ShowDeck.LrigDeck[i].MyCardType == Card.CardType.分身卡)
                 {
                     //是同一个角色的高一级分身
-                    if (DataSource.LrigDeck[i].Level == MyLrig.Level + 1 && DataSource.LrigDeck[i].Type == MyLrig.Type)
+                    if (GameManager.ShowDeck.LrigDeck[i].Level == MyLrig.Level + 1 && GameManager.ShowDeck.LrigDeck[i].Type == MyLrig.Type)
                     {
-                        lrig.Add(DataSource.LrigDeck[i]);
+                        lrig.Add(GameManager.ShowDeck.LrigDeck[i]);
                     }
                 }
             }
@@ -95,7 +95,7 @@ namespace Assets.Scripts
             if (UpgradingLrig.GrowCost.Count == 0)
             {
                 SetUp(UpgradingLrig);
-                DataSource.LrigDeck.Remove(UpgradingLrig);
+                GameManager.ShowDeck.LrigDeck.Remove(UpgradingLrig);
 
                 GameManager.RpcGrow();
                 GameManager.RpcOtherLrig(UpgradingLrig.CardId);
@@ -108,7 +108,7 @@ namespace Assets.Scripts
                 SetTheCost(0, enerTypeCount - 1, UpgradingLrig, () =>
                 {
                     SetUp(UpgradingLrig);
-                    DataSource.LrigDeck.Remove(UpgradingLrig);
+                    GameManager.ShowDeck.LrigDeck.Remove(UpgradingLrig);
                     //Last Call
                     GameManager.RpcGrow();
                     GameManager.RpcOtherLrig(UpgradingLrig.CardId);

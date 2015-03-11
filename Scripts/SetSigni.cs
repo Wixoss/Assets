@@ -85,11 +85,25 @@ namespace Assets.Scripts
                 SetEffectDelegate(num);
                 DisAllSetBtn();
                 GameManager.RpcSetSigni(num, _sendingCard.CardId);
+				GameManager.RpcSet(num, true);
 				GameManager.ShowCard.ShowMyCard(_sendingCard);
             }
             CountSigniLevel();
             GameManager.CreateHands.ShowTheUseBtn();
         }
+
+		public bool BEnety()
+		{
+			bool bEnety = false;
+			for (int i = 0; i<Signi.Length; i++) 
+			{
+				if(Signi[i]==null)
+				{
+					bEnety = true;
+				}
+			}
+			return bEnety;
+		}
 
 		public void CountSigniLevel()
 		{

@@ -44,12 +44,14 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < 7; i++)
             {
-                var card = DataSource.MainDeck[DataSource.MainDeck.Count - 1];
+                //var card = DataSource.MainDeck[DataSource.MainDeck.Count - 1];
+                var card = GameManager.ShowDeck.MainDeck[GameManager.ShowDeck.MainDeck.Count-1];
                 //LifeClothId.Add(card.CardId);
                 LifeCloths.Add(card);
                 CreateObj(i);
                 GameManager.RpcCreateLifeCloth(i);
-                DataSource.MainDeck.Remove(card);
+                //DataSource.MainDeck.Remove(card);
+                GameManager.ShowDeck.MainDeck.Remove(card);
             }
         }
 

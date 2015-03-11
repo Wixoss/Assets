@@ -11,8 +11,8 @@ namespace Assets.Scripts
 		public static readonly string Path = 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR
         Application.streamingAssetsPath + "/Xml/Wixoss_Project.xml";
-#else
-            "";
+#elif UNITY_STANDALONE_OSX
+		Application.streamingAssetsPath + "/Xml/Wixoss_Project.xml";
 #endif
 		public static XElement LoadFromXml()
 		{

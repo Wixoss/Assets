@@ -324,6 +324,8 @@ namespace Assets.Scripts
         public List<string> MyCardid;
         public List<string> MyLrigid;
 
+        public ShowDeck ShowDeck;
+
         [ContextMenu("创建卡组")]
         public void Awake()
         {
@@ -333,24 +335,21 @@ namespace Assets.Scripts
             {
                 var card = new Card(MyLrigid[i]);
                 MyLrigid[i] = MyLrigid[i] + "   " + card.CardName + "   " + card.MyCardType;
-                //CreateDetail(card);
-                DataSource.LrigDeck.Add(card);
+                //DataSource.LrigDeck.Add(card);
                 CardTextures.Add(card.CardTexture);
+                ShowDeck.LrigDeck.Add(card);
             }
 
             for (int i = 0; i < MyCardid.Count; i++)
             {
                 var card = new Card(MyCardid[i]);
                 MyCardid[i] = MyCardid[i] + "   " + card.CardName + "   " + card.MyCardType;
-                //CreateDetail(card);
-                DataSource.MainDeck.Add(card);
+                //DataSource.MainDeck.Add(card);
                 CardTextures.Add(card.CardTexture);
+                ShowDeck.MainDeck.Add(card);
             }
 
-            DataSource.MainDeck = RandomCards(DataSource.MainDeck);
-
-            //            var root = Scripts.CreateCardByXml.LoadFromXml();
-            //            Debug.Log(root.Elements().Count());
+            ShowDeck.WashMainDeck();
         }
 
         public List<Card> RandomCards(List<Card> old)
@@ -382,44 +381,44 @@ namespace Assets.Scripts
                 "WD01-007",
                 "WD01-008",
             };
-
+            
             MyCardid = new List<string>()
             {
                 "WD01-009",
                 "WD01-009",
                 "WD01-009",
                 "WD01-009",
-
+                
                 "WD01-010",
                 "WD01-010",
                 "WD01-010",
                 "WD01-010",
-
+                
                 "WD01-011",
                 "WD01-011",
                 "WD01-011",
                 "WD01-011",
-
+                
                 "WD01-012",
                 "WD01-012",
                 "WD01-012",
                 "WD01-012",
-
+                
                 "WD01-013",
                 "WD01-013",
                 "WD01-013",
                 "WD01-013",
-
+                
                 "WD01-014",
                 "WD01-014",
                 "WD01-014",
                 "WD01-014",
-
+                
                 "WD01-015",
                 "WD01-015",
                 "WD01-015",
                 "WD01-015",
-
+                
                 "WX01-101",
                 "WX01-101",
                 "WX01-101",
