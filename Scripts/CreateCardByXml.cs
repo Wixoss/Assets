@@ -23,12 +23,12 @@ namespace Assets.Scripts
 		/// </summary>
 		/// <returns>The card by card identifier.</returns>
 		/// <param name="cardid">Cardid.</param>
-		public static List<XElement> GetCardByCardId(string cardid)
+		public static IEnumerable<XElement> GetCardByCardId(string cardid)
 		{
 			var root = LoadFromXml ();
 			var element = root.Elements ();
 			var card = from i in element where i.Element ("CardId").Value == cardid select i;
-			return card.ToList ();
+			return card;
 		}
 	}
 }
