@@ -26,7 +26,7 @@ namespace Assets.Scripts
 
         public List<Hands> MyHands = new List<Hands>();
         public List<GameObject> OtherHands = new List<GameObject>();
-      
+
         public List<Card> MyHandCards = new List<Card>();
         public Hands Ener;
         public EnerManager EnerManager;
@@ -131,10 +131,10 @@ namespace Assets.Scripts
                 GameManager.RpcEnerCharge(Ener.MyCard.CardId);
                 Ener.DestoryHands();
 
-				GameManager.RpcDestoryOtherHands(MyHands.Count-1);
+                GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
                 MyHands.Remove(Ener);
                 MyHandCards.Remove(Ener.MyCard);
-                
+
             }
 
             EnerManager.SetTheEner();
@@ -271,7 +271,7 @@ namespace Assets.Scripts
                 if (card.MyCardType == Card.CardType.精灵卡)
                 {
                     //等级少于等于分身等级,且场上等级总和少于等于分身限制数
-                    if (card.Level <= Lrig.MyLrig.Level && (SetSigni.SigniLevelCount + card.Level) < Lrig.MyLrig.Limit)
+                    if (card.Level <= Lrig.MyLrig.Level && (SetSigni.SigniLevelCount + card.Level) <= Lrig.MyLrig.Limit)
                     {
                         MyHands[i].ShowUseBtn(true);
                         int i1 = i;
@@ -281,15 +281,17 @@ namespace Assets.Scripts
                             SetSigni.SetSendingSigni(MyHands[i1].MyCard);
 
                             MyHands[i1].DestoryHands();
-							GameManager.RpcDestoryOtherHands(MyHands.Count-1);
+                            GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
                             MyHandCards.Remove(MyHands[i1].MyCard);
                             MyHands.Remove(MyHands[i1]);
-                            
 
-                            ShowTheUseBtn();
                             Invoke("Reposition", 0.5f);
                         });
                     }
+                    else
+                    {
+                        MyHands[i].ShowUseBtn(false);
+                    }            
                 }
                 //法术牌
                 if (card.MyCardType == Card.CardType.法术卡)
@@ -302,18 +304,18 @@ namespace Assets.Scripts
                     {
                         int count = card1.Cost.Count;
 
-                        if (card1.Cost[0].Num == 0)
+                        if (card1.Cost.Count < 1)
                         {
                             card1.Effect1(card1);
                             StartCoroutine(Check.SetCheck(card1));
                             GameManager.RpcCheck(card1.CardId);
-							GameManager.ShowCard.ShowMyCard(card1);
+                            GameManager.ShowCard.ShowMyCard(card1);
 
                             MyHands[i1].DestoryHands();
-							GameManager.RpcDestoryOtherHands(MyHands.Count-1);
+                            GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
                             MyHandCards.Remove(MyHands[i1].MyCard);
                             MyHands.Remove(MyHands[i1]);
-                            
+
 
                             ShowTheUseBtn();
                             Invoke("Reposition", 0.5f);
@@ -327,14 +329,14 @@ namespace Assets.Scripts
                         {
                             card1.Effect1(card1);
                             StartCoroutine(Check.SetCheck(card1));
-							GameManager.ShowCard.ShowMyCard(card1);
+                            GameManager.ShowCard.ShowMyCard(card1);
                             GameManager.RpcCheck(card1.CardId);
 
                             MyHands[i1].DestoryHands();
-							GameManager.RpcDestoryOtherHands(MyHands.Count-1);
+                            GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
                             MyHandCards.Remove(MyHands[i1].MyCard);
                             MyHands.Remove(MyHands[i1]);
-                            
+
                             ShowTheUseBtn();
                             Invoke("Reposition", 0.5f);
                         });
@@ -347,29 +349,30 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < MyHands.Count; i++)
             {
-                if(MyHands[i].MyCard.BCanGuard)
+                if (MyHands[i].MyCard.BCanGuard)
                 {
                     MyHands[i].GuardBtn.SetActive(true);
                     int i1 = i;
                     MyHands[i].SetGuardBtnDelegate(() =>
                     {
                         StartCoroutine(Check.SetCheck(MyHands[i1].MyCard));
-						GameManager.ShowCard.ShowMyCard(MyHands[i1].MyCard);
+                        GameManager.ShowCard.ShowMyCard(MyHands[i1].MyCard);
                         GameManager.RpcCheck(MyHands[i1].MyCard.CardId);
                         GameManager.RpcGuard(1);
                         DisTheGuardBtn();
 
                         MyHands[i1].DestoryHands();
-						GameManager.RpcDestoryOtherHands(MyHands.Count-1);
+                        GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
                         MyHandCards.Remove(MyHands[i1].MyCard);
                         MyHands.Remove(MyHands[i1]);
-                        
+
                         Invoke("Reposition", 0.5f);
-                    });                                      
+                    });
                 }
             }
 
-            UIEventListener.Get(NotGuard).MyOnClick = () => {
+            UIEventListener.Get(NotGuard).MyOnClick = () =>
+            {
 
                 DisTheGuardBtn();
                 GameManager.RpcGuard(-1);
@@ -500,9 +503,9 @@ namespace Assets.Scripts
 
         public void CreateOtherHands(int num)
         {
-            for (int i =0; i<num; i++)
+            for (int i = 0; i < num; i++)
             {
-                var obj = InsObj(OtherHand,Vector3.zero,Vector3.zero,new Vector3(360,360,360),OtherParent);
+                var obj = InsObj(OtherHand, Vector3.zero, Vector3.zero, new Vector3(360, 360, 360), OtherParent);
                 OtherHands.Add(obj);
             }
             OtherGrid.Reposition();
@@ -510,8 +513,8 @@ namespace Assets.Scripts
 
         public void DestoryHands(int num)
         {
-            Trash.AddTrash(MyHands [num].MyCard);
-            GameManager.RpcOtherTrash(MyHands [num].MyCard.CardId);
+            Trash.AddTrash(MyHands[num].MyCard);
+            GameManager.RpcOtherTrash(MyHands[num].MyCard.CardId);
             MyHands[num].DestoryHands();
             MyHandCards.Remove(MyHands[num].MyCard);
             MyHands.Remove(MyHands[num]);
@@ -520,15 +523,15 @@ namespace Assets.Scripts
 
         public IEnumerator DestoryOtherHands(int num)
         {
-            var obj = OtherHands [num];
+            var obj = OtherHands[num];
             OtherHands.Remove(obj);
             Destroy(obj);
             yield return new WaitForSeconds(0.5f);
             OtherGrid.Reposition();
-//            if (bHandKill)
-//            {
-//                GameManager.RpcDestoryOtherHands(num);
-//            }
+            //            if (bHandKill)
+            //            {
+            //                GameManager.RpcDestoryOtherHands(num);
+            //            }
         }
     }
 }

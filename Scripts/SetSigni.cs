@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -9,7 +10,9 @@ namespace Assets.Scripts
         public EnerManager EnerManager;
 
         public Card[] Signi = new Card[3];
+        public Hands[] MyHands = new Hands[3];
         public Card[] OtherSigni = new Card[3];
+        public Hands[] OtherHands = new Hands[3];
         public UITexture[] OtherCardTexture;
 
         private Card _sendingCard;
@@ -77,13 +80,29 @@ namespace Assets.Scripts
                 BSet[num] = true;
                 CardTexture[num].gameObject.SetActive(true);
                 CardTexture[num].transform.localEulerAngles = new Vector3(90, 0, 0);
-                CardTexture[num].mainTexture = _sendingCard.CardTexture;
+                //CardTexture[num].mainTexture = _sendingCard.CardTexture;
+                MyHands[num].MyCard = _sendingCard;
                 SetEffectDelegate(num);
                 DisAllSetBtn();
                 GameManager.RpcSetSigni(num, _sendingCard.CardId);
 				GameManager.ShowCard.ShowMyCard(_sendingCard);
             }
+            CountSigniLevel();
+            GameManager.CreateHands.ShowTheUseBtn();
         }
+
+		public void CountSigniLevel()
+		{
+			SigniLevelCount = 0;
+			
+			for (int i = 0; i < Signi.Length; i++)
+			{
+				if (Signi[i] != null)
+				{
+					SigniLevelCount += Signi[i].Level;
+				}             
+			}
+		}
 
         private void SetEffectDelegate(int num)
         {
@@ -198,6 +217,8 @@ namespace Assets.Scripts
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);
                 ShowEffectBtn(num, false);
+                CountSigniLevel();
+                GameManager.CreateHands.ShowTheUseBtn();
             }
         }
 
@@ -282,7 +303,8 @@ namespace Assets.Scripts
         public void SetOtherSigni(int num, Card card)
         {
             OtherSigni[num] = card;
-            OtherCardTexture [num].mainTexture = card.CardTexture;
+            //OtherCardTexture [num].mainTexture = card.CardTexture;
+            OtherHands[num].MyCard = card;
             OtherCardTexture[num].gameObject.SetActive(true);
         }
 

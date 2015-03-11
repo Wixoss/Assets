@@ -21,6 +21,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 在哪里?
         /// </summary>
+        [HideInInspector]
         public Transform Parent;
         /// <summary>
         /// 点击事件
@@ -29,15 +30,23 @@ namespace Assets.Scripts
 
         public Card.CardType MyCardType;
         public Card.CardColor MyColor;
-        public Card.State MyState;
+        //public Card.State MyState;
         public Card.Ener.EnerType MyEnerType;
         public int MyEnerNum;
-		public List<string> MyCostType = new List<string>();
+
+        public List<string> MyCostType = new List<string>();
         public List<int> MyCostNum = new List<int>();
+
+        public List<string> MyGrowCostType = new List<string>();
+        public List<int> MyGrowCostNum = new List<int>();
+
         public int Level;
         public int Limit;
+        public int Atk;
 
+        [HideInInspector]
         public GameObject UseBtn;
+        [HideInInspector]
         public GameObject GuardBtn;
 
         private Card _myCard;
@@ -52,21 +61,31 @@ namespace Assets.Scripts
                 Cardid = _myCard.CardId;
                 MyCardType = _myCard.MyCardType;
                 MyColor = _myCard.MyCardColor;
-                MyState = _myCard.MyState;
                 MyEnerNum = _myCard.MyEner.Num;
                 MyEnerType = _myCard.MyEner.MyEnerType;
 
                 if (_myCard.Cost.Count > 0)
                 {
-					for(int i=0;i<_myCard.Cost.Count;i++)
-					{
-						MyCostType.Add(_myCard.Cost[i].MyEnerType.ToString());
-						MyCostNum.Add(_myCard.Cost[i].Num);
-					}
+                    for (int i = 0; i < _myCard.Cost.Count; i++)
+                    {
+                        MyCostType.Add(_myCard.Cost[i].MyEnerType.ToString());
+                        MyCostNum.Add(_myCard.Cost[i].Num);
+                    }
                 }
+
+                if (_myCard.GrowCost.Count > 0)
+                {
+                    for (int i = 0; i < _myCard.GrowCost.Count; i++)
+                    {
+                        MyGrowCostType.Add(_myCard.GrowCost[i].MyEnerType.ToString());
+                        MyGrowCostNum.Add(_myCard.GrowCost[i].Num);
+                    }
+                }
+
                 Level = _myCard.Level;
                 Limit = _myCard.Limit;
-                //UiTexture.mainTexture = MyCard.CardTexture;
+                Atk = _myCard.Atk;
+                CardDetail = _myCard.CardDetail;
                 if (UiTexture == null)
                 {
                     gameObject.GetComponent<UITexture>().mainTexture = MyCard.CardTexture;
@@ -78,9 +97,11 @@ namespace Assets.Scripts
             }
         }
 
+        [HideInInspector]
         public UITexture UiTexture;
 
         public string Cardid;
+        public string CardDetail;
 
         /// <summary>
         /// 重置
@@ -130,7 +151,6 @@ namespace Assets.Scripts
         {
             Reflash();
             Destroy(gameObject);
-            //Breed.Instance().Get("Hands").Unspawn(gameObject);
         }
 
         private void OnClick()

@@ -212,6 +212,274 @@
 		<Limit>1</Limit>
 		<CardDetail>【出】舍弃1张手牌：抽1张卡。</CardDetail>
 	</Lrig>
+	<Lrig>
+		<CardId>WD01-001</CardId>
+		<CardName>满月之巫女 玉依姬</CardName>
+		<CardType>分身</CardType>
+		<Type>小玉</Type>
+		<Level>4</Level>
+		<Color>白</Color>
+		<GrowCost>白:3</GrowCost>
+		<Limit>11</Limit>
+		<CardDetail>【常】：只要你的场上有《甲胄 皇家铠》，你所有的SIGNI的力量+2000。</CardDetail>
+	</Lrig>
+	<Lrig>
+		<CardId>WD01-002</CardId>
+		<CardName>弦月之巫女 玉依姬</CardName>
+		<CardType>分身</CardType>
+		<Type>小玉</Type>
+		<Level>3</Level>
+		<Color>白</Color>
+		<GrowCost>白:2</GrowCost>
+		<Limit>8</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD01-003</CardId>
+		<CardName>半月之巫女 玉依姬</CardName>
+		<CardType>分身</CardType>
+		<Type>小玉</Type>
+		<Level>2</Level>
+		<Color>白</Color>
+		<GrowCost>白:1</GrowCost>
+		<Limit>5</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD01-004</CardId>
+		<CardName>三日月之巫女 玉依姬</CardName>
+		<CardType>分身</CardType>
+		<Type>小玉</Type>
+		<Level>1</Level>
+		<Color>白</Color>
+		<Limit>2</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD01-005</CardId>
+		<CardName>新月之巫女 玉依姬</CardName>
+		<CardType>分身</CardType>
+		<Type>小玉</Type>
+		<Level>0</Level>
+		<Color>白</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD02-001</CardId>
+		<CardName>花代•肆</CardName>
+		<CardType>分身</CardType>
+		<Type>花代</Type>
+		<Level>4</Level>
+		<Color>红</Color>
+		<GrowCost>红:3</GrowCost>
+		<Limit>11</Limit>
+		<CardDetail>【常】：只要你的场上有《罗石 火山石》，你的回合期间，你所有的SIGNI的力量+2000。</CardDetail>
+	</Lrig>
+	<Lrig>
+		<CardId>WD02-002</CardId>
+		<CardName>花代•叁</CardName>
+		<CardType>分身</CardType>
+		<Type>花代</Type>
+		<Level>3</Level>
+		<Color>红</Color>
+		<GrowCost>红:2</GrowCost>
+		<Limit>8</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD02-003</CardId>
+		<CardName>花代•贰</CardName>
+		<CardType>分身</CardType>
+		<Type>花代</Type>
+		<Level>2</Level>
+		<Color>红</Color>
+		<GrowCost>红:1</GrowCost>
+		<Limit>5</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD02-004</CardId>
+		<CardName>花代•壹</CardName>
+		<CardType>分身</CardType>
+		<Type>花代</Type>
+		<Level>1</Level>
+		<Color>红</Color>
+		<Limit>2</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD02-005</CardId>
+		<CardName>花代•零</CardName>
+		<CardType>分身</CardType>
+		<Type>花代</Type>
+		<Level>0</Level>
+		<Color>红</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD03-001</CardId>
+		<CardName>代号•皮璐璐可•T</CardName>
+		<CardType>分身</CardType>
+		<Type>皮璐璐可</Type>
+		<Level>4</Level>
+		<Color>蓝</Color>
+		<GrowCost>蓝:3</GrowCost>
+		<Limit>11</Limit>
+		<CardDetail>【常】：只要你的场上有《技艺代号 R•M•N》，对战对手的手牌在1张以下的期间，你所有的SIGNI的力量+2000。</CardDetail>
+	</Lrig>
+	<Lrig>
+		<CardId>WD03-002</CardId>
+		<CardName>代号•皮璐璐可•G</CardName>
+		<CardType>分身</CardType>
+		<Type>皮璐璐可</Type>
+		<Level>3</Level>
+		<Color>蓝</Color>
+		<GrowCost>蓝:2</GrowCost>
+		<Limit>8</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD03-003</CardId>
+		<CardName>代号•皮璐璐可•M</CardName>
+		<CardType>分身</CardType>
+		<Type>皮璐璐可</Type>
+		<Level>2</Level>
+		<Color>蓝</Color>
+		<GrowCost>蓝:1</GrowCost>
+		<Limit>5</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD03-004</CardId>
+		<CardName>代号•皮璐璐可•K</CardName>
+		<CardType>分身</CardType>
+		<Type>皮璐璐可</Type>
+		<Level>1</Level>
+		<Color>蓝</Color>
+		<Limit>2</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD03-005</CardId>
+		<CardName>代号•皮璐璐可</CardName>
+		<CardType>分身</CardType>
+		<Type>皮璐璐可</Type>
+		<Level>0</Level>
+		<Color>蓝</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD04-001</CardId>
+		<CardName>四之娘 绿姬</CardName>
+		<CardType>分身</CardType>
+		<Type>绿子</Type>
+		<Level>4</Level>
+		<Color>绿</Color>
+		<GrowCost>绿:3</GrowCost>
+		<Limit>11</Limit>
+		<CardDetail>【常】只要你的场上有《幻兽 青龙》，你的能量区的卡片有7张以上期间，你所有的SIGNI的力量+2000。</CardDetail>
+	</Lrig>
+	<Lrig>
+		<CardId>WD04-002</CardId>
+		<CardName>三之娘 绿姬</CardName>
+		<CardType>分身</CardType>
+		<Type>绿子</Type>
+		<Level>3</Level>
+		<Color>绿</Color>
+		<GrowCost>绿:2</GrowCost>
+		<Limit>8</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD04-003</CardId>
+		<CardName>二之娘 绿姬</CardName>
+		<CardType>分身</CardType>
+		<Type>绿子</Type>
+		<Level>2</Level>
+		<Color>绿</Color>
+		<GrowCost>绿:1</GrowCost>
+		<Limit>5</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD04-004</CardId>
+		<CardName>一之娘 绿姬</CardName>
+		<CardType>分身</CardType>
+		<Type>绿子</Type>
+		<Level>1</Level>
+		<Color>绿</Color>
+		<Limit>2</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>WD04-005</CardId>
+		<CardName>斗娘 绿姬</CardName>
+		<CardType>分身</CardType>
+		<Type>绿子</Type>
+		<Level>0</Level>
+		<Color>绿</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>PR-001</CardId>
+		<CardName>新月之巫女 玉依姬</CardName>
+		<CardType>分身</CardType>
+		<Type>小玉</Type>
+		<Level>0</Level>
+		<Color>白</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>PR-002</CardId>
+		<CardName>花代•零</CardName>
+		<CardType>分身</CardType>
+		<Type>花代</Type>
+		<Level>0</Level>
+		<Color>红</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>PR-003</CardId>
+		<CardName>代号•皮璐璐可</CardName>
+		<CardType>分身</CardType>
+		<Type>皮璐璐可</Type>
+		<Level>0</Level>
+		<Color>蓝</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>PR-004</CardId>
+		<CardName>斗娘 绿姬</CardName>
+		<CardType>分身</CardType>
+		<Type>绿子</Type>
+		<Level>0</Level>
+		<Color>绿</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>PR-009</CardId>
+		<CardName>新月之巫女 玉依姬</CardName>
+		<CardType>分身</CardType>
+		<Type>小玉</Type>
+		<Level>0</Level>
+		<Color>白</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>PR-010</CardId>
+		<CardName>花代•零</CardName>
+		<CardType>分身</CardType>
+		<Type>花代</Type>
+		<Level>0</Level>
+		<Color>红</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>PR-011</CardId>
+		<CardName>代号•皮璐璐可</CardName>
+		<CardType>分身</CardType>
+		<Type>皮璐璐可</Type>
+		<Level>0</Level>
+		<Color>蓝</Color>
+		<Limit>0</Limit>
+	</Lrig>
+	<Lrig>
+		<CardId>PR-012</CardId>
+		<CardName>斗娘 绿姬</CardName>
+		<CardType>分身</CardType>
+		<Type>绿子</Type>
+		<Level>0</Level>
+		<Color>绿</Color>
+		<Limit>0</Limit>
+	</Lrig>
 	<Art>
 		<CardId>WX01-010</CardId>
 		<CardName>杰诺之门</CardName>
@@ -273,6 +541,118 @@
 		<Color>无</Color>
 		<Timing>主要阶段</Timing>
 		<CardDetail>使用时点【主要阶段】将你卡组顶的1张卡放置到能量区。</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD01-006</CardId>
+		<CardName>洛可可界线</CardName>
+		<CardType>技艺</CardType>
+		<Color>白</Color>
+		<EffectCost>白:3,无:2</EffectCost>
+		<TypeOnly>小玉</TypeOnly>
+		<Timing>主要阶段</Timing>
+		<CardDetail>使用时点【主要阶段】将对战对手的至多2只SIGNI返回手牌。</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD01-007</CardId>
+		<CardName>艾本之书</CardName>
+		<CardType>技艺</CardType>
+		<Color>白</Color>
+		<EffectCost>白:3</EffectCost>
+		<Timing>主要阶段</Timing>
+		<CardDetail>使用时点【主要阶段】从你的卡组里探寻至多2只白色SIGNI，将其公开并加入手牌。之后，将卡组洗切。</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD01-008</CardId>
+		<CardName>巴洛克防御</CardName>
+		<CardType>技艺</CardType>
+		<Color>白</Color>
+		<EffectCost>白:2</EffectCost>
+		<Timing>攻击阶段</Timing>
+		<CardDetail>使用时点【攻击阶段】直到回合结束时为止，对战对手的1只LRIG或者1只SIGNI获得「不能攻击」的状态。</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD02-006</CardId>
+		<CardName>飞火夏虫</CardName>
+		<CardType>技艺</CardType>
+		<Color>红</Color>
+		<EffectCost>红:3</EffectCost>
+		<Timing>主要阶段</Timing>
+		<CardDetail>使用时点【主要阶段】将对战对手的1只力量15000以下的SIGNI驱逐。</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD02-007</CardId>
+		<CardName>背炎之阵</CardName>
+		<CardType>技艺</CardType>
+		<Color>红</Color>
+		<EffectCost>红:3</EffectCost>
+		<TypeOnly>花代</TypeOnly>
+		<Timing>主要阶段</Timing>
+		<CardDetail>使用时点【主要阶段】舍弃3张手牌。这样做了的场合，将所有的SIGNI驱逐。（也包含你的SIGNI）</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD02-008</CardId>
+		<CardName>烧石炎</CardName>
+		<CardType>技艺</CardType>
+		<Color>红</Color>
+		<EffectCost>红:1,无:1</EffectCost>
+		<Timing>主要阶段</Timing>
+		<CardDetail>使用时点【主要阶段】将对战对手的1只力量7000以下的SIGNI驱逐。</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD03-006</CardId>
+		<CardName>窥视分析</CardName>
+		<CardType>技艺</CardType>
+		<Color>蓝</Color>
+		<EffectCost>蓝:3</EffectCost>
+		<TypeOnly>皮璐璐可</TypeOnly>
+		<Timing>主要阶段</Timing>
+		<CardDetail>使用时点【主要阶段】宣言1个数字。之后，查看对战对手的手牌，将与宣言的数字相同等级的所有SIGNI舍弃</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD03-007</CardId>
+		<CardName>不可行动</CardName>
+		<CardType>技艺</CardType>
+		<Color>蓝</Color>
+		<EffectCost>蓝:3</EffectCost>
+		<Timing>攻击阶段</Timing>
+		<CardDetail>使用时点【攻击阶段】将对战对手的至多2只SIGNI横置。</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD03-008</CardId>
+		<CardName>双重抽卡</CardName>
+		<CardType>技艺</CardType>
+		<Color>蓝</Color>
+		<EffectCost>蓝:1,无:1</EffectCost>
+		<Timing>主要阶段</Timing>
+		<CardDetail>使用时点【主要阶段】抽2张卡。</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD04-006</CardId>
+		<CardName>意气扬扬</CardName>
+		<CardType>技艺</CardType>
+		<Color>绿</Color>
+		<EffectCost>绿:1</EffectCost>
+		<TypeOnly>绿子</TypeOnly>
+		<Timing>主要阶段</Timing>
+		<CardDetail>使用时点【主要阶段】直到回合结束时为止，你所有的SIGNI的力量+5000。</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD04-007</CardId>
+		<CardName>再三再四</CardName>
+		<CardType>技艺</CardType>
+		<Color>绿</Color>
+		<EffectCost>绿:1</EffectCost>
+		<Timing>主要阶段</Timing>
+		<CardDetail>使用时点【主要阶段】从你的能量区将至多2张卡加入手牌。</CardDetail>
+	</Art>
+	<Art>
+		<CardId>WD04-008</CardId>
+		<CardName>付和雷同</CardName>
+		<CardType>技艺</CardType>
+		<Color>绿</Color>
+		<EffectCost>绿:3</EffectCost>
+		<Timing>主要阶段,攻击阶段</Timing>
+		<CardDetail>使用时点【主要阶段】【攻击阶段】将对战对手的1只力量12000以上的SIGNI驱逐。</CardDetail>
 	</Art>
 	<Signi>
 		<CardId>WX01-027</CardId>
@@ -1010,6 +1390,362 @@
 		<BBrust>1</BBrust>
 		<CardDetail>【防御】（从手牌舍弃这张卡，将LRIG的1次攻击无效化）【常】：【万花色】（支付费用时，这张卡视为持有所有颜色）【※】：【能量填充1】</CardDetail>
 	</Signi>
+	<Signi>
+		<CardId>WD01-009</CardId>
+		<CardName>甲胄 皇家铠</CardName>
+		<CardType>精灵</CardType>
+		<Type>精武：武装</Type>
+		<Level>4</Level>
+		<Color>白</Color>
+		<Atk>12000</Atk>
+		<TypeOnly>小玉</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【常】：对战对手的回合期间，你所有的SIGNI的力量+1000。【※】：将对战对手的1只SIGNI返回手牌。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD01-010</CardId>
+		<CardName>大剑 石中剑</CardName>
+		<CardType>精灵</CardType>
+		<Type>精武：武装</Type>
+		<Level>3</Level>
+		<Color>白</Color>
+		<Atk>10000</Atk>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+	</Signi>
+	<Signi>
+		<CardId>WD01-011</CardId>
+		<CardName>笼手 铁拳</CardName>
+		<CardType>精灵</CardType>
+		<Type>精武：武装</Type>
+		<Level>3</Level>
+		<Color>白</Color>
+		<Atk>7000</Atk>
+		<TypeOnly>小玉</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【出】白1：从你的卡组里探寻1张《甲胄 皇家铠》，将其公开并加入手牌。之后，将卡组洗切。【※】：抽1张卡。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD01-012</CardId>
+		<CardName>中剑 焰形剑</CardName>
+		<CardType>精灵</CardType>
+		<Type>精武：武装</Type>
+		<Level>2</Level>
+		<Color>白</Color>
+		<Atk>7000</Atk>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+	</Signi>
+	<Signi>
+		<CardId>WD01-013</CardId>
+		<CardName>小剑 库克力弯刀</CardName>
+		<CardType>精灵</CardType>
+		<Type>精武：武装</Type>
+		<Level>1</Level>
+		<Color>白</Color>
+		<Atk>3000</Atk>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+	</Signi>
+	<Signi>
+		<CardId>WD01-014</CardId>
+		<CardName>小弓 箭矢</CardName>
+		<CardType>精灵</CardType>
+		<Type>精武：武装</Type>
+		<Level>1</Level>
+		<Color>白</Color>
+		<Atk>1000</Atk>
+		<TypeOnly>小玉</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+		<CardDetail>【出】：从你的卡组顶查看3张卡。之后，将其按你喜欢的顺序放回。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD02-009</CardId>
+		<CardName>罗石 火山石</CardName>
+		<CardType>精灵</CardType>
+		<Type>精罗：矿石</Type>
+		<Level>4</Level>
+		<Color>红</Color>
+		<Atk>12000</Atk>
+		<TypeOnly>花代</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【出】红3：将对战对手的1只力量15000以下的SIGNI驱逐。【※】：将对战对手的1只力量7000以下的SIGNI驱逐。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD02-010</CardId>
+		<CardName>罗石 白银</CardName>
+		<CardType>精灵</CardType>
+		<Type>精罗：矿石</Type>
+		<Level>3</Level>
+		<Color>红</Color>
+		<Atk>10000</Atk>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+	</Signi>
+	<Signi>
+		<CardId>WD02-011</CardId>
+		<CardName>罗石 石榴石</CardName>
+		<CardType>精灵</CardType>
+		<Type>精罗：矿石</Type>
+		<Level>3</Level>
+		<Color>红</Color>
+		<Atk>7000</Atk>
+		<TypeOnly>花代</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【出】：直到回合结束时为止，这只SIGNI的力量变为15000。【※】：抽1张卡。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD02-012</CardId>
+		<CardName>罗石 铜</CardName>
+		<CardType>精灵</CardType>
+		<Type>精罗：矿石</Type>
+		<Level>2</Level>
+		<Color>红</Color>
+		<Atk>7000</Atk>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+	</Signi>
+	<Signi>
+		<CardId>WD02-013</CardId>
+		<CardName>罗石 铁</CardName>
+		<CardType>精灵</CardType>
+		<Type>精罗：矿石</Type>
+		<Level>1</Level>
+		<Color>红</Color>
+		<Atk>3000</Atk>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+	</Signi>
+	<Signi>
+		<CardId>WD02-014</CardId>
+		<CardName>罗石 紫水晶</CardName>
+		<CardType>精灵</CardType>
+		<Type>精罗：矿石</Type>
+		<Level>1</Level>
+		<Color>红</Color>
+		<Atk>1000</Atk>
+		<TypeOnly>花代</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+		<CardDetail>【出】：你可以将对战对手的1只力量1000以下的SIGNI驱逐。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD03-009</CardId>
+		<CardName>技艺代号 R•M•N</CardName>
+		<CardType>精灵</CardType>
+		<Type>精械：电机</Type>
+		<Level>4</Level>
+		<Color>蓝</Color>
+		<Atk>12000</Atk>
+		<TypeOnly>皮璐璐可</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【出】蓝1：不查看对战对手的手牌而选择1张，并将它舍弃。【※】：对战对手舍弃1张手牌。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD03-010</CardId>
+		<CardName>技艺代号 D•R•S</CardName>
+		<CardType>精灵</CardType>
+		<Type>精械：电机</Type>
+		<Level>3</Level>
+		<Color>蓝</Color>
+		<Atk>10000</Atk>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+	</Signi>
+	<Signi>
+		<CardId>WD03-011</CardId>
+		<CardName>技艺代号 S•M•P</CardName>
+		<CardType>精灵</CardType>
+		<Type>精械：电机</Type>
+		<Level>3</Level>
+		<Color>蓝</Color>
+		<Atk>7000</Atk>
+		<TypeOnly>皮璐璐可</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【出】：查看对战对手的手牌，从中选择1张等级1的手牌，并将它舍弃。【※】：抽1张卡。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD03-012</CardId>
+		<CardName>技艺代号 J•V</CardName>
+		<CardType>精灵</CardType>
+		<Type>精械：电机</Type>
+		<Level>2</Level>
+		<Color>蓝</Color>
+		<Atk>7000</Atk>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+	</Signi>
+	<Signi>
+		<CardId>WD03-013</CardId>
+		<CardName>技艺代号 S•C</CardName>
+		<CardType>精灵</CardType>
+		<Type>精械：电机</Type>
+		<Level>1</Level>
+		<Color>蓝</Color>
+		<Atk>3000</Atk>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+	</Signi>
+	<Signi>
+		<CardId>WD03-014</CardId>
+		<CardName>技艺代号 R•F•R</CardName>
+		<CardType>精灵</CardType>
+		<Type>精械：电机</Type>
+		<Level>1</Level>
+		<Color>蓝</Color>
+		<Atk>1000</Atk>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+		<CardDetail>【出】：抽1张卡。之后，舍弃1张手牌。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD04-009</CardId>
+		<CardName>幻兽 青龙</CardName>
+		<CardType>精灵</CardType>
+		<Type>精生：地兽</Type>
+		<Level>4</Level>
+		<Color>绿</Color>
+		<Atk>12000</Atk>
+		<TypeOnly>绿子</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【常】：只要你场上的3只SIGNI的力量分别在15000以上，这只SIGNI获得【枪兵】和「这只SIGNI攻击时，将对手的1只SIGNI驱逐。」的能力。【※】：将对战对手的一只力量10000以上的SIGNI驱逐</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD04-010</CardId>
+		<CardName>幻兽 朱雀小姐</CardName>
+		<CardType>精灵</CardType>
+		<Type>精生：地兽</Type>
+		<Level>3</Level>
+		<Color>绿</Color>
+		<Atk>8000</Atk>
+		<TypeOnly>绿子</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【常】：只要这只SIGNI的力量在10000以上，这只SIGNI获得【枪兵】的能力。（这只SIGNI通过战斗将对战对手的SIGNI驱逐时，将对战对手的1张生命护甲击溃）【※】：将对战对手的1只力量12000以上的SIGNI驱逐。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD04-011</CardId>
+		<CardName>幻兽 雪怪</CardName>
+		<CardType>精灵</CardType>
+		<Type>精生：地兽</Type>
+		<Level>3</Level>
+		<Color>绿</Color>
+		<Atk>8000</Atk>
+		<TypeOnly>绿子</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【出】：直到回合结束时为止，你所有的SIGNI的力量+2000。【※】：【能量填充1】</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD04-012</CardId>
+		<CardName>幻兽 树袋熊</CardName>
+		<CardType>精灵</CardType>
+		<Type>精生：地兽</Type>
+		<Level>2</Level>
+		<Color>绿</Color>
+		<Atk>5000</Atk>
+		<TypeOnly>绿子</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【出】：直到回合结束时为止，你的1只SIGNI的力量+3000。【※】：抽1张卡。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD04-013</CardId>
+		<CardName>幻兽 小玄武</CardName>
+		<CardType>精灵</CardType>
+		<Type>精生：地兽</Type>
+		<Level>2</Level>
+		<Color>绿</Color>
+		<Atk>3000</Atk>
+		<TypeOnly>绿子</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+		<CardDetail>【常】：这只SIGNI攻击时，这只SIGNI的力量在5000以上的场合，将你卡组顶的1张卡放置到能量区</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD04-014</CardId>
+		<CardName>幻兽 大熊猫</CardName>
+		<CardType>精灵</CardType>
+		<Type>精生：地兽</Type>
+		<Level>1</Level>
+		<Color>绿</Color>
+		<Atk>2000</Atk>
+		<TypeOnly>绿子</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【出】：直到回合结束时为止，你的1只SIGNI的力量+2000。【※】：抽1张卡。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD04-015</CardId>
+		<CardName>幻兽 白虎</CardName>
+		<CardType>精灵</CardType>
+		<Type>精生：地兽</Type>
+		<Level>1</Level>
+		<Color>绿</Color>
+		<Atk>1000</Atk>
+		<TypeOnly>绿子</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+		<CardDetail>【常】：这只SIGNI攻击时，这只SIGNI的力量在3000以上的场合，将你卡组顶的1张卡放置到能量区。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD04-016</CardId>
+		<CardName>侍从 Q2</CardName>
+		<CardType>精灵</CardType>
+		<Type>精元</Type>
+		<Level>4</Level>
+		<Color>万花</Color>
+		<Atk>10000</Atk>
+		<BDef>1</BDef>
+		<BBrust>0</BBrust>
+		<CardDetail>【防御】（从手牌舍弃这张卡，将LRIG的1次攻击无效化）【常】：【万花色】（支付费用时，这张卡视为持有所有颜色。）</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>WD04-017</CardId>
+		<CardName>侍从 O2</CardName>
+		<CardType>精灵</CardType>
+		<Type>精元</Type>
+		<Level>1</Level>
+		<Color>万花</Color>
+		<Atk>1000</Atk>
+		<BDef>1</BDef>
+		<BBrust>0</BBrust>
+		<CardDetail>【防御】（从手牌舍弃这张卡，将LRIG的1次攻击无效化）【常】：【万花色】（支付费用时，这张卡视为持有所有颜色。）</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>PR-017</CardId>
+		<CardName>中枪 古罗马长矛</CardName>
+		<CardType>精灵</CardType>
+		<Type>精武：武装</Type>
+		<Level>2</Level>
+		<Color>白</Color>
+		<Atk>5000</Atk>
+		<TypeOnly>小玉</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>0</BBrust>
+		<CardDetail>【常】：只要你的场上有等级4的&lt;小玉&gt;，这只SIGNI的力量变为10000。</CardDetail>
+	</Signi>
+	<Signi>
+		<CardId>PR-018</CardId>
+		<CardName>罗石 秘银</CardName>
+		<CardType>精灵</CardType>
+		<Type>精罗：宝石</Type>
+		<Level>3</Level>
+		<Color>红</Color>
+		<Atk>15000</Atk>
+		<TypeOnly>花代</TypeOnly>
+		<BDef>0</BDef>
+		<BBrust>1</BBrust>
+		<CardDetail>【出】：舍弃1张手牌。【常】：你的回合期间，这只SIGNI的力量变为18000。【※】：抽1张卡</CardDetail>
+	</Signi>
 	<Spell>
 		<CardId>WX01-028</CardId>
 		<CardName>弧光圣气</CardName>
@@ -1149,7 +1885,7 @@
 		<CardName>冰封</CardName>
 		<CardType>魔法</CardType>
 		<Color>蓝</Color>
-		<EffectCost>蓝:2</EffectCost>
+		<EffectCost>蓝:1</EffectCost>
 		<BBrust>1</BBrust>
 		<CardDetail>将对战对手所有的SIGNI横置并冻结。（那些卡在下一个竖置阶段中不能竖置）【※】：将对战对手的至多2只SIGNI横置并冻结。（那些卡在下一个竖置阶段中不能竖置）</CardDetail>
 	</Spell>
@@ -1178,5 +1914,61 @@
 		<Color>无</Color>
 		<BBrust>1</BBrust>
 		<CardDetail>抽1张卡。【※】：【能量填充1】</CardDetail>
+	</Spell>
+	<Spell>
+		<CardId>WD01-015</CardId>
+		<CardName>获得圣经</CardName>
+		<CardType>魔法</CardType>
+		<Color>白</Color>
+		<EffectCost>白:1</EffectCost>
+		<BBrust>0</BBrust>
+		<CardDetail>从你的卡组里探寻至多1只SIGNI，将其公开并加入手牌。之后，将卡组洗切。</CardDetail>
+	</Spell>
+	<Spell>
+		<CardId>WD02-015</CardId>
+		<CardName>轰音火柱</CardName>
+		<CardType>魔法</CardType>
+		<Color>红</Color>
+		<EffectCost>红:1</EffectCost>
+		<BBrust>0</BBrust>
+		<CardDetail>将对战对手的1只力量5000以下的SIGNI驱逐。</CardDetail>
+	</Spell>
+	<Spell>
+		<CardId>WD03-015</CardId>
+		<CardName>真可惜</CardName>
+		<CardType>魔法</CardType>
+		<Color>蓝</Color>
+		<EffectCost>蓝:1</EffectCost>
+		<BBrust>0</BBrust>
+		<CardDetail>不查看对战对手的手牌而选择1张，并将它舍弃。</CardDetail>
+	</Spell>
+	<Spell>
+		<CardId>WD04-018</CardId>
+		<CardName>堕络</CardName>
+		<CardType>魔法</CardType>
+		<Color>绿</Color>
+		<EffectCost>绿:1</EffectCost>
+		<BBrust>0</BBrust>
+		<CardDetail>将你的1只竖置状态的SIGNI横置。这样做了的场合，将对战对手的1只力量在这只SIGNI的力量以下的SIGNI驱逐。</CardDetail>
+	</Spell>
+	<Spell>
+		<CardId>PR-019</CardId>
+		<CardName>珍宝</CardName>
+		<CardType>魔法</CardType>
+		<Color>蓝</Color>
+		<EffectCost>蓝:1</EffectCost>
+		<TypeOnly>皮璐璐可</TypeOnly>
+		<BBrust>1</BBrust>
+		<CardDetail>舍弃你喜欢的张数的手牌。之后，抽卡，抽卡数量为舍弃张数+1。【※】：舍弃2张卡。之后，抽3张卡。</CardDetail>
+	</Spell>
+	<Spell>
+		<CardId>PR-020</CardId>
+		<CardName>增援</CardName>
+		<CardType>魔法</CardType>
+		<Color>绿</Color>
+		<EffectCost>绿:1</EffectCost>
+		<TypeOnly>绿子</TypeOnly>
+		<BBrust>0</BBrust>
+		<CardDetail>从以下2项中选择1项。「从你的卡组里探寻1张力量10000以上的SIGNI卡，将其公开并加入加入手牌。之后将卡组洗切。」「从你的卡组顶将2张卡放置到能量区」</CardDetail>
 	</Spell>
 </Wixoss>

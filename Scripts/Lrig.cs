@@ -11,6 +11,7 @@ namespace Assets.Scripts
 
         public string LrigId;
         public UITexture UiTexture;
+        public Hands CardHands;
         public GameObject UpBtn;
         public GameObject EffectBtn;
         public GameObject AttackBtn;
@@ -59,7 +60,8 @@ namespace Assets.Scripts
             MyLrig = _myLrigs[_myLrigs.Count - 1];
             Bset = true;
             LrigId = MyLrig.CardId;
-            UiTexture.mainTexture = MyLrig.CardTexture;
+            //UiTexture.mainTexture = MyLrig.CardTexture;
+            CardHands.MyCard = card;
         }
 
         public void Upgrade()
@@ -93,8 +95,12 @@ namespace Assets.Scripts
             if (UpgradingLrig.GrowCost.Count == 0)
             {
                 SetUp(UpgradingLrig);
-                GameManager.ShowCard.ShowMyCard(UpgradingLrig);
                 DataSource.LrigDeck.Remove(UpgradingLrig);
+
+                GameManager.RpcGrow();
+                GameManager.RpcOtherLrig(UpgradingLrig.CardId);
+                GameManager.ShowCard.ShowMyCard(UpgradingLrig);
+                CardInfo.ShowCardInfo(false);
             }
             else
             {
@@ -140,6 +146,11 @@ namespace Assets.Scripts
             {
                 for (int i = 0; i < EnerManager.EnerCards.Count; i++)
                 {
+                    //任何颜色都等于无色
+                    if (targetCard.Cost[num].MyEnerType == Card.Ener.EnerType.无)
+                    {
+                        cards.Add(EnerManager.EnerCards[i]);
+                    }
                     //万花等于任何颜色
                     if (EnerManager.EnerCards[i].MyEner.MyEnerType == targetCard.Cost[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
                     {
@@ -158,7 +169,7 @@ namespace Assets.Scripts
                 info = "所需 " + targetCard.Cost[num].MyEnerType + "色 费用 " + targetCard.Cost[num].Num + " 个";
             }
 
-            CardInfo.SetUp(info, cards, bgrowcost ? targetCard.Cost[num].Num : targetCard.GrowCost[num].Num, () =>
+            CardInfo.SetUp(info, cards, bgrowcost ? targetCard.GrowCost[num].Num : targetCard.Cost[num].Num, () =>
             {
                 bool enough = true;
 
@@ -166,7 +177,7 @@ namespace Assets.Scripts
 
                 for (int i = 0; i < count; i++)
                 {
-                    enough = BEnerEnough(targetCard, i);
+                    enough = BEnerEnough(targetCard, i, bgrowcost);
                 }
 
                 if (enough)
@@ -226,8 +237,10 @@ namespace Assets.Scripts
             {
                 return all >= target.GrowCost[num].Num;
             }
-
-            return all >= target.Cost[num].Num;
+            else
+            {
+                return all >= target.Cost[num].Num;
+            }
         }
 
 

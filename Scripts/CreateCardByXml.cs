@@ -6,12 +6,14 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
-	public class CreateCardByXml 
+	public static class CreateCardByXml 
 	{
-		#if UNITY_EDITOR
-		public static string Path = Application.dataPath + @"/Xml/Wixoss_Project.xml";
-		#endif
-
+		public static readonly string Path = 
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+        Application.streamingAssetsPath + "/Xml/Wixoss_Project.xml";
+#else
+            "";
+#endif
 		public static XElement LoadFromXml()
 		{
 			XElement root = XElement.Load (Path);

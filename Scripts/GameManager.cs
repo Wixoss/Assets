@@ -246,8 +246,8 @@ namespace Assets.Scripts
                     MyRpc.Rpc("ReportServerEndReadyPhase", RPCMode.Others, true);
                 }
 
-                //StartCoroutine(WaitToGameStart());
-                GameTest();
+                StartCoroutine(WaitToGameStart());
+                //GameTest();
             }
         }
 
@@ -712,15 +712,15 @@ namespace Assets.Scripts
 
 
         //测试!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                private void Start()
-                                {
-                                    MyGameState = GameState.准备阶段;
-                                }
-                        
-                                private void GameTest()
-                                {
-                                    BLocalRound = true;
-                                    MyGameState = GameState.竖置阶段;
-                                }
+        //        private void Start()
+        //        {
+        //            MyGameState = GameState.准备阶段;
+        //        }
+        //
+        //        private void GameTest()
+        //        {
+        //            BLocalRound = true;
+        //            MyGameState = GameState.竖置阶段;
+        //        }
     }
 }

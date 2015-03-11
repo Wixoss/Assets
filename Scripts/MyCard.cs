@@ -64,7 +64,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 卡牌的状态,手牌中还是?
         /// </summary>
-        public State MyState = State.其他;
+        //public State MyState = State.其他;
         /// <summary>
         /// 卡图
         /// </summary>
@@ -155,8 +155,7 @@ namespace Assets.Scripts
 
         public Card(string cardid)
         {
-            MyState = State.其他;
-            MyCardType = CardType.其他;
+            //MyState = State.其他;
             SetCardById(cardid);
             CardTexture = Resources.Load<Texture2D>(CardId);
         }
@@ -175,6 +174,7 @@ namespace Assets.Scripts
                 CardName = i.Element("CardName").Value;
                 MyCardColor = GetCardColorByString(i.Element("Color").Value);
                 MyCardType = GetCardTypeByString(i.Element("CardType").Value);
+                MyEner.MyEnerType = GetEnerTypeByString(i.Element("Color").Value);
 
                 if (i.Element("Level") != null)
                 {
@@ -227,8 +227,7 @@ namespace Assets.Scripts
             //			case CardType.法术卡:
             //
             //			}
-
-            CardId = cardid;
+            MyEner.Num = 1;
         }
 
         private CardColor GetCardColorByString(string color)
@@ -296,19 +295,19 @@ namespace Assets.Scripts
 
         private List<Ener> GetCostByString(string cost)
         {
-            List<Ener> MyEners = new List<Ener>();
+            var myEners = new List<Ener>();
             var ener = cost.Split(',');
 
             for (int i = 0; i < ener.Length; i++)
             {
                 string[] typecolor = ener[i].Split(':');
-                MyEners.Add(new Ener
+                myEners.Add(new Ener
                 {
                     MyEnerType = GetEnerTypeByString(typecolor[0]),
                     Num = Convert.ToInt16(typecolor[1])
                 });
             }
-            return MyEners;
+            return myEners;
         }
 
         private List<string> GetTimingByString(string timing)
@@ -322,8 +321,8 @@ namespace Assets.Scripts
     public class MyCard : MonoBehaviour
     {
         public List<Texture2D> CardTextures = new List<Texture2D>();
-        public List<string> MyCardid = new List<string>();
-        public List<string> MyLrigid = new List<string>();
+        public List<string> MyCardid;
+        public List<string> MyLrigid;
 
         [ContextMenu("创建卡组")]
         public void Awake()
@@ -348,7 +347,23 @@ namespace Assets.Scripts
                 CardTextures.Add(card.CardTexture);
             }
 
-            Debug.Log(DataSource.MainDeck[0].CardName);
+            DataSource.MainDeck = RandomCards(DataSource.MainDeck);
+
+            //            var root = Scripts.CreateCardByXml.LoadFromXml();
+            //            Debug.Log(root.Elements().Count());
+        }
+
+        public List<Card> RandomCards(List<Card> old)
+        {
+            var newcard = new List<Card>();
+            int rand;
+            for (int i = 0; i < old.Count; i++)
+            {
+                rand = Random.Range(0, old.Count);
+                newcard.Add(old[rand]);
+                old.Remove(old[rand]);
+            }
+            return newcard;
         }
 
         /// <summary>
@@ -356,127 +371,70 @@ namespace Assets.Scripts
         /// </summary>
         public void CreateCardByXml()
         {
-            string id = "";
-            for (int i = 0; i < 40; i++)
+            MyLrigid = new List<string>()
             {
-                var num = Random.Range(1, 100);
-                id = num < 10 ? "0" + num : num.ToString();
-                MyCardid.Add("WX01-0" + id);
-            }
+                "WD01-001",
+                "WD01-002",
+                "WD01-003",
+                "WD01-004",
+                "WD01-005",
+                "WD01-006",
+                "WD01-007",
+                "WD01-008",
+            };
 
-            for (int i = 0; i < 10; i++)
+            MyCardid = new List<string>()
             {
-                var num = Random.Range(1, 100);
-                id = num < 10 ? "0" + num : num.ToString();
-                MyLrigid.Add("WX01-0" + id);
-            }
+                "WD01-009",
+                "WD01-009",
+                "WD01-009",
+                "WD01-009",
 
+                "WD01-010",
+                "WD01-010",
+                "WD01-010",
+                "WD01-010",
+
+                "WD01-011",
+                "WD01-011",
+                "WD01-011",
+                "WD01-011",
+
+                "WD01-012",
+                "WD01-012",
+                "WD01-012",
+                "WD01-012",
+
+                "WD01-013",
+                "WD01-013",
+                "WD01-013",
+                "WD01-013",
+
+                "WD01-014",
+                "WD01-014",
+                "WD01-014",
+                "WD01-014",
+
+                "WD01-015",
+                "WD01-015",
+                "WD01-015",
+                "WD01-015",
+
+                "WX01-101",
+                "WX01-101",
+                "WX01-101",
+                "WX01-101",
+
+                "WX01-102",
+                "WX01-102",
+                "WX01-102",
+                "WX01-102",
+
+                "WX01-103",
+                "WX01-103",
+                "WX01-103",
+                "WX01-103",
+            };
         }
-        //        private int i = 0;
-        //
-        //        public void CreateDetail(Card card)
-        //        {
-        //            int cardtype = 0;
-        //            int cardColor = 0;
-        //            int cardEner = 0;
-        //
-        //            i++;
-        //
-        //            cardtype = i / 10 + 1;
-        //            cardColor = 1;
-        //            cardEner = cardColor;
-        //
-        //            card.Level = i % 2 == 0 ? 0 : 1;
-        //            card.Limit = i / 10 + 3;
-        //            card.BCanGuard = true;
-        //
-        //            switch (cardtype)
-        //            {
-        //                case 1:
-        //                    card.MyCardType = Card.CardType.分身卡;
-        //                    break;
-        //                case 2:
-        //                    card.MyCardType = Card.CardType.技艺卡;
-        //                    break;
-        //                case 4:
-        //                    card.MyCardType = Card.CardType.法术卡;
-        //                    break;
-        //                case 5:
-        //                    card.MyCardType = Card.CardType.精灵卡;
-        //                    break;
-        //            }
-        //
-        //            switch (cardColor)
-        //            {
-        //                case 1:
-        //                    card.MyCardColor = Card.CardColor.万花;
-        //                    break;
-        //                case 2:
-        //                    card.MyCardColor = Card.CardColor.无;
-        //                    break;
-        //                case 3:
-        //                    card.MyCardColor = Card.CardColor.白;
-        //                    break;
-        //                case 4:
-        //                    card.MyCardColor = Card.CardColor.红;
-        //                    break;
-        //                case 5:
-        //                    card.MyCardColor = Card.CardColor.绿;
-        //                    break;
-        //                case 6:
-        //                    card.MyCardColor = Card.CardColor.蓝;
-        //                    break;
-        //                case 7:
-        //                    card.MyCardColor = Card.CardColor.黑;
-        //                    break;
-        //            }
-        //
-        //            switch (cardEner)
-        //            {
-        //                case 1:
-        //                    card.MyEner.MyEnerType = Card.Ener.EnerType.万花;
-        //                    card.MyEner.Num = 1;
-        //                    break;
-        //                case 2:
-        //                    card.MyEner.MyEnerType = Card.Ener.EnerType.无;
-        //                    card.MyEner.Num = 1;
-        //                    break;
-        //                case 3:
-        //                    card.MyEner.MyEnerType = Card.Ener.EnerType.白;
-        //                    card.MyEner.Num = 1;
-        //                    break;
-        //                case 4:
-        //                    card.MyEner.MyEnerType = Card.Ener.EnerType.红;
-        //                    card.MyEner.Num = 1;
-        //                    break;
-        //                case 5:
-        //                    card.MyEner.MyEnerType = Card.Ener.EnerType.绿;
-        //                    card.MyEner.Num = 1;
-        //                    break;
-        //                case 6:
-        //                    card.MyEner.MyEnerType = Card.Ener.EnerType.蓝;
-        //                    card.MyEner.Num = 1;
-        //                    break;
-        //                case 7:
-        //                    card.MyEner.MyEnerType = Card.Ener.EnerType.黑;
-        //                    card.MyEner.Num = 1;
-        //                    break;
-        //            }
-        //
-        //            card.Cost.Add(new Card.Ener()
-        //            {
-        //                MyEnerType = Card.Ener.EnerType.万花,
-        //                Num = i % 2 == 0 ? 0 : 1,
-        //            });
-        //
-        //            card.Cost.Add(new Card.Ener()
-        //            {
-        //                MyEnerType = Card.Ener.EnerType.无,
-        //                Num = i % 2 == 0 ? 0 : 1,
-        //            });
-        //
-        //            //            card.Cost[0].MyEnerType= Card.Ener.EnerType.万花;
-        //            //            card.Cost[0].Num = i % 2 == 0 ? 0 : 1;
-        //        }
     }
 }
