@@ -19,6 +19,11 @@ namespace Assets.Scripts
         /// <summary>
         /// 分身卡组
         /// </summary>
-        public static List<Card> LrigDeck = new List<Card>(); 
+        public static List<Card> LrigDeck = new List<Card>();
+        public static List<string> LrigCards = new List<string>();//分身卡组
+
+        public static List<string> ArtCards = new List<string>(); //技艺卡组
+        public static List<string> SigniCards = new List<string>();//精灵卡组
+        public static List<string> SpellCards = new List<string>();//魔法卡组
     }
 }
