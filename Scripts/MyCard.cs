@@ -148,10 +148,11 @@ namespace Assets.Scripts
         /// <summary>
         /// 效果s(待实现)
         /// </summary>
-        public Action<Card> Effect1 = card => Debug.Log("Effect1");
-        public Action<Card> Effect2 = card => Debug.Log("Effect2");
-        public Action<Card> Effect3 = card => Debug.Log("Effect3");
-        public Action<Card> Brust = card => Debug.Log("Brust");
+        public Action<Card> Effect_Qi = card => Debug.Log("Effect_Qi");
+        public Action<Card> Effect_Chang = card => Debug.Log("Effect_Chang");
+        public Action<Card> Effect_Chu = card => Debug.Log("Effect_Chu");
+        public Action<Card> Effect_Spell = card => Debug.Log("Spell!");
+        public Action<Card> Brust = card => Debug.Log("Brust!");
 
         public Card(string cardid)
         {
@@ -380,6 +381,7 @@ namespace Assets.Scripts
                 "WD01-006",
                 "WD01-007",
                 "WD01-008",
+                "WX01-023",
             };
             
             MyCardid = new List<string>()

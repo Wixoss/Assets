@@ -89,10 +89,16 @@ namespace Assets.Scripts
             CardInfo.ShowCardInfo(true);
         }
 
+
+        public void ShowShowBtn(bool bshow)
+        {
+            ShowBtn.SetActive(bshow);
+            OtherShowBtn.SetActive(bshow);
+        }
         /// <summary>
         /// 排列卡
         /// </summary>
-        public void SetTheEner()
+        public void ResetTheEner()
         {
             Grid.Reposition();
         }
@@ -112,8 +118,20 @@ namespace Assets.Scripts
             Eners.Add(hand);
             EnerCards.Add(card);
             CountEner(EnerCards);
-            SetTheEner();
+            Invoke("ResetTheEner", 0.5f);
             //            }
+        }
+
+        /// <summary>
+        /// 把卡组顶一张卡放置到能量区
+        /// </summary>
+        public void EnerCharge()
+        { 
+            var card = GameManager.ShowDeck.Lastcard();
+            if (card == null)
+                return;
+            CreateEner(card);
+            GameManager.RpcEnerCharge(card.CardId);
         }
 
         /// <summary>
@@ -131,9 +149,18 @@ namespace Assets.Scripts
             var hand = obj.GetComponent<Hands>();
             hand.MyCard = new Card(cardid);
             OtherEner.Add(hand);
+            Invoke("ResetOtherEner", 0.5f);
+        }
+
+        private void ResetOtherEner()
+        {
             OtherGrid.Reposition();
         }
 
+        /// <summary>
+        /// 每次删除一个
+        /// </summary>
+        /// <param name="cardsid">Cardsid.</param>
         public void DestoryOtherEner(string cardsid)
         {
             for (int i = OtherEner.Count - 1; i >= 0; i--)
@@ -141,10 +168,11 @@ namespace Assets.Scripts
                 if (OtherEner[i].MyCard.CardId == cardsid)
                 {
                     OtherEner[i].DestoryHands();
-                    OtherEner.Remove(OtherEner[i]);                
+                    OtherEner.Remove(OtherEner[i]);
+                    Invoke("ResetOtherEner", 0.5f);
+                    return;
                 }
             }
-            OtherGrid.Reposition();
         }
 
 
@@ -204,13 +232,8 @@ namespace Assets.Scripts
                 GameManager.RpcOtherTrash(cards[i].CardId);
                 DestoryHands(cards[i]);
                 CountEner(EnerCards);
-                //                card = hands[i].MyCard;
-                //                Eners.Remove(hands[i]);
-                //                EnerCards.Remove(card);
-                //                Trash.AddTrash(card);
-                //                hands[i].DestoryHands();
-                //                CountEner(EnerCards);
             }
+            Invoke("ResetTheEner", 0.5f);
         }
 
         private void DestoryHands(Card card)

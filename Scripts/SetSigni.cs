@@ -122,9 +122,9 @@ namespace Assets.Scripts
         {
             UIEventListener.Get(EffectBtn[num]).MyOnClick = () =>
             {
-                if (Signi[num].Cost[0].Num == 0)
+                if (Signi[num].Cost.Count < 1)
                 {
-                    Signi[num].Effect1(Signi[num]);
+                    Signi[num].Effect_Qi(Signi[num]);
                     //横置
                     CardTexture[num].transform.localEulerAngles = new Vector3(90, 90, 0);
                     BSet[num] = false;
@@ -133,13 +133,13 @@ namespace Assets.Scripts
                 else
                 {
                     int num1 = num;
-                    if(Signi[num1].Cost.Count <= 0)
-                    {
-                        return;
-                    }
+//                    if(Signi[num1].Cost.Count <= 0)
+//                    {
+//                        return;
+//                    }
                     Lrig.SetTheCost(0, Signi[num1].Cost.Count - 1, Signi[num1], () =>
                     {
-                        Signi[num].Effect1(Signi[num]);
+                        Signi[num].Effect_Qi(Signi[num]);
                         //横置
                         CardTexture[num].transform.localEulerAngles = new Vector3(90, 90, 0);
                         BSet[num] = false;
@@ -281,8 +281,8 @@ namespace Assets.Scripts
         {
             if (OtherSigni[num] == null)
             {
-                GameManager.LifeCloth.CrashOtherCloth();
-                GameManager.RpcCrashOtherLifeCloth();
+                GameManager.LifeCloth.CrashOtherCloth(true);
+                GameManager.RpcCrashOtherLifeCloth(true);
             }
             else
             {

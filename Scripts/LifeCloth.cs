@@ -40,19 +40,14 @@ namespace Assets.Scripts
         //            }
         //        }
 
-        public void CreateLifeCloth()
+        public void CreateLifeCloth(int i)
         {
-            for (int i = 0; i < 7; i++)
-            {
-                //var card = DataSource.MainDeck[DataSource.MainDeck.Count - 1];
-                var card = GameManager.ShowDeck.MainDeck[GameManager.ShowDeck.MainDeck.Count-1];
-                //LifeClothId.Add(card.CardId);
-                LifeCloths.Add(card);
-                CreateObj(i);
-                GameManager.RpcCreateLifeCloth(i);
-                //DataSource.MainDeck.Remove(card);
-                GameManager.ShowDeck.MainDeck.Remove(card);
-            }
+            var card = GameManager.ShowDeck.Lastcard();
+            if(card==null)
+                return;
+            LifeCloths.Add(card);
+            CreateObj(LifeCloths.Count - 1);
+            GameManager.RpcCreateLifeCloth(i);
         }
 
         public void CreateObj(int num)
@@ -64,8 +59,13 @@ namespace Assets.Scripts
             tran.localScale = new Vector3(620,620,1);
             tran.localEulerAngles = Vector3.zero;
             tran.localPosition = new Vector3(0, 0, num);
+            Invoke("ResetObj", 0.5f);
+        }
+
+        private void ResetObj()
+        {
             Grid.Reposition();
-        }       
+        }
 
         public void CreateOtherCloth(int num)
         {
@@ -76,12 +76,20 @@ namespace Assets.Scripts
             tran.localScale = new Vector3(620,620,1);
             tran.localEulerAngles = Vector3.zero;
             tran.localPosition = new Vector3(0, 0, num);
+            Invoke("OtherResetObj", 0.5f);
+        }
+
+        private void OtherResetObj()
+        {
             OtherGrid.Reposition();
         }
 
-        public void CrashCloth()
+        /// <summary>
+        /// 击溃护甲
+        /// </summary>
+        public void CrashCloth(bool bHurt)
         {
-			if (LifeCloths.Count == 0) 
+            if (bHurt && LifeCloths.Count == 0) 
 			{
 				GameManager.GameOver.ShowGameResoult("You Lost!!");
 				GameManager.RpcGameResult("You Win!!");
@@ -89,6 +97,7 @@ namespace Assets.Scripts
 			}
             var card = LifeCloths [LifeCloths.Count - 1];
             var obj = LifeObjs [LifeCloths.Count - 1];
+            LifeObjs.Remove(obj);
             Destroy(obj);
             if (card.HasBrust)
             {
@@ -107,9 +116,27 @@ namespace Assets.Scripts
             LifeCloths.Remove(LifeCloths[LifeCloths.Count - 1]);
         }
 
-        public void CrashOtherCloth()
+        /// <summary>
+        /// 把一护甲放置废气区
+        /// </summary>
+        public void CrashClothToTrash()
         {
-            if (OtherLifeObjs.Count == 0)
+            if (LifeCloths.Count == 0)
+            {
+                return;
+            }
+            var card = LifeCloths [LifeCloths.Count - 1];
+            var obj = LifeObjs [LifeCloths.Count - 1];
+            LifeObjs.Remove(obj);
+            Destroy(obj);
+            GameManager.Trash.AddTrash(card);
+            GameManager.RpcOtherTrash(card.CardId);
+            LifeCloths.Remove(LifeCloths[LifeCloths.Count - 1]);
+        }
+
+        public void CrashOtherCloth(bool bHurt)
+        {
+            if (bHurt && OtherLifeObjs.Count == 0)
             {
 			 	GameManager.GameOver.ShowGameResoult("You Win!!");
 				GameManager.RpcGameResult("You Lost!!");

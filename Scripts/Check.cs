@@ -23,13 +23,6 @@ namespace Assets.Scripts
                 Trash.AddTrash(_myCard);
                 GameManager.RpcOtherTrash(_myCard.CardId);
             }
-//            Invoke("DisCheck", 3);
-        }
-
-        private void DisCheck()
-        {
-           
-
         }
 
         public void SetOtherCheck(string cardid)

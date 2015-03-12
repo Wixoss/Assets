@@ -12,6 +12,8 @@ namespace Assets.Scripts
 
         public Transform Parent;
 
+        public UIScrollView Uiscrollview;
+
         /// <summary>
         /// 点击物体的事件
         /// </summary>
@@ -75,6 +77,8 @@ namespace Assets.Scripts
 
         private void Reset()
         {
+            Uiscrollview.ResetPosition();
+
             for (int i = 0; i < UiTextures.Count; i++)
             {
                 UiTextures[i].gameObject.SetActive(false);
@@ -97,6 +101,7 @@ namespace Assets.Scripts
         public void ShowCardInfo(bool bshow)
         {
             gameObject.SetActive(bshow);
+            Uiscrollview.ResetPosition();
         }
 
         private int _selectnum = 0;

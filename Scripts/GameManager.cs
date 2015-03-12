@@ -182,7 +182,10 @@ namespace Assets.Scripts
         private IEnumerator SetLifeCloth()
         {
             Reporting.text = "放置7张生命护甲";
-            LifeCloth.CreateLifeCloth();
+            for (int i =0; i<7; i++)
+            {
+                LifeCloth.CreateLifeCloth(i);
+            }
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
             yield return new WaitForSeconds(2);
             SetLrig();
@@ -277,6 +280,9 @@ namespace Assets.Scripts
                 MyGameState = GameState.对方回合阶段;
             }
             MyGameState = GameState.竖置阶段;
+
+            EnerManager.ShowShowBtn(true);
+            Trash.ShowShowBtn(true);
         }
 
         private void SetMyRound()
@@ -513,6 +519,16 @@ namespace Assets.Scripts
             MyRpc.Rpc("SetOtherCheck", RPCMode.Others, cardid);
         }
 
+        /// <summary>
+        /// 从废弃区中拿卡
+        /// </summary>
+        /// <param name="cardid">Cardid.</param>
+        /// <param name="bReward">bReward.</param>
+        public void RpcGetCardFromTrash(bool bReward,string cardid ="")
+        {
+            MyRpc.Rpc("OtherGetCardFromTrash", RPCMode.Others, bReward, cardid);
+        }
+
         #endregion
 
         #region AttackPhase
@@ -574,9 +590,18 @@ namespace Assets.Scripts
         /// <summary>
         /// 告诉对方对方的护甲被击破
         /// </summary>
-        public void RpcCrashOtherLifeCloth()
+        public void RpcCrashOtherLifeCloth(bool bHurt)
         {
-            MyRpc.Rpc("CrashOtherCloth", RPCMode.Others);
+            MyRpc.Rpc("CrashOtherCloth", RPCMode.Others,bHurt);
+        }
+
+        /// <summary>
+        /// 告诉对方我的护甲被击溃
+        /// </summary>
+        /// <param name="bHurt">If set to <c>true</c> b hurt.</param>
+        public void RpcCrashMyCloth(bool bHurt)
+        {
+            MyRpc.Rpc("CrashMyCloth", RPCMode.Others, bHurt);
         }
 
         /// <summary>

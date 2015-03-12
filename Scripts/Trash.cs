@@ -8,6 +8,9 @@ namespace Assets.Scripts
         public List<Card> TrashCards = new List<Card>();
         public List<Card> OtherTrashCards = new List<Card>();
 
+        public List<Card> LrigTrash = new List<Card>();
+        public List<Card> OtherLrigTrash = new List<Card>();
+
         public UITexture UiTexture;
         public UITexture OtherUiTexture;
 
@@ -22,9 +25,22 @@ namespace Assets.Scripts
             UIEventListener.Get(ShowBtn).MyOnClick = ShowTrash;
         }
 
+        public void ShowShowBtn(bool bshow)
+        {
+            ShowBtn.SetActive(bshow);
+            OtherShowBtn.SetActive(bshow);
+        }
+
         public void AddTrash(Card card)
         {
-            TrashCards.Add(card);
+            if (card.MyCardType != Card.CardType.技艺卡)
+            {
+                TrashCards.Add(card);
+            } 
+            else
+            {
+                LrigTrash.Add(card);
+            }
             UiTexture.gameObject.SetActive(TrashCards.Count > 0);
             UiTexture.mainTexture = card.CardTexture;
         }
@@ -32,26 +48,84 @@ namespace Assets.Scripts
         public void AddOtherTrash(string cardid)
         {
             var card = new Card(cardid);
-            OtherTrashCards.Add(card);
+            if (card.MyCardType != Card.CardType.技艺卡)
+            {
+                OtherTrashCards.Add(card);
+            } 
+            else
+            {
+                OtherLrigTrash.Add(card);
+            }
             OtherUiTexture.gameObject.SetActive(OtherTrashCards.Count > 0);
             OtherUiTexture.mainTexture = card.CardTexture;
         }
 
         public void ShowOtherTrash()
         {
-            CardInfo.SetUp("显示废弃", OtherTrashCards, 0, () => CardInfo.ShowCardInfo(false));
+            var othertrash = new List<Card>(OtherTrashCards);
+            othertrash.AddRange(OtherLrigTrash);
+
+            CardInfo.SetUp("显示废弃(包括了分身废弃)", othertrash, 0, () => CardInfo.ShowCardInfo(false));
             CardInfo.ShowCardInfo(true);
         }
 
         public void ShowTrash()
         {
-            CardInfo.SetUp("显示废弃", TrashCards, 0, () => CardInfo.ShowCardInfo(false));
+            var trash = new List<Card>(TrashCards);
+            trash.AddRange(LrigTrash);
+
+            CardInfo.SetUp("显示废弃(包括了分身废弃)", trash, 0, () => CardInfo.ShowCardInfo(false));
             CardInfo.ShowCardInfo(true);
         }
 
-        public void DeleteTrash(Card card)
+        /// <summary>
+        /// 重构卡组
+        /// </summary>
+        /// <returns>The deck.</returns>
+        /// <param name="from">From.</param>
+        public List<Card> RewriteDeck(List<Card> from)
         {
+            var to = new List<Card>();
+            int count = from.Count;
+            for (int i =0; i<count; i++)
+            {
+                var card = from [Random.Range(0, from.Count)];
+                to.Add(card);
+                from.Remove(card);
+            }
+            UiTexture.gameObject.SetActive(false);
+            return to;
+        }
 
+        public void GetCardFromTrash(Card card)
+        {
+            if (card.MyCardType == Card.CardType.技艺卡)
+            {
+                LrigTrash.Remove(card);
+            } 
+            else
+            {
+                TrashCards.Remove(card);
+            }
+        }
+
+        public void OtherGetCardFromTrash(bool bRewrite,string cardid)
+        {
+            if (bRewrite)
+            {
+                OtherTrashCards.Clear();
+                OtherUiTexture.gameObject.SetActive(OtherTrashCards.Count > 0);
+                return;
+            }
+            var card = new Card(cardid);
+            if (card.MyCardType == Card.CardType.技艺卡)
+            {
+                OtherLrigTrash.Remove(card);
+            } 
+            else
+            {
+                OtherTrashCards.Remove(card);
+            }
         }
     }
 }

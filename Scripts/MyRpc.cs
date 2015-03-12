@@ -19,7 +19,7 @@ namespace Assets.Scripts
         private void Awake()
         {
             //保证自己不会在load场景的时候被销毁
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
 
         public void Rpc(string funcname, RPCMode mode, params object[] objs)
@@ -285,14 +285,35 @@ namespace Assets.Scripts
         }
 
         [RPC]
-        private void CrashOtherCloth()
+        private void CrashOtherCloth(bool bHurt)
         {
             if (_gameManager == null)
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            _gameManager.LifeCloth.CrashCloth();
+            _gameManager.LifeCloth.CrashCloth(bHurt);
             _gameManager.CreateHands.DisTheGuardBtn();
+        }
+
+        [RPC]
+        private void CrashMyCloth(bool bHurt)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.LifeCloth.CrashOtherCloth(false);
+        }
+
+        [RPC]
+        private void OtherGetCardFromTrash(bool brewriteDeck,string cardid)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+
+            _gameManager.Trash.OtherGetCardFromTrash(brewriteDeck,cardid);
         }
 
 //        [RPC]

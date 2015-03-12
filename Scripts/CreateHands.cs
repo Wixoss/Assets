@@ -55,12 +55,8 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < 5; i++)
             {
-                //var hand = DataSource.MainDeck[DataSource.MainDeck.Count - 1];
-                var card = GameManager.ShowDeck.MainDeck[GameManager.ShowDeck.MainDeck.Count-1];
-
+                var card = GameManager.ShowDeck.Lastcard();
                 CreateMyFirstHands(card);
-                //DataSource.MainDeck.Remove(hand);
-                GameManager.ShowDeck.MainDeck.Remove(card);
                 yield return new WaitForSeconds(0.2f);
             }
             Reposition();
@@ -134,7 +130,7 @@ namespace Assets.Scripts
 
             }
 
-            EnerManager.SetTheEner();
+//            EnerManager.SetTheEner();
 
             Invoke("SetZero", 0.5f);
             Invoke("Reposition", 1);
@@ -252,31 +248,16 @@ namespace Assets.Scripts
         /// </summary>
         public void DropCard()
         {
-            //var obj = Breed.Instance().Get("Hands").Spawn(Vector3.zero, Vector3.zero, new Vector3(0.5f, 0.5f, 1), Parent, true);
+            var lastcard = GameManager.ShowDeck.Lastcard();
+            if (lastcard == null)
+                return;
             var obj = InsObj(Hands, Vector3.zero, Vector3.zero, new Vector3(0.5f, 0.5f, 1), Parent);
             var hands = obj.GetComponent<Hands>();
-            //var lastcard = DataSource.MainDeck[DataSource.MainDeck.Count - 1];
-
-            Card lastcard;
-            if (GameManager.ShowDeck.MainDeck.Count > 0)
-            {
-                lastcard = GameManager.ShowDeck.MainDeck [GameManager.ShowDeck.MainDeck.Count - 1];
-            } else
-            {
-                GameManager.ShowDeck.TrashToMainDeck();
-                if(GameManager.LifeCloth.LifeCloths.Count>0)
-                {
-                    //重构卡组掉一护甲
-                    GameManager.LifeCloth.CrashCloth();
-                }
-                lastcard = GameManager.ShowDeck.MainDeck [GameManager.ShowDeck.MainDeck.Count - 1];
-            }
             hands.MyCard = lastcard;
             MyHands.Add(hands);
             MyHandCards.Add(lastcard);
-            //DataSource.MainDeck.Remove(lastcard);
-            GameManager.ShowDeck.MainDeck.Remove(lastcard);
             Reposition();
+            GameManager.RpcCreateOtherHands(1);
         }
 
         public IEnumerator DropCard(int num)
@@ -286,8 +267,6 @@ namespace Assets.Scripts
                 DropCard();
                 yield return new WaitForSeconds(0.3f);
             }
-
-            GameManager.RpcCreateOtherHands(num);
         }
 
         //        public void DestoryHands(Hands hands)
@@ -339,7 +318,10 @@ namespace Assets.Scripts
                         int i1 = i;
                         MyHands[i].SetUseBtnDelegate(go =>
                         {
-
+                            for (int j = 0; j < MyHands.Count; j++)
+                            {
+                                MyHands[j].ShowUseBtn(false);
+                            }
                             SetSigni.SetSendingSigni(MyHands[i1].MyCard);
 
                             MyHands[i1].DestoryHands();
@@ -368,7 +350,7 @@ namespace Assets.Scripts
 
                         if (card1.Cost.Count < 1)
                         {
-                            card1.Effect1(card1);
+                            card1.Effect_Spell(card1);
                             StartCoroutine(Check.SetCheck(card1));
                             GameManager.RpcCheck(card1.CardId);
                             GameManager.ShowCard.ShowMyCard(card1);
@@ -389,7 +371,7 @@ namespace Assets.Scripts
                         //int i3 = i2;
                         Lrig.SetTheCost(0, count - 1, card1, () =>
                         {
-                            card1.Effect1(card1);
+                            card1.Effect_Spell(card1);
                             StartCoroutine(Check.SetCheck(card1));
                             GameManager.ShowCard.ShowMyCard(card1);
                             GameManager.RpcCheck(card1.CardId);
@@ -573,11 +555,20 @@ namespace Assets.Scripts
             OtherGrid.Reposition();
         }
 
-        public void DestoryHands(int num)
+        public void DestoryHandRamdom()
         {
+            int rand = Random.Range(0, MyHands.Count);
+            DestoryHands(rand);
+        }
+
+        private void DestoryHands(int num)
+        {
+            if (MyHands.Count - 1 < num)
+                return;
             Trash.AddTrash(MyHands[num].MyCard);
             GameManager.RpcOtherTrash(MyHands[num].MyCard.CardId);
             MyHands[num].DestoryHands();
+            GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
             MyHandCards.Remove(MyHands[num].MyCard);
             MyHands.Remove(MyHands[num]);
             Grid.Reposition();
@@ -587,6 +578,7 @@ namespace Assets.Scripts
 		{
 			Trash.AddTrash(hands.MyCard);
 			GameManager.RpcOtherTrash(hands.MyCard.CardId);
+            GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
 			hands.DestoryHands();
 			MyHandCards.Remove(hands.MyCard);
 			MyHands.Remove(hands);

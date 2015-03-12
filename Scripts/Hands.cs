@@ -57,6 +57,7 @@ namespace Assets.Scripts
             {
                 if (value == null)
                     return;
+                Reflash();
                 _myCard = value;
                 Cardid = _myCard.CardId;
                 MyCardType = _myCard.MyCardType;
@@ -111,6 +112,10 @@ namespace Assets.Scripts
             Bselect = false;
             Effect = null;
             OnClickAction = null;
+            MyCostType.Clear();
+            MyCostNum.Clear();
+            MyGrowCostType.Clear();
+            MyGrowCostNum.Clear();
         }
 
         /// <summary>
@@ -119,11 +124,8 @@ namespace Assets.Scripts
         /// <returns></returns>
         public void CreateHands(Card myCard, Action<GameObject> onClick = null)
         {
-            Reflash();
-            OnClickAction = onClick;
             MyCard = myCard;
-            Cardid = myCard.CardId;
-            gameObject.GetComponent<UITexture>().mainTexture = MyCard.CardTexture;
+            OnClickAction = onClick;
         }
 
         public void SetOnClickAction(Action<GameObject> action)

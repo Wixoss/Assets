@@ -51,7 +51,49 @@ namespace Assets.Scripts
         private void ShowLrigDeck()
         {
             CardInfo.ShowCardInfo(true);
-            CardInfo.SetUp("分身卡组", GameManager.ShowDeck.LrigDeck, 0, () => CardInfo.ShowCardInfo(false));
+            CardInfo.SetUp("使用记艺", GameManager.ShowDeck.LrigDeck, 1, UseArt);
+        }
+
+        private void UseArt()
+        {
+            Card mycard;
+            if (CardInfo.SelectHands.Count > 0)
+            {
+                mycard = CardInfo.SelectHands [0].MyCard;
+
+                if(mycard.MyCardType != Card.CardType.技艺卡)
+                    return;
+
+                if (mycard.Cost.Count < 1)
+                {
+                    mycard.Effect_Spell(mycard);
+                    
+                    StartCoroutine(GameManager.Check.SetCheck(mycard));
+                    GameManager.ShowCard.ShowMyCard(mycard);
+                    GameManager.RpcCheck(mycard.CardId);
+                    GameManager.ShowDeck.LrigDeck.Remove(mycard);
+
+                    CardInfo.ShowCardInfo(false);
+
+                } else
+                {
+                    SetTheCost(0, mycard.Cost.Count - 1, mycard, () =>
+                    {
+                        mycard.Effect_Spell(mycard);
+                        
+                        StartCoroutine(GameManager.Check.SetCheck(mycard));
+                        GameManager.ShowCard.ShowMyCard(mycard);
+                        GameManager.RpcCheck(mycard.CardId);
+                        GameManager.ShowDeck.LrigDeck.Remove(mycard);
+
+                        CardInfo.ShowCardInfo(false);
+                    });
+                }
+            } 
+            else
+            {
+                CardInfo.ShowCardInfo(false);
+            }
         }
 
         public void SetUp(Card card)
@@ -173,12 +215,12 @@ namespace Assets.Scripts
             {
                 bool enough = true;
 
-                int count = bgrowcost ? targetCard.GrowCost.Count : targetCard.Cost.Count;
+                //int count = bgrowcost ? targetCard.GrowCost.Count : targetCard.Cost.Count;
 
-                for (int i = 0; i < count; i++)
-                {
-                    enough = BEnerEnough(targetCard, i, bgrowcost);
-                }
+                //for (int i = 0; i < count; i++)
+                //{
+                    enough = BEnerEnough(targetCard, num, bgrowcost);
+                //}
 
                 if (enough)
                 {
@@ -288,8 +330,8 @@ namespace Assets.Scripts
 
                 if (i >= 10)
                 {
-                    LifeCloth.CrashOtherCloth();
-                    GameManager.RpcCrashOtherLifeCloth();
+                    LifeCloth.CrashOtherCloth(true);
+                    GameManager.RpcCrashOtherLifeCloth(true);
                     yield break;
                 }
                 else
@@ -303,8 +345,8 @@ namespace Assets.Scripts
                         }
                         else if (Bguard == -1)
                         {
-                            LifeCloth.CrashOtherCloth();
-                            GameManager.RpcCrashOtherLifeCloth();
+                            LifeCloth.CrashOtherCloth(true);
+                            GameManager.RpcCrashOtherLifeCloth(true);
                             Bguard = 0;
                             yield break;
                         }

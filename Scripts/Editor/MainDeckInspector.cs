@@ -17,8 +17,40 @@ namespace Assets.Scripts
 
         public override void OnInspectorGUI()
         {
+            DrawDefaultInspector();
+            //return;
             _pos = EditorGUILayout.BeginScrollView(_pos);
             EditorGUILayout.BeginVertical();
+
+            if (GUILayout.Button("Drop"))
+            {
+                _showdeck.GameManager.CreateHands.DropCard();
+            }
+
+            if (GUILayout.Button("Charge"))
+            {
+                _showdeck.GameManager.EnerManager.EnerCharge();
+            }
+             
+            if (GUILayout.Button("DestoryHand"))
+            {
+                _showdeck.GameManager.CreateHands.DestoryHandRamdom();
+            }
+
+            if (GUILayout.Button("Trash"))
+            {
+                _showdeck.MainDeckToTrash();
+            }
+
+            if (GUILayout.Button("Repair"))
+            {
+                _showdeck.GameManager.LifeCloth.CreateLifeCloth(1);
+            }
+
+            if (GUILayout.Button("WashDeck"))
+            {
+                _showdeck.WashMainDeck();
+            }
 
             for (int i = 0; i<_showdeck.MainDeck.Count; i++)
             {
