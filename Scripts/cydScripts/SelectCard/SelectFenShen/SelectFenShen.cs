@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts;
 using UnityEngine;
 using System.Collections;
@@ -14,6 +15,7 @@ public class SelectFenShen : MonoBehaviour
     public Card.CardType MyType=Card.CardType.分身卡;
 
     public List<GameObject> ShowCards;
+    public List<CardItem> ShowCardItems; 
     public int LBeginPage;
     public int LEndPage;
     public int ABeginPage;
@@ -52,11 +54,16 @@ public class SelectFenShen : MonoBehaviour
                 Debug.LogError("end"+_EndPage);
                 Debug.LogError("======"+i);
                 ShowCards[j].GetComponent<UITexture>().mainTexture =Resources.Load(DataSource.LrigCards[i])as Texture2D;
-              
+                ShowCardItems[j]._Detial = DataSource.GetDetialById(DataSource.LrigCards[i]);
+                ShowCardItems[j]._Cardname = DataSource.GetNameById(DataSource.LrigCards[i]);
+                ShowCardItems[j]._CardId = DataSource.LrigCards[i];
             }
             else
             {
                 ShowCards[j].GetComponent<UITexture>().mainTexture = Resources.Load("") as Texture2D;
+                ShowCardItems[j]._Detial = "";
+                ShowCardItems[j]._Cardname = "";
+                ShowCardItems[j]._CardId = "";
             }
             j++;
         }
@@ -76,11 +83,16 @@ public class SelectFenShen : MonoBehaviour
                 Debug.LogError("end" + _EndPage);
                 Debug.LogError("======" + i);
                 ShowCards[j].GetComponent<UITexture>().mainTexture = Resources.Load(DataSource.ArtCards[i]) as Texture2D;
-
+                ShowCardItems[j]._Detial = DataSource.GetDetialById(DataSource.LrigCards[i]);
+                ShowCardItems[j]._Cardname = DataSource.GetNameById(DataSource.LrigCards[i]);
+                ShowCardItems[j]._CardId = DataSource.LrigCards[i];
             }
             else
             {
                 ShowCards[j].GetComponent<UITexture>().mainTexture = Resources.Load("") as Texture2D;
+                ShowCardItems[j]._Detial = "";
+                ShowCardItems[j]._Cardname = "";
+                ShowCardItems[j]._CardId = "";
             }
             j++;
         }

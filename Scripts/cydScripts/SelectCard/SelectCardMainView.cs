@@ -10,8 +10,8 @@ public class SelectCardMainView : MonoBehaviour
     public GameObject SelectCharacter;
     public GameObject SelectFenShen;
     public GameObject SelectMainCard;
-
-    
+    public ShowCard ShowCard;
+     
 
 	// Use this for initialization
 	void Start ()
@@ -28,8 +28,6 @@ public class SelectCardMainView : MonoBehaviour
         {
             var xElement = L_xElements[i].Element("CardId");
             if (xElement != null)
-                Debug.Log("xx" + i + "00" + xElement.Value);
-            //Debug.Log("=======" + LrigCards[i]);
                 DataSource.LrigCards.Add(xElement.Value);
                 Debug.Log("=======" + DataSource.LrigCards[i]);
         }
@@ -63,6 +61,15 @@ public class SelectCardMainView : MonoBehaviour
         SelectFenShen.SetActive(false);
         SelectMainCard.SetActive(false);
         go.SetActive(true);
+    }
+    //出现卡牌详情界面
+    public void OpenShowCard(string ID,string CardName,string Detial)
+    {
+        ShowCard.gameObject.SetActive(true);
+        ShowCard.CardId = ID;
+        ShowCard.CardName.text = CardName;
+        ShowCard.CardDetial.text = Detial;
+        ShowCard.CardTexture.mainTexture = Resources.Load(ID) as Texture2D;
     }
 	// Update is called once per frame
 	void Update () {
