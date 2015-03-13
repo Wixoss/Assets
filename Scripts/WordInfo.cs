@@ -6,7 +6,6 @@ namespace Assets.Scripts
     {
         public GameObject EndPhaseBtn;
 
-
         private void Awake()
         {
             EndPhaseBtn.SetActive(false);
@@ -21,5 +20,11 @@ namespace Assets.Scripts
         {
             EndPhaseBtn.SetActive(bshow);
         }
+
+//        public void SetSlider(int num, int max)
+//        {
+//            UiSlider.value = (float)num / max;
+//            UiLabel.text = num.ToString();
+//        }
     }
 }

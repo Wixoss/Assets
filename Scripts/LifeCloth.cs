@@ -40,21 +40,21 @@ namespace Assets.Scripts
         //            }
         //        }
 
-        public void CreateLifeCloth(int i)
+        public void CreateLifeCloth()
         {
             var card = GameManager.ShowDeck.Lastcard();
             if(card==null)
                 return;
             LifeCloths.Add(card);
             CreateObj(LifeCloths.Count - 1);
-            GameManager.RpcCreateLifeCloth(i);
+            GameManager.RpcCreateLifeCloth(LifeCloths.Count - 1);
         }
 
         public void CreateObj(int num)
         {
-            GameObject Life = Instantiate(LifeObj) as GameObject;
-            LifeObjs.Add(Life);
-            Transform tran = Life.transform;
+            GameObject life = Instantiate(LifeObj) as GameObject;
+            LifeObjs.Add(life);
+            Transform tran = life.transform;
             tran.parent = transform;
             tran.localScale = new Vector3(620,620,1);
             tran.localEulerAngles = Vector3.zero;

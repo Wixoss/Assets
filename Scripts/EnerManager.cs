@@ -222,7 +222,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 删除能量物体 （包括移除能量数组里的能量） 
         /// </summary>
-        /// <param name="hands"></param>
+        /// <param name="cards"></param>
         public void DestoryEner(List<Card> cards)
         {
             for (int i = 0; i < cards.Count; i++)

@@ -9,15 +9,17 @@ namespace Assets.Scripts
         public List<Card> MainDeck = new List<Card>();
         public List<Card> LrigDeck = new List<Card>();
         public Trash Trash;
+        public GameObject MainDeckObj;
+        public GameObject OtherMainDeckObj;
         public GameManager GameManager;
 
         public void WashMainDeck()
         {
             var newcards = new List<Card>();
             int count = MainDeck.Count;
-            for (int i =0; i<count; i++)
+            for (int i = 0; i < count; i++)
             {
-                var card = MainDeck [Random.Range(0, MainDeck.Count)];
+                var card = MainDeck[Random.Range(0, MainDeck.Count)];
                 newcards.Add(card);
                 MainDeck.Remove(card);
             }
@@ -47,10 +49,11 @@ namespace Assets.Scripts
             Card lastcard;
             if (GameManager.ShowDeck.MainDeck.Count > 0)
             {
-                lastcard = GameManager.ShowDeck.MainDeck [GameManager.ShowDeck.MainDeck.Count - 1];
-            } else
+                lastcard = MainDeck[GameManager.ShowDeck.MainDeck.Count - 1];
+            }
+            else
             {
-                if(GameManager.LifeCloth.LifeCloths.Count>0)
+                if (GameManager.LifeCloth.LifeCloths.Count > 0)
                 {
                     //重构卡组掉一护甲
                     GameManager.LifeCloth.CrashClothToTrash();
@@ -58,17 +61,27 @@ namespace Assets.Scripts
                 }
                 TrashToMainDeck();
                 //20张卡在手上和能量区中!!NULL
-                if(MainDeck.Count>0)
+                if (MainDeck.Count > 0)
                 {
-                    lastcard = MainDeck [GameManager.ShowDeck.MainDeck.Count - 1];
+                    lastcard = MainDeck[GameManager.ShowDeck.MainDeck.Count - 1];
                 }
                 else
                 {
                     lastcard = null;
                 }
             }
+
             MainDeck.Remove(lastcard);
+            MainDeckObj.SetActive(MainDeck.Count > 0);
+            MainDeckObj.transform.localScale = new Vector3(1, 0.04f * MainDeck.Count, 1);
+            GameManager.RpcOtherDeck(MainDeck.Count);
             return lastcard;
+        }
+
+        public void OtherMainDeck(int num)
+        {
+            OtherMainDeckObj.transform.localScale = new Vector3(1, 0.04f * num, 1);
+            OtherMainDeckObj.SetActive(num > 0);
         }
     }
 }

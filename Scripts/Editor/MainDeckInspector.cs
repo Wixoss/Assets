@@ -44,7 +44,7 @@ namespace Assets.Scripts
 
             if (GUILayout.Button("Repair"))
             {
-                _showdeck.GameManager.LifeCloth.CreateLifeCloth(1);
+                _showdeck.GameManager.LifeCloth.CreateLifeCloth();
             }
 
             if (GUILayout.Button("WashDeck"))

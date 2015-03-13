@@ -10,6 +10,7 @@ namespace Assets.Scripts
         public UITexture OtherUiTexture;
         public GameManager GameManager;
         private Card _myCard;
+        private Card _otherCard;
 
         public IEnumerator SetCheck(Card card,bool bcloth = false)
         {
@@ -27,15 +28,21 @@ namespace Assets.Scripts
 
         public void SetOtherCheck(string cardid)
         {
-            Card card = new Card(cardid);
-            OtherUiTexture.mainTexture = card.CardTexture;
+            _otherCard = new Card(cardid);
+            OtherUiTexture.mainTexture = _otherCard.CardTexture;
             OtherUiTexture.gameObject.SetActive(true);
             Invoke("DisOtherCheck", 3);
+        }
+
+        public Card GetOtherCard()
+        {
+            return _otherCard;
         }
 
         private void DisOtherCheck()
         {
             OtherUiTexture.gameObject.SetActive(false);
+            _otherCard = null;
         }
     }
 }

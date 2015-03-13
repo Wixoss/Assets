@@ -11,11 +11,17 @@ namespace Assets.Scripts
 
 		public void ShowMyCard(Card card)
 		{
-			Reset ();
-			UiTexture.mainTexture = card.CardTexture;
-			gameObject.SetActive (true);
-			Invoke ("DisMyCard", 1.5f);
+            gameObject.SetActive(true);
+            StartCoroutine(ShowMyCard2(card));
 		}
+
+	    public IEnumerator ShowMyCard2(Card card)
+	    {
+            Reset();
+            UiTexture.mainTexture = card.CardTexture;        
+	        yield return new WaitForSeconds(1.5f);
+	        DisMyCard();
+	    }
 
 		public void DisMyCard()
 		{

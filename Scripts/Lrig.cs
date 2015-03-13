@@ -48,7 +48,7 @@ namespace Assets.Scripts
             UIEventListener.Get(LrigDeck).MyOnClick = ShowLrigDeck;
         }
 
-        private void ShowLrigDeck()
+        public void ShowLrigDeck()
         {
             CardInfo.ShowCardInfo(true);
             CardInfo.SetUp("使用记艺", GameManager.ShowDeck.LrigDeck, 1, UseArt);
@@ -59,15 +59,37 @@ namespace Assets.Scripts
             Card mycard;
             if (CardInfo.SelectHands.Count > 0)
             {
-                mycard = CardInfo.SelectHands [0].MyCard;
+                mycard = CardInfo.SelectHands[0].MyCard;
 
-                if(mycard.MyCardType != Card.CardType.技艺卡)
+                if (mycard.MyCardType != Card.CardType.技艺卡)
+                {
+                    CardInfo.ShowCardInfo(false);
+                    GameManager.Reporting.text = "该卡不是技艺卡";
                     return;
+                }
+
+                //是否在时点
+                bool btimg = false;
+
+                for (int i = 0; i < mycard.MyTiming.Count; i++)
+                {
+                    if (mycard.MyTiming[i] == GameManager.MyTiming)
+                    {
+                        btimg = true;
+                    }
+                }
+
+                if (!btimg)
+                {
+                    CardInfo.ShowCardInfo(false);
+                    GameManager.Reporting.text = "使用时点错误!";
+                    return;
+                }
 
                 if (mycard.Cost.Count < 1)
                 {
                     mycard.Effect_Spell(mycard);
-                    
+
                     StartCoroutine(GameManager.Check.SetCheck(mycard));
                     GameManager.ShowCard.ShowMyCard(mycard);
                     GameManager.RpcCheck(mycard.CardId);
@@ -75,12 +97,13 @@ namespace Assets.Scripts
 
                     CardInfo.ShowCardInfo(false);
 
-                } else
+                }
+                else
                 {
                     SetTheCost(0, mycard.Cost.Count - 1, mycard, () =>
                     {
                         mycard.Effect_Spell(mycard);
-                        
+
                         StartCoroutine(GameManager.Check.SetCheck(mycard));
                         GameManager.ShowCard.ShowMyCard(mycard);
                         GameManager.RpcCheck(mycard.CardId);
@@ -89,7 +112,7 @@ namespace Assets.Scripts
                         CardInfo.ShowCardInfo(false);
                     });
                 }
-            } 
+            }
             else
             {
                 CardInfo.ShowCardInfo(false);
@@ -160,7 +183,7 @@ namespace Assets.Scripts
         }
 
         //叼爆了的消耗费用算法        
-        public List<Card> _savingHands = new List<Card>();
+        private List<Card> _savingHands = new List<Card>();
         /// <summary>
         /// 叼爆了的消耗费用算法  
         /// </summary>
@@ -219,7 +242,7 @@ namespace Assets.Scripts
 
                 //for (int i = 0; i < count; i++)
                 //{
-                    enough = BEnerEnough(targetCard, num, bgrowcost);
+                enough = BEnerEnough(targetCard, num, bgrowcost);
                 //}
 
                 if (enough)
@@ -261,6 +284,7 @@ namespace Assets.Scripts
                 else
                 {
                     CardInfo.ShowCardInfo(false);
+                    GameManager.Reporting.text = "费用不足!";
                     _savingHands.Clear();
                     EnerManager.SavingBackToEner();
                 }
@@ -328,7 +352,7 @@ namespace Assets.Scripts
                 yield return new WaitForSeconds(1);
                 i++;
 
-                if (i >= 10)
+                if (i >= 10 && Bguard == 0)
                 {
                     LifeCloth.CrashOtherCloth(true);
                     GameManager.RpcCrashOtherLifeCloth(true);

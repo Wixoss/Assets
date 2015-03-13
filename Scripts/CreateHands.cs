@@ -24,6 +24,8 @@ namespace Assets.Scripts
         public GameObject MyChangeBtn;
         public GameObject MyEnerChagerBtn;
         public GameObject MyDesBtn;
+        public GameObject UseBtn;
+        public GameObject NotUseBtn;
 
         public List<Hands> MyHands = new List<Hands>();
         public List<GameObject> OtherHands = new List<GameObject>();
@@ -45,6 +47,17 @@ namespace Assets.Scripts
             UIEventListener.Get(MyChangeBtn).MyOnClick = ChangeMyHands;
             UIEventListener.Get(MyEnerChagerBtn).MyOnClick = EnerChange;
             UIEventListener.Get(MyDesBtn).MyOnClick = DesHands;
+            UIEventListener.Get(UseBtn).MyOnClick = () =>
+            {
+                ShowUseArtBtn(false);
+                Lrig.ShowLrigDeck();
+                GameManager.RpcOtherUseArt(1);
+            };
+            UIEventListener.Get(NotUseBtn).MyOnClick = () =>
+            {
+                ShowUseArtBtn(false);
+                GameManager.RpcOtherUseArt(-1);
+            };
         }
 
         /// <summary>
@@ -130,58 +143,58 @@ namespace Assets.Scripts
 
             }
 
-//            EnerManager.SetTheEner();
+            //            EnerManager.SetTheEner();
 
             Invoke("SetZero", 0.5f);
             Invoke("Reposition", 1);
             GameManager.RpcEnerCharge();
         }
 
-		private Hands _desCard;
+        private Hands _desCard;
 
-		public void DesMyHandsOverSix()
-		{
+        public void DesMyHandsOverSix()
+        {
             MyDesBtn.SetActive(true);
-			if (MyHands.Count <= 6) 
-			{
+            if (MyHands.Count <= 6)
+            {
                 MyDesBtn.SetActive(false);
-				GameManager.End();
-				return;
-			}
-			for (int i = MyHands.Count - 1; i >= 0; i--) 
-			{
-				int i1 = i;
-				MyHands[i].SetOnClickAction(o => 
-				{
+                GameManager.End();
+                return;
+            }
+            for (int i = MyHands.Count - 1; i >= 0; i--)
+            {
+                int i1 = i;
+                MyHands[i].SetOnClickAction(o =>
+                {
                     if (_desCard == null)
-					{
+                    {
                         _desCard = MyHands[i1];
-						MyHands[i1].Bselect = !MyHands[i1].Bselect;
-						MyHands[i1].UiTexture.color = MyHands[i1].Bselect ? Color.gray : Color.white;
-					}
-					else
-					{
-						if (MyHands[i1].Bselect)
-						{
-							MyHands[i1].Bselect = !MyHands[i1].Bselect;
-							MyHands[i1].UiTexture.color = MyHands[i1].Bselect ? Color.gray : Color.white;
+                        MyHands[i1].Bselect = !MyHands[i1].Bselect;
+                        MyHands[i1].UiTexture.color = MyHands[i1].Bselect ? Color.gray : Color.white;
+                    }
+                    else
+                    {
+                        if (MyHands[i1].Bselect)
+                        {
+                            MyHands[i1].Bselect = !MyHands[i1].Bselect;
+                            MyHands[i1].UiTexture.color = MyHands[i1].Bselect ? Color.gray : Color.white;
                             _desCard = MyHands[i1].Bselect ? MyHands[i1] : null;
-						}
-					}
-				});
-			}
-		}
+                        }
+                    }
+                });
+            }
+        }
 
-		private void DesHands()
-		{
-            if (_desCard != null) 
-			{
-                DestoryHands (_desCard);
+        private void DesHands()
+        {
+            if (_desCard != null)
+            {
+                DestoryHands(_desCard);
                 Invoke("SetZero", 0.5f);
                 Invoke("Reposition", 1);
-			}
+            }
             DesMyHandsOverSix();
-		}
+        }
 
         public void Reflash()
         {
@@ -312,7 +325,7 @@ namespace Assets.Scripts
                 if (card.MyCardType == Card.CardType.精灵卡)
                 {
                     //等级少于等于分身等级,且场上等级总和少于等于分身限制数
-					if (card.Level <= Lrig.MyLrig.Level && (SetSigni.SigniLevelCount + card.Level) <= Lrig.MyLrig.Limit && SetSigni.BEnety())
+                    if (card.Level <= Lrig.MyLrig.Level && (SetSigni.SigniLevelCount + card.Level) <= Lrig.MyLrig.Limit && SetSigni.BEnety())
                     {
                         MyHands[i].ShowUseBtn(true);
                         int i1 = i;
@@ -335,7 +348,7 @@ namespace Assets.Scripts
                     else
                     {
                         MyHands[i].ShowUseBtn(false);
-                    }            
+                    }
                 }
                 //法术牌
                 if (card.MyCardType == Card.CardType.法术卡)
@@ -350,7 +363,16 @@ namespace Assets.Scripts
 
                         if (card1.Cost.Count < 1)
                         {
-                            card1.Effect_Spell(card1);
+                            GameManager.RpcOtherTiming(2);
+
+                            for (int j = 0; j < MyHands.Count; j++)
+                            {
+                                MyHands[j].ShowUseBtn(false);
+                            }
+
+                            StartCoroutine(WaitToOtherUseArt(card1));
+                            GameManager.RpcOtherUseArt(true);
+
                             StartCoroutine(Check.SetCheck(card1));
                             GameManager.RpcCheck(card1.CardId);
                             GameManager.ShowCard.ShowMyCard(card1);
@@ -359,9 +381,7 @@ namespace Assets.Scripts
                             GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
                             MyHandCards.Remove(MyHands[i1].MyCard);
                             MyHands.Remove(MyHands[i1]);
-
-
-                            ShowTheUseBtn();
+                         
                             Invoke("Reposition", 0.5f);
                             return;
                         }
@@ -371,7 +391,16 @@ namespace Assets.Scripts
                         //int i3 = i2;
                         Lrig.SetTheCost(0, count - 1, card1, () =>
                         {
-                            card1.Effect_Spell(card1);
+                            GameManager.RpcOtherTiming(2);
+
+                            for (int j = 0; j < MyHands.Count; j++)
+                            {
+                                MyHands[j].ShowUseBtn(false);
+                            }
+
+                            StartCoroutine(WaitToOtherUseArt(card1));
+                            GameManager.RpcOtherUseArt(true);
+
                             StartCoroutine(Check.SetCheck(card1));
                             GameManager.ShowCard.ShowMyCard(card1);
                             GameManager.RpcCheck(card1.CardId);
@@ -381,10 +410,73 @@ namespace Assets.Scripts
                             MyHandCards.Remove(MyHands[i1].MyCard);
                             MyHands.Remove(MyHands[i1]);
 
-                            ShowTheUseBtn();
                             Invoke("Reposition", 0.5f);
                         });
                     });
+                }
+            }
+        }
+
+        public string Cardid;
+        private IEnumerator WaitToOtherUseArt(Card card)
+        {
+            int i = 0;
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+                i++;
+                if (i >= 5 && GameManager.BUseArt == 0)
+                {
+                    card.Effect_Spell(card);
+                    GameManager.RpcOtherUseArt(false);
+                    GameManager.RpcOtherTiming(0);
+                    ShowTheUseBtn();
+                    yield break;
+                }
+                if (GameManager.BUseArt != 0)
+                {
+                    if (GameManager.BUseArt == 1)
+                    {
+                        GameManager.BUseArt = 0;
+                        StartCoroutine(WaitToOtherUseArt2(card));
+                        yield break;
+                    }
+                    if (GameManager.BUseArt == -1)
+                    {
+                        GameManager.BUseArt = 0;
+                        card.Effect_Spell(card);
+                        GameManager.RpcOtherTiming(0);
+                        ShowTheUseBtn();
+                        yield break;
+                    }
+                    GameManager.RpcOtherUseArt(false);
+                }
+            }
+        }
+
+        private IEnumerator WaitToOtherUseArt2(Card card)
+        {
+            int i = 0;
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+                i++;
+                if (i >= 10)
+                {
+                    card.Effect_Spell(card);
+                    GameManager.RpcOtherUseArt(false);
+                    GameManager.RpcOtherTiming(0);
+                    ShowTheUseBtn();
+                    yield break;
+                }
+                else
+                {
+                    if (GameManager.Check.GetOtherCard() != null)
+                    {
+                        GameManager.Check.GetOtherCard().Effect_Spell(GameManager.Check.GetOtherCard());
+                        ShowTheUseBtn();
+                        yield break;
+                    }
                 }
             }
         }
@@ -417,7 +509,6 @@ namespace Assets.Scripts
 
             UIEventListener.Get(NotGuard).MyOnClick = () =>
             {
-
                 DisTheGuardBtn();
                 GameManager.RpcGuard(-1);
                 NotGuard.SetActive(false);
@@ -515,6 +606,37 @@ namespace Assets.Scripts
             NotGuard.SetActive(false);
         }
 
+        public void ShowUseArtBtn(bool bshow)
+        {
+            if (bshow)
+            {
+                UseBtn.SetActive(BHasArt());
+                NotUseBtn.SetActive(true);
+                return;
+            }
+            UseBtn.SetActive(false);
+            NotUseBtn.SetActive(false);
+        }
+
+        private bool BHasArt()
+        {
+            bool bcan = false;
+            for (int i = 0; i < GameManager.ShowDeck.LrigDeck.Count; i++)
+            {
+                if (GameManager.ShowDeck.LrigDeck[i].MyTiming.Count > 0)
+                {
+                    for (int j = 0; j < GameManager.ShowDeck.LrigDeck[i].MyTiming.Count; j++)
+                    {
+                        if (GameManager.ShowDeck.LrigDeck[i].MyTiming[j] == GameManager.MyTiming)
+                        {
+                            bcan = true;
+                        }
+                    }
+                }
+            }
+            return bcan;
+        }
+
         /// <summary>
         /// 手卡排列为0
         /// </summary>
@@ -574,16 +696,16 @@ namespace Assets.Scripts
             Grid.Reposition();
         }
 
-		public void DestoryHands(Hands hands)
-		{
-			Trash.AddTrash(hands.MyCard);
-			GameManager.RpcOtherTrash(hands.MyCard.CardId);
+        public void DestoryHands(Hands hands)
+        {
+            Trash.AddTrash(hands.MyCard);
+            GameManager.RpcOtherTrash(hands.MyCard.CardId);
             GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
-			hands.DestoryHands();
-			MyHandCards.Remove(hands.MyCard);
-			MyHands.Remove(hands);
-			Grid.Reposition();
-		}
+            hands.DestoryHands();
+            MyHandCards.Remove(hands.MyCard);
+            MyHands.Remove(hands);
+            Grid.Reposition();
+        }
 
         public IEnumerator DestoryOtherHands(int num)
         {

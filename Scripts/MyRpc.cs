@@ -119,9 +119,9 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-			Card card = new Card (cardid);
-			_gameManager.SetSigni.SetOtherSigni(num, card);
-			_gameManager.ShowCard.ShowMyCard (card);
+            Card card = new Card(cardid);
+            _gameManager.SetSigni.SetOtherSigni(num, card);
+            _gameManager.ShowCard.ShowMyCard(card);
         }
 
         [RPC]
@@ -143,7 +143,7 @@ namespace Assets.Scripts
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
             _gameManager.Lrig.SetOtherLrig(cardid);
-			_gameManager.ShowCard.ShowMyCard (new Card(cardid));
+            _gameManager.ShowCard.ShowMyCard(new Card(cardid));
         }
 
         [RPC]
@@ -213,15 +213,15 @@ namespace Assets.Scripts
             //_gameManager.CreateHands.DestoryHands(num);
         }
 
-		[RPC]
-		private void ShowGameResult(string word)
-		{
-			if (_gameManager == null)
-			{
-				_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-			}
-			_gameManager.GameOver.ShowGameResoult (word);
-		}
+        [RPC]
+        private void ShowGameResult(string word)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.GameOver.ShowGameResoult(word);
+        }
 
         [RPC]
         private void CreateOtherHands(int num)
@@ -251,7 +251,7 @@ namespace Assets.Scripts
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
             _gameManager.Check.SetOtherCheck(cardid);
-			_gameManager.ShowCard.ShowMyCard (new Card(cardid));
+            _gameManager.ShowCard.ShowMyCard(new Card(cardid));
         }
 
         [RPC]
@@ -262,6 +262,29 @@ namespace Assets.Scripts
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
             _gameManager.Lrig.Bguard = bguard;
+            _gameManager.Lrig.ShowAttackBtn(false);
+            _gameManager.MyGameState = GameManager.GameState.结束阶段;
+            _gameManager.WordInfo.ShowTheEndPhaseBtn(false);
+        }
+
+        [RPC]
+        private void SetOtherMainDeck(int num)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.ShowDeck.OtherMainDeck(num);
+        }
+
+        [RPC]
+        private void SetOtherUseArt(int bUse)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.BUseArt = bUse;
         }
 
         [RPC]
@@ -272,6 +295,37 @@ namespace Assets.Scripts
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
             _gameManager.CreateHands.ShowGuardBtn();
+        }
+
+        [RPC]
+        private void SetOtherTiming(int num)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            if (num == 1)
+            {
+                _gameManager.MyTiming = GameManager.Timing.攻击宣言阶段;
+            }
+            else if (num == 2)
+            {
+                _gameManager.MyTiming = GameManager.Timing.魔法切入阶段;
+            }
+            else
+            {
+                _gameManager.MyTiming = GameManager.Timing.其他阶段;
+            }
+        }
+
+        [RPC]
+        private void ShowOtherUseArt(bool bshow)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.CreateHands.ShowUseArtBtn(bshow);
         }
 
         [RPC]
@@ -306,25 +360,25 @@ namespace Assets.Scripts
         }
 
         [RPC]
-        private void OtherGetCardFromTrash(bool brewriteDeck,string cardid)
+        private void OtherGetCardFromTrash(bool brewriteDeck, string cardid)
         {
             if (_gameManager == null)
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
 
-            _gameManager.Trash.OtherGetCardFromTrash(brewriteDeck,cardid);
+            _gameManager.Trash.OtherGetCardFromTrash(brewriteDeck, cardid);
         }
 
-//        [RPC]
-//        private void CrashCloth()
-//        {
-//            if (_gameManager == null)
-//            {
-//                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-//            }
-//            _gameManager.LifeCloth.CrashCloth();
-//        }
+        //        [RPC]
+        //        private void CrashCloth()
+        //        {
+        //            if (_gameManager == null)
+        //            {
+        //                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //            }
+        //            _gameManager.LifeCloth.CrashCloth();
+        //        }
 
         [RPC]
         private void ReportOtherStuff(string word)

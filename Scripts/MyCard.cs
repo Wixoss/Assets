@@ -52,7 +52,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 使用时点最多有3个
         /// </summary>
-        public List<string> Timing = new List<string>();
+        public List<GameManager.Timing> MyTiming = new List<GameManager.Timing>();
         /// <summary>
         /// 卡牌种类
         /// </summary>
@@ -151,8 +151,8 @@ namespace Assets.Scripts
         public Action<Card> Effect_Qi = card => Debug.Log("Effect_Qi");
         public Action<Card> Effect_Chang = card => Debug.Log("Effect_Chang");
         public Action<Card> Effect_Chu = card => Debug.Log("Effect_Chu");
-        public Action<Card> Effect_Spell = card => Debug.Log("Spell!");
-        public Action<Card> Brust = card => Debug.Log("Brust!");
+        public Action<Card> Effect_Spell = card => Debug.Log("Spell!" + card.CardId);
+        public Action<Card> Brust = card => Debug.Log("Brust!" + card.CardId);
 
         public Card(string cardid)
         {
@@ -207,7 +207,7 @@ namespace Assets.Scripts
                 }
                 if (i.Element("Timing") != null)
                 {
-                    Timing = GetTimingByString(i.Element("Timing").Value);
+                    MyTiming = GetTimingByString(i.Element("Timing").Value);
                 }
                 if (i.Element("TypeOnly") != null)
                 {
@@ -311,11 +311,26 @@ namespace Assets.Scripts
             return myEners;
         }
 
-        private List<string> GetTimingByString(string timing)
+        private List<GameManager.Timing> GetTimingByString(string timing)
         {
             var time = timing.Split(',');
-            List<string> times = time.ToList();
-            return times;
+            List<GameManager.Timing> myTimings = new List<GameManager.Timing>();
+            for (int i = 0; i < time.Length; i++)
+            {
+                switch (time[i])
+                {
+                    case "主要阶段":
+                        myTimings.Add(GameManager.Timing.主要阶段);
+                        break;
+                    case "攻击阶段":
+                        myTimings.Add(GameManager.Timing.攻击宣言阶段);
+                        break;
+                    case "魔法切入":
+                        myTimings.Add(GameManager.Timing.魔法切入阶段);
+                        break;
+                }
+            }
+            return myTimings;
         }
     }
 
@@ -382,6 +397,7 @@ namespace Assets.Scripts
                 "WD01-007",
                 "WD01-008",
                 "WX01-023",
+                "WX01-018",
             };
             
             MyCardid = new List<string>()

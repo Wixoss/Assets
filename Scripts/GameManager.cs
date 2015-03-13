@@ -182,9 +182,9 @@ namespace Assets.Scripts
         private IEnumerator SetLifeCloth()
         {
             Reporting.text = "放置7张生命护甲";
-            for (int i =0; i<7; i++)
+            for (int i = 0; i < 7; i++)
             {
-                LifeCloth.CreateLifeCloth(i);
+                LifeCloth.CreateLifeCloth();
             }
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
             yield return new WaitForSeconds(2);
@@ -319,6 +319,7 @@ namespace Assets.Scripts
             SetAllSigni();
             yield return new WaitForSeconds(2);
             MyGameState = GameState.抽牌阶段;
+            RpcOtherTiming(0);
         }
 
         private void SetAllSigni()
@@ -355,6 +356,15 @@ namespace Assets.Scripts
                 StartCoroutine(CreateHands.DropCard(2));
                 MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
             }
+        }
+
+        /// <summary>
+        /// 在对面显示自己卡组数
+        /// </summary>
+        /// <param name="num"></param>
+        public void RpcOtherDeck(int num)
+        {
+            MyRpc.Rpc("SetOtherMainDeck", RPCMode.Others, num);
         }
 
         #endregion
@@ -490,9 +500,6 @@ namespace Assets.Scripts
         private void MyMain()
         {
             CreateHands.ShowTheUseBtn();
-            //CanUseMagic = true
-            //CanUseEffect = true
-            //CanUseSigni = true
             MyTiming = Timing.主要阶段;
             Reporting.text = "主要阶段,可以使用魔法卡,可以发动效果,可以出怪";
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
@@ -524,7 +531,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="cardid">Cardid.</param>
         /// <param name="bReward">bReward.</param>
-        public void RpcGetCardFromTrash(bool bReward,string cardid ="")
+        public void RpcGetCardFromTrash(bool bReward, string cardid = "")
         {
             MyRpc.Rpc("OtherGetCardFromTrash", RPCMode.Others, bReward, cardid);
         }
@@ -535,45 +542,114 @@ namespace Assets.Scripts
 
         private void AttackSayPhase()
         {
-            //            if (Rounds == 1)
-            //            {
-            //                Reporting.text = "先手跳过攻击阶段";
-            //                MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
-            //                yield return new WaitForSeconds(1);
-            //                MyGameState = GameState.结束阶段;
-            //            }
-            //            else
-            //            {
             AttackSay();
-            //yield return new WaitForSeconds(1);
-            MyGameState = GameState.精灵攻击阶段;
-            //                yield return new WaitForSeconds(1);
-            //                MyGameState = GameState.分身攻击阶段;
-            //                yield return new WaitForSeconds(1);
-            //                MyGameState = GameState.结束阶段;
-            //}
         }
 
         private void AttackSay()
         {
-            MyTiming = Timing.攻击宣言阶段;
-            //可以使用该时点的魔法卡,效果等
             Reporting.text = "攻击宣言阶段";
+            RpcOtherTiming(1);
+            RpcOtherUseArt(true);
+            StartCoroutine(WaitToOtherUseArt());
+
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
+        }
+
+        /// <summary>
+        /// 对面显示使用技艺按钮
+        /// </summary>
+        /// <param name="bshow"></param>
+        public void RpcOtherUseArt(bool bshow)
+        {
+            MyRpc.Rpc("ShowOtherUseArt", RPCMode.Others, bshow);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i">1:攻击宣言阶段,2:魔法切入,0:其他</param>
+        public void RpcOtherTiming(int i)
+        {
+            MyRpc.Rpc("SetOtherTiming", RPCMode.Others, i);
+        }
+
+        /// <summary>
+        /// 是否使用技艺
+        /// </summary>
+        [HideInInspector]
+        public int BUseArt = 0;
+
+        //5s内决定
+        private IEnumerator WaitToOtherUseArt()
+        {
+            int i = 0;
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+                i++;
+
+                if (i >= 5 && BUseArt == 0)
+                {
+                    MyGameState = GameState.精灵攻击阶段;
+                    yield break;
+                }
+                if (BUseArt != 0)
+                {
+                    if (BUseArt == 1)
+                    {
+                        BUseArt = 0;
+                        StartCoroutine(WaitToOtherUseArt2());
+                        yield break;
+                    }
+                    if (BUseArt == -1)
+                    {
+                        MyGameState = GameState.精灵攻击阶段;
+                        BUseArt = 0;
+                        yield break;
+                    }
+                }
+            }
+        }
+
+        //10s内使用!
+        private IEnumerator WaitToOtherUseArt2()
+        {
+            int i = 0;
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+                i++;
+                if (i >= 10)
+                {
+                    MyGameState = GameState.精灵攻击阶段;
+                    yield break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 0是原始,1是用,-1是不用
+        /// </summary>
+        /// <param name="buse"></param>
+        public void RpcOtherUseArt(int buse)
+        {
+            MyRpc.Rpc("SetOtherUseArt", RPCMode.Others, buse);
         }
 
         private void SigniAttack()
         {
+            RpcOtherUseArt(false);
             SetSigni.ShowAttackBtn();
 
             WordInfo.SetTheEndPhase(() =>
             {
                 SetSigni.DisAllAttackBtn();
                 MyGameState = GameState.分身攻击阶段;
+                WordInfo.ShowTheEndPhaseBtn(false);
             });
             WordInfo.ShowTheEndPhaseBtn(true);
 
-            MyTiming = Timing.其他阶段;
+            RpcOtherTiming(0);
             Reporting.text = "精灵攻击阶段";
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
         }
@@ -592,7 +668,7 @@ namespace Assets.Scripts
         /// </summary>
         public void RpcCrashOtherLifeCloth(bool bHurt)
         {
-            MyRpc.Rpc("CrashOtherCloth", RPCMode.Others,bHurt);
+            MyRpc.Rpc("CrashOtherCloth", RPCMode.Others, bHurt);
         }
 
         /// <summary>
@@ -646,13 +722,6 @@ namespace Assets.Scripts
             Lrig.ShowAttackBtn(true);
 
             //MyRpc.Rpc("ShowOtherGuard", RPCMode.Others);
-
-            WordInfo.SetTheEndPhase(() =>
-            {
-                Lrig.ShowAttackBtn(false);
-                MyGameState = GameState.结束阶段;
-                WordInfo.ShowTheEndPhaseBtn(false);
-            });
             WordInfo.ShowTheEndPhaseBtn(true);
 
             Reporting.text = "分身攻击阶段";
@@ -679,7 +748,7 @@ namespace Assets.Scripts
 
         private void EndPhase()
         {
-            CreateHands.DesMyHandsOverSix ();         
+            CreateHands.DesMyHandsOverSix();
         }
 
         public void End()
