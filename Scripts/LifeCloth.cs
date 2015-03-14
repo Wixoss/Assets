@@ -130,7 +130,6 @@ namespace Assets.Scripts
             LifeObjs.Remove(obj);
             Destroy(obj);
             GameManager.Trash.AddTrash(card);
-            GameManager.RpcOtherTrash(card.CardId);
             LifeCloths.Remove(LifeCloths[LifeCloths.Count - 1]);
         }
 

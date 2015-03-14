@@ -227,7 +227,6 @@ namespace Assets.Scripts
             if (Signi[num] != null)
             {
                 Trash.AddTrash(Signi[num]);
-                GameManager.RpcOtherTrash(Signi[num].CardId, num);
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);
                 ShowEffectBtn(num, false);

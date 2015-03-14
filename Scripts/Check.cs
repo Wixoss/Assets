@@ -22,7 +22,6 @@ namespace Assets.Scripts
             if (!bcloth)
             {
                 Trash.AddTrash(_myCard);
-                GameManager.RpcOtherTrash(_myCard.CardId);
             }
         }
 

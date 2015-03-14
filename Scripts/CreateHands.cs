@@ -151,16 +151,22 @@ namespace Assets.Scripts
         }
 
         private Hands _desCard;
+        private System.Action _Succeed;
+        private int _disNum;
 
         public void DesMyHandsOverSix()
         {
             MyDesBtn.SetActive(true);
-            if (MyHands.Count <= 6)
+            if (MyHands.Count <= _disNum)
             {
+                if(_Succeed!=null)
+                {
+                    _Succeed();
+                }
                 MyDesBtn.SetActive(false);
-                GameManager.End();
                 return;
             }
+
             for (int i = MyHands.Count - 1; i >= 0; i--)
             {
                 int i1 = i;
@@ -185,13 +191,17 @@ namespace Assets.Scripts
             }
         }
 
+        public void SetDesBtnOverSix(int num,System.Action succeed)
+        {
+            _disNum = num;
+            _Succeed = succeed;
+        }
+
         private void DesHands()
         {
             if (_desCard != null)
             {
                 DestoryHands(_desCard);
-                Invoke("SetZero", 0.5f);
-                Invoke("Reposition", 1);
             }
             DesMyHandsOverSix();
         }
@@ -269,6 +279,17 @@ namespace Assets.Scripts
             hands.MyCard = lastcard;
             MyHands.Add(hands);
             MyHandCards.Add(lastcard);
+            Reposition();
+            GameManager.RpcCreateOtherHands(1);
+        }
+
+        public void CreateHandByCard(Card card)
+        {
+            var obj = InsObj(Hands, Vector3.zero, Vector3.zero, new Vector3(0.5f, 0.5f, 1), Parent);
+            var hands = obj.GetComponent<Hands>();
+            hands.MyCard = card;
+            MyHands.Add(hands);
+            MyHandCards.Add(card);
             Reposition();
             GameManager.RpcCreateOtherHands(1);
         }
@@ -688,23 +709,23 @@ namespace Assets.Scripts
             if (MyHands.Count - 1 < num)
                 return;
             Trash.AddTrash(MyHands[num].MyCard);
-            GameManager.RpcOtherTrash(MyHands[num].MyCard.CardId);
             MyHands[num].DestoryHands();
             GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
             MyHandCards.Remove(MyHands[num].MyCard);
             MyHands.Remove(MyHands[num]);
-            Grid.Reposition();
+            Invoke("SetZero", 0.5f);
+            Invoke("Reposition", 1);
         }
 
         public void DestoryHands(Hands hands)
         {
             Trash.AddTrash(hands.MyCard);
-            GameManager.RpcOtherTrash(hands.MyCard.CardId);
             GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
             hands.DestoryHands();
             MyHandCards.Remove(hands.MyCard);
             MyHands.Remove(hands);
-            Grid.Reposition();
+            Invoke("SetZero", 0.5f);
+            Invoke("Reposition", 1);
         }
 
         public IEnumerator DestoryOtherHands(int num)

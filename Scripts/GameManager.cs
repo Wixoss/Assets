@@ -655,7 +655,7 @@ namespace Assets.Scripts
         }
 
         /// <summary>
-        /// 对面使我方的牌驱逐
+        /// 我方驱逐Other
         /// </summary>
         /// <param name="num"></param>
         public void RpcBanish(int num)
@@ -748,6 +748,8 @@ namespace Assets.Scripts
 
         private void EndPhase()
         {
+            //Set delegate
+            CreateHands.SetDesBtnOverSix(6,End);
             CreateHands.DesMyHandsOverSix();
         }
 

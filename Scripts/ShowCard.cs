@@ -9,8 +9,10 @@ namespace Assets.Scripts
 		public TweenColor TweenColor;
 		public UITexture UiTexture;
 
+        private int num;
 		public void ShowMyCard(Card card)
 		{
+            num = 0;
             gameObject.SetActive(true);
             StartCoroutine(ShowMyCard2(card));
 		}
@@ -19,8 +21,18 @@ namespace Assets.Scripts
 	    {
             Reset();
             UiTexture.mainTexture = card.CardTexture;        
-	        yield return new WaitForSeconds(1.5f);
-	        DisMyCard();
+	        
+            while (true)
+            {
+                yield return new WaitForSeconds(0.5f);
+                num++;
+                if(num >= 3)
+                {
+                    DisMyCard();
+                    num = 0;
+                    yield break;
+                }
+            }	      
 	    }
 
 		public void DisMyCard()

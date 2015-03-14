@@ -35,7 +35,6 @@ namespace Assets.Scripts
             if (card == null)
                 return;
             Trash.AddTrash(card);
-            GameManager.RpcOtherTrash(card.CardId);
         }
 
         public void TrashToMainDeck()
@@ -73,14 +72,14 @@ namespace Assets.Scripts
 
             MainDeck.Remove(lastcard);
             MainDeckObj.SetActive(MainDeck.Count > 0);
-            MainDeckObj.transform.localScale = new Vector3(1, 0.04f * MainDeck.Count, 1);
+            MainDeckObj.transform.localScale = new Vector3(1, 0.06f * MainDeck.Count, 1);
             GameManager.RpcOtherDeck(MainDeck.Count);
             return lastcard;
         }
 
         public void OtherMainDeck(int num)
         {
-            OtherMainDeckObj.transform.localScale = new Vector3(1, 0.04f * num, 1);
+            OtherMainDeckObj.transform.localScale = new Vector3(1, 0.06f * num, 1);
             OtherMainDeckObj.SetActive(num > 0);
         }
     }

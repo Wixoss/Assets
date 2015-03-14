@@ -229,7 +229,6 @@ namespace Assets.Scripts
             {
                 EnerCards.Remove(cards[i]);
                 Trash.AddTrash(cards[i]);
-                GameManager.RpcOtherTrash(cards[i].CardId);
                 DestoryHands(cards[i]);
                 CountEner(EnerCards);
             }

@@ -52,7 +52,7 @@ namespace Assets.Scripts
                 _showdeck.WashMainDeck();
             }
 
-            for (int i = 0; i<_showdeck.MainDeck.Count; i++)
+            for (int i = _showdeck.MainDeck.Count-1; i>=0; i--)
             {
                 EditorGUILayout.LabelField("CardId", _showdeck.MainDeck [i].CardId);
                 EditorGUILayout.LabelField("CardName", _showdeck.MainDeck [i].CardName);

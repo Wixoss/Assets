@@ -16,6 +16,7 @@ namespace Assets.Scripts
 
         public GameObject ShowBtn;
         public GameObject OtherShowBtn;
+        public GameManager GameManager;
 
         public CardInfo CardInfo;
 
@@ -41,6 +42,9 @@ namespace Assets.Scripts
             {
                 LrigTrash.Add(card);
             }
+
+            GameManager.RpcOtherTrash(card.CardId);
+
             UiTexture.gameObject.SetActive(TrashCards.Count > 0);
             UiTexture.mainTexture = card.CardTexture;
         }
