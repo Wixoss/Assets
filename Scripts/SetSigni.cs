@@ -15,6 +15,18 @@ namespace Assets.Scripts
         public Hands[] OtherHands = new Hands[3];
         public UITexture[] OtherCardTexture;
 
+        public GameObject[] MySelections = new GameObject[3];
+        public GameObject[] OtherSelections = new GameObject[3];
+
+        /// <summary>
+        /// 选择我方
+        /// </summary>
+        public int MySelection;
+        /// <summary>
+        /// 选择对方
+        /// </summary>
+        public int OtherSelection;
+
         private Card _sendingCard;
 
         public GameManager GameManager;
@@ -70,6 +82,32 @@ namespace Assets.Scripts
             UIEventListener.Get(ChargeBtn[0]).MyOnClick = () => Charge(0);
             UIEventListener.Get(ChargeBtn[1]).MyOnClick = () => Charge(1);
             UIEventListener.Get(ChargeBtn[2]).MyOnClick = () => Charge(2);
+
+            for (int i =0; i<MySelections.Length; i++)
+            {
+                var i1 = i;
+                UIEventListener.Get(MySelections[i]).MyOnClick = ()=> 
+                {
+                    MySelection = i1;
+                    for (int k = MySelections.Length-1; k>=0; k--)
+                    {
+                        MySelections[k].SetActive(false);
+                    }
+                };
+            }
+
+            for (int j = MySelections.Length-1; j>=0; j--)
+            {
+                var j1 = j;
+                UIEventListener.Get(OtherSelections[j]).MyOnClick = ()=> 
+                {
+                    OtherSelection = j1;
+                    for (int k = MySelections.Length-1; k>=0; k--)
+                    {
+                        OtherSelections[k].SetActive(false);
+                    }
+                };
+            }
         }
 
         private void SetMySigni1(int num)
@@ -282,13 +320,24 @@ namespace Assets.Scripts
             {
                 GameManager.LifeCloth.CrashOtherCloth(true);
                 GameManager.RpcCrashOtherLifeCloth(true);
+
+                if(Signi[num].Bdouble)
+                {
+                    GameManager.LifeCloth.CrashOtherCloth(true);
+                    GameManager.RpcCrashOtherLifeCloth(true);
+                }
             }
             else
             {
                 if (OtherSigni[num].Atk <= Signi[num].Atk)
                 {
-                    //BanishOtherSigni(num);
                     BanishOtherSigni(num);
+
+                    if(Signi[num].Blancer)
+                    {
+                        GameManager.LifeCloth.CrashOtherCloth(true);
+                        GameManager.RpcCrashOtherLifeCloth(true);
+                    }
                 }
             }
 
@@ -302,14 +351,85 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < Signi.Length; i++)
             {
-                if (Signi[i] != null)
+                if (Signi[i] != null && !Signi[i].Bfreeze)
                 {
                     BSet[i] = true;
                     CardTexture[i].transform.localEulerAngles = new Vector3(90, 0, 0);
                     GameManager.RpcSet(i, true);
                 }
+
+                if(Signi[i]!=null&&Signi[i].Bfreeze)
+                {
+                    Signi[i].Bfreeze = false;
+                }
             }
         }
+
+        /// <summary>
+        /// 返回手卡
+        /// </summary>
+        /// <param name="num">位置</param>
+        public void BackToHand(int num)
+        {
+            Card card = Signi [num];
+            Signi [num] = null;
+            CardTexture[num].gameObject.SetActive(false);
+            GameManager.CreateHands.CreateHandByCard(card);
+            GameManager.RpcBanishOther(num);
+        }
+
+        /// <summary>
+        /// 显示我方选择按钮
+        /// </summary>
+        /// <param name="bshow">If set to <c>true</c> bshow.</param>
+        /// <param name="condiction">If set to <c>true</c> condiction.</param>
+        public void ShowMySelections(bool bshow,bool condiction)
+        {
+            if (bshow)
+            {
+                for (int i =0; i<MySelections.Length; i++)
+                {
+                    if (condiction && Signi[i]!=null)
+                    {
+                        MySelections [i].SetActive(true);
+                    }
+                }
+            } 
+            else
+            {
+                for (int i =0; i<MySelections.Length; i++)
+                {
+                    MySelections [i].SetActive(false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 显示对方选择按钮
+        /// </summary>
+        /// <param name="bshow">If set to <c>true</c> bshow.</param>
+        /// <param name="condiction">If set to <c>true</c> condiction.</param>
+        public void ShowOtherSelections(bool bshow,bool condiction)
+        {
+            if (bshow)
+            {
+                for (int i =0; i<OtherSelections.Length; i++)
+                {
+                    if (condiction && OtherSigni[i]!=null)
+                    {
+                        OtherSelections [i].SetActive(true);
+                    }
+                }
+            } 
+            else
+            {
+                for (int i =0; i<OtherSelections.Length; i++)
+                {
+                    OtherSelections [i].SetActive(false);
+                }
+            }
+        }
+
 
         #region 对方的精灵操作
 

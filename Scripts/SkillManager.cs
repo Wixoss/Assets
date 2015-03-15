@@ -26,6 +26,7 @@ namespace Assets.Scripts
         public void DropCard(int num)
         {
             StartCoroutine(CreateHands.DropCard(num));
+            CreateHands.ShowTheUseBtn();
         }
 
         /// <summary>
@@ -34,7 +35,8 @@ namespace Assets.Scripts
         /// <param name="num">需要丢弃的手牌数</param>
         public void DesCard(int num)
         {
-            CreateHands.SetDesBtnOverSix(CreateHands.MyHands.Count - num, null);
+            CreateHands.DisTheUseBtn();
+            CreateHands.SetDesBtnOverSix(CreateHands.MyHands.Count - num, CreateHands.ShowTheUseBtn);
             CreateHands.DesMyHandsOverSix();
         }
 
@@ -113,6 +115,15 @@ namespace Assets.Scripts
 
                 CardInfo.ShowCardInfo(false);
             });
+        }
+
+        /// <summary>
+        /// 返回手卡
+        /// </summary>
+        /// <param name="i">The index.</param>
+        public void BackHand(int i)
+        {
+            GameManager.RpcBackHand(i);
         }
 
         #endregion

@@ -52,6 +52,46 @@ namespace Assets.Scripts
                 _showdeck.WashMainDeck();
             }
 
+            if (GUILayout.Button("ShowOtherSelections"))
+            {
+                _showdeck.GameManager.SetSigni.ShowOtherSelections(true,true);
+            }
+
+            if (GUILayout.Button("BackHand"))
+            {
+                _showdeck.GameManager.RpcBackHand(_showdeck.GameManager.SetSigni.OtherSelection);
+            }
+
+            if (GUILayout.Button("ShowMySelections"))
+            {
+                _showdeck.GameManager.SetSigni.ShowMySelections(true,true);
+            }
+
+            if (GUILayout.Button("Lancer"))
+            {
+                _showdeck.GameManager.SetSigni.Signi[_showdeck.GameManager.SetSigni.MySelection].Blancer = true;
+            }
+
+            if (GUILayout.Button("Double"))
+            {
+                _showdeck.GameManager.SetSigni.Signi[_showdeck.GameManager.SetSigni.MySelection].Bdouble = true;
+            }
+
+            if (GUILayout.Button("Freeze"))
+            {
+                _showdeck.GameManager.SetSigni.Signi[_showdeck.GameManager.SetSigni.MySelection].Bfreeze = true;
+            }
+
+            if (GUILayout.Button("DesHand"))
+            {
+                _showdeck.SkillManager.DesCard(3);
+            }
+
+            if (GUILayout.Button("Check"))
+            {
+                _showdeck.SkillManager.CheckDeckNumAndSort(3,false);
+            }
+
             for (int i = _showdeck.MainDeck.Count-1; i>=0; i--)
             {
                 EditorGUILayout.LabelField("CardId", _showdeck.MainDeck [i].CardId);

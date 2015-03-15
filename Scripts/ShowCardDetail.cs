@@ -24,7 +24,7 @@ namespace Assets.Scripts
                         {
                             CardBack.SetActive(false);
                             UiTexture.mainTexture = hand.MyCard.CardTexture;
-                            UiLabel.text = hand.MyCard.CardDetail;
+                            UiLabel.text = hand.MyCard.Buff + hand.MyCard.CardDetail;
                         }
                     }
                 }

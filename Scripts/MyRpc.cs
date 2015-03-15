@@ -187,6 +187,16 @@ namespace Assets.Scripts
         }
 
         [RPC]
+        private void SetOtherBackHand(int num)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.SetSigni.BackToHand(num);
+        }
+
+        [RPC]
         private void SetOtherTrash(string cardid, int num)
         {
             if (_gameManager == null)

@@ -12,6 +12,7 @@ namespace Assets.Scripts
         public GameObject MainDeckObj;
         public GameObject OtherMainDeckObj;
         public GameManager GameManager;
+        public SkillManager SkillManager;
 
         public void WashMainDeck()
         {

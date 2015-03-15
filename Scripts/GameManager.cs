@@ -699,6 +699,15 @@ namespace Assets.Scripts
         }
 
         /// <summary>
+        /// 在对方显示对方的牌被弹回手卡
+        /// </summary>
+        /// <param name="num">Number.</param>
+        public void RpcBackHand(int num)
+        {
+            MyRpc.Rpc("SetOtherBackHand", RPCMode.Others, num);
+        }
+
+        /// <summary>
         /// 告诉对面精灵的横置竖置
         /// </summary>
         /// <param name="num">位置,1,2,3</param>

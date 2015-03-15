@@ -702,6 +702,7 @@ namespace Assets.Scripts
         {
             int rand = Random.Range(0, MyHands.Count);
             DestoryHands(rand);
+            ShowTheUseBtn();
         }
 
         private void DestoryHands(int num)

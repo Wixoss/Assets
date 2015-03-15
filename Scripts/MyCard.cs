@@ -146,6 +146,60 @@ namespace Assets.Scripts
         public bool HasBrust;
 
         /// <summary>
+        /// 这卡有的buff，枪兵，双击，冰冻
+        /// </summary>
+        public string Buff
+        {
+            get{return _slancer + _sdouble + _sfreeze;}
+        }
+        
+        /// <summary>
+        /// 枪兵
+        /// </summary>
+        private bool _blancer;
+        public bool Blancer
+        {
+            get{return _blancer;}
+            set
+            {
+                _blancer = value;
+                _slancer = _blancer ? "[7CFC00]"+"Buff:枪兵"+"[-]"+ "\n" : "";
+            }
+        }
+        private string _slancer;
+        
+        /// <summary>
+        /// 冰冻
+        /// </summary>
+        private bool _bfreeze;
+        public bool Bfreeze
+        {
+            get{return _bfreeze;}
+            set
+            {
+                _bfreeze = value;
+                _sfreeze = _bfreeze ? "[87CEFA]"+"DeBuff:冰冻"+"[-]"+ "\n" : "";
+            }
+        }
+        public string _sfreeze;
+        
+        
+        /// <summary>
+        /// 双击
+        /// </summary>
+        private bool _bdouble;
+        public bool Bdouble
+        {
+            get{return _bdouble;}
+            set
+            {
+                _bdouble = value;
+                _sdouble = _bdouble ? "[DC143C]"+"Buff:双重击溃" + "[-]" + "\n" : "";
+            }
+        }
+        private string _sdouble;
+
+        /// <summary>
         /// 效果s(待实现)
         /// </summary>
         public Action<Card> Effect_Qi = card => Debug.Log("Effect_Qi");
