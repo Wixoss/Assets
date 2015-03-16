@@ -283,6 +283,7 @@ namespace Assets.Scripts
 
             EnerManager.ShowShowBtn(true);
             Trash.ShowShowBtn(true);
+            Lrig.ShowLrigDeck(true);
         }
 
         private void SetMyRound()
@@ -338,6 +339,7 @@ namespace Assets.Scripts
         private IEnumerator DropPhase()
         {
             DropCard();
+            MyTiming = Timing.其他阶段;
             yield return new WaitForSeconds(2);
             MyGameState = GameState.充能阶段;
         }
@@ -570,6 +572,7 @@ namespace Assets.Scripts
         private void AttackSay()
         {
             Reporting.text = "攻击宣言阶段";
+            MyTiming = Timing.攻击宣言阶段;
             RpcOtherTiming(1);
             RpcOtherUseArt(true);
             StartCoroutine(WaitToOtherUseArt());
@@ -660,6 +663,7 @@ namespace Assets.Scripts
 
         private void SigniAttack()
         {
+            MyTiming = Timing.其他阶段;
             RpcOtherUseArt(false);
             SetSigni.ShowAttackBtn();
 

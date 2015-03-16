@@ -17,6 +17,26 @@ namespace Assets.Scripts
         public ShowDeck ShowDeck;
         public GameManager GameManager;
 
+        /// <summary>
+        /// 精灵出场时调用
+        /// </summary>
+        public List<System.Action> SigniSetActions = new List<System.Action>();
+
+        /// <summary>
+        /// 我放回合开始时
+        /// </summary>
+        public List<System.Action> MyRoundActions = new List<System.Action>();
+
+        /// <summary>
+        /// 敌方回合开始时
+        /// </summary>
+        public List<System.Action> OtherRoundActions = new List<System.Action>();
+
+        /// <summary>
+        /// 我方充能时调用
+        /// </summary>
+        public List<System.Action> EnerChargeActions = new List<System.Action>();
+
         #region 卡组操作
 
         /// <summary>

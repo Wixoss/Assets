@@ -31,6 +31,7 @@ namespace Assets.Scripts
         public GameObject LrigDeck;
 
         public LifeCloth LifeCloth;
+        public GameObject OtherLrigSelection;
 
         /// <summary>
         ///Other Guard. 0 is nothing,1 guard,-1 not guard
@@ -41,17 +42,23 @@ namespace Assets.Scripts
         {
             UIEventListener.Get(UpBtn).MyOnClick = Upgrade;
             UIEventListener.Get(SkipBtn).MyOnClick = GameManager.RpcGrow;
+            ShowLrigDeck(false);
         }
 
         public void SetShowLrigDeck()
         {
-            UIEventListener.Get(LrigDeck).MyOnClick = ShowLrigDeck;
+            UIEventListener.Get(LrigDeck).MyOnClick = () =>ShowLrigDeck(GameManager.ShowDeck.LrigDeck);
         }
 
-        public void ShowLrigDeck()
+        public void ShowLrigDeck(bool bshow)
+        {
+            LrigDeck.SetActive(bshow);
+        }
+
+        public void ShowLrigDeck(List<Card> targets)
         {
             CardInfo.ShowCardInfo(true);
-            CardInfo.SetUp("使用记艺", GameManager.ShowDeck.LrigDeck, 1, UseArt);
+            CardInfo.SetUp("使用记艺", targets.Count <= 0 ? GameManager.ShowDeck.LrigDeck : targets, 1, UseArt);
         }
 
         private void UseArt()
@@ -110,7 +117,7 @@ namespace Assets.Scripts
                         GameManager.ShowDeck.LrigDeck.Remove(mycard);
 
                         CardInfo.ShowCardInfo(false);
-                    });
+                    },1);
                 }
             }
             else
@@ -178,7 +185,7 @@ namespace Assets.Scripts
                     GameManager.RpcGrow();
                     GameManager.RpcOtherLrig(UpgradingLrig.CardId);
                     GameManager.ShowCard.ShowMyCard(UpgradingLrig);
-                }, true);
+                }, 2);
             }
         }
 
@@ -192,49 +199,56 @@ namespace Assets.Scripts
         /// <param name="targetCard">需要费用的那张卡</param>
         /// <param name="successd">成功的回调</param>
         /// <param name="bgrowcost">是否是成长费用</param>
-        public void SetTheCost(int num, int max, Card targetCard, Action successd, bool bgrowcost = false)
+        /// <param name="Costtype">1:cost,2:GrowCost,3:ChuCost,4:QiCost</param>
+        public void SetTheCost(int num, int max, Card targetCard, Action successd, int Costtype)
         {
             var cards = new List<Card>();
 
-            if (bgrowcost)
+            List<Card.Ener> Mycosttype = new List<Card.Ener>();
+
+            switch (Costtype)
             {
-                for (int i = 0; i < EnerManager.EnerCards.Count; i++)
-                {
-                    //万花等于任何颜色
-                    if (EnerManager.EnerCards[i].MyEner.MyEnerType == targetCard.GrowCost[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
-                    {
-                        cards.Add(EnerManager.EnerCards[i]);
-                    }
-                }
+                case 1:
+                    Mycosttype = targetCard.Cost;
+                    break;
+                case 2:
+                    Mycosttype = targetCard.GrowCost;
+                    break;
+                case 3:
+                    Mycosttype = targetCard.EffectCost_Chu;
+                    break;
+                case 4:
+                    Mycosttype = targetCard.EffectCost_Qi;
+                    break;
             }
-            else
-            {
+
+//                for (int i = 0; i < EnerManager.EnerCards.Count; i++)
+//                {
+//                    //万花等于任何颜色
+//                    if (EnerManager.EnerCards[i].MyEner.MyEnerType == Mycosttype[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
+//                    {
+//                        cards.Add(EnerManager.EnerCards[i]);
+//                    }
+//                }
+
                 for (int i = 0; i < EnerManager.EnerCards.Count; i++)
                 {
                     //任何颜色都等于无色
-                    if (targetCard.Cost[num].MyEnerType == Card.Ener.EnerType.无)
+                    if (Mycosttype[num].MyEnerType == Card.Ener.EnerType.无)
                     {
                         cards.Add(EnerManager.EnerCards[i]);
                     }
                     //万花等于任何颜色
-                    if (EnerManager.EnerCards[i].MyEner.MyEnerType == targetCard.Cost[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
+                    if (EnerManager.EnerCards[i].MyEner.MyEnerType == Mycosttype[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
                     {
                         cards.Add(EnerManager.EnerCards[i]);
                     }
                 }
-            }
 
             string info;
-            if (bgrowcost)
-            {
-                info = "所需 " + targetCard.GrowCost[num].MyEnerType + "色 费用 " + targetCard.GrowCost[num].Num + " 个";
-            }
-            else
-            {
-                info = "所需 " + targetCard.Cost[num].MyEnerType + "色 费用 " + targetCard.Cost[num].Num + " 个";
-            }
+            info = "所需 " + Mycosttype[num].MyEnerType + "色 费用 " + Mycosttype[num].Num + " 个";
 
-            CardInfo.SetUp(info, cards, bgrowcost ? targetCard.GrowCost[num].Num : targetCard.Cost[num].Num, () =>
+            CardInfo.SetUp(info, cards, Mycosttype[num].Num, () =>
             {
                 bool enough = true;
 
@@ -242,7 +256,7 @@ namespace Assets.Scripts
 
                 //for (int i = 0; i < count; i++)
                 //{
-                enough = BEnerEnough(targetCard, num, bgrowcost);
+                enough = BEnerEnough(targetCard, num, Costtype);
                 //}
 
                 if (enough)
@@ -259,7 +273,7 @@ namespace Assets.Scripts
                     {
                         num = num + 1;
                         //重复调用以达到目标
-                        SetTheCost(num, max, targetCard, successd, bgrowcost);
+                        SetTheCost(num, max, targetCard, successd, Costtype);
                     }
                     else
                     {
@@ -291,22 +305,30 @@ namespace Assets.Scripts
             });
         }
 
-        private bool BEnerEnough(Card target, int num, bool bgrowcost = false)
+        public bool BEnerEnough(Card target, int num, int type)
         {
             int all = 0;
             for (int i = 0; i < CardInfo.SelectHands.Count; i++)
             {
                 all += CardInfo.SelectHands[i].MyEnerNum;
             }
-
-            if (bgrowcost)
+            bool benough = false;
+            switch(type)
             {
-                return all >= target.GrowCost[num].Num;
+                case 1:
+                    benough = all >= target.Cost[num].Num ? true : false;
+                    break;
+                case 2:
+                    benough = all >= target.GrowCost[num].Num ? true : false;
+                    break;
+                case 3:
+                    benough = all >= target.EffectCost_Chu[num].Num ? true : false;
+                    break;
+                case 4:
+                    benough = all >= target.EffectCost_Qi[num].Num ? true : false;
+                    break;
             }
-            else
-            {
-                return all >= target.Cost[num].Num;
-            }
+            return benough;
         }
 
 
@@ -385,6 +407,22 @@ namespace Assets.Scripts
             Bset = true;
             UiTexture.transform.localEulerAngles = new Vector3(90, 0, 0);
             GameManager.RpcLrigSet(true);
+        }
+
+        /// <summary>
+        /// 设置对方分身选择按钮的事件且显示
+        /// </summary>
+        /// <param name="myaction">Myaction.</param>
+        public void SetOtherLrigSelection(Action myaction)
+        {
+            OtherLrigSelection.SetActive(true);
+            UIEventListener.Get(OtherLrigSelection).MyOnClick = () => 
+            {
+                if(myaction!=null)
+                    myaction();
+                GameManager.SetSigni.ShowOtherSelections(false,false);
+                OtherLrigSelection.SetActive(false);
+            };           
         }
 
         /// <summary>

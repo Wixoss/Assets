@@ -119,7 +119,7 @@ namespace Assets.Scripts
 
                 if (GUILayout.Button("横置对方分身"))
                 {
-                    _showdeck.GameManager.RpcSetOtherLrigSet();
+                    _showdeck.GameManager.Lrig.SetOtherLrigSelection(_showdeck.GameManager.RpcSetOtherLrigSet);
                 }
 
                 if (GUILayout.Button("丢弃3手卡,自己选择"))

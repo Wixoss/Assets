@@ -151,6 +151,7 @@ namespace Assets.Scripts
         {
             CardTexture[num].transform.localEulerAngles = new Vector3(90, 90, 0);
             BSet[num] = false;
+            AttackBtn [num].SetActive(false);
             GameManager.RpcSet(num, false);
         }
 
@@ -347,18 +348,22 @@ namespace Assets.Scripts
                     if (Signi[i].Bfreeze)
                     {
                         Signi[i].Bfreeze = false;
+                        GameManager.RpcOtherDebuff(1, i, false);
                     }
                     if (Signi[i].BCantAttack)
                     {
                         Signi[i].BCantAttack = false;
+                        GameManager.RpcOtherDebuff(2, i, false);
                     }
                     if (Signi[i].Bdouble)
                     {
                         Signi[i].Bdouble = false;
+                        GameManager.RpcMyBuff(2, i, false);
                     }
                     if (Signi[i].Blancer)
                     {
                         Signi[i].Blancer = false;
+                        GameManager.RpcMyBuff(1, i, false);
                     }
                 }
             }
@@ -480,7 +485,7 @@ namespace Assets.Scripts
                     };
                 }
             }
-        }
+        }       
 
 
         #region 对方的精灵操作

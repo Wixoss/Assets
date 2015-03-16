@@ -76,6 +76,16 @@ namespace Assets.Scripts
         public List<Ener> Cost = new List<Ener>();
 
         /// <summary>
+        /// 起动效果所需要的费用
+        /// </summary>
+        public List<Ener> EffectCost_Qi = new List<Ener>();
+
+        /// <summary>
+        /// 出场效果所需要的费用
+        /// </summary>
+        public List<Ener> EffectCost_Chu = new List<Ener>();
+
+        /// <summary>
         /// 成长所需要的费用
         /// </summary>
         public List<Ener> GrowCost = new List<Ener>();
@@ -262,6 +272,14 @@ namespace Assets.Scripts
                 if (i.Element("EffectCost") != null)
                 {
                     Cost = GetCostByString(i.Element("EffectCost").Value);
+                }
+                if (i.Element("EffectCost_Qi") != null)
+                {
+                    EffectCost_Qi = GetCostByString(i.Element("EffectCost_Qi").Value);
+                }
+                if (i.Element("EffectCost_Chu") != null)
+                {
+                    EffectCost_Chu = GetCostByString(i.Element("EffectCost_Chu").Value);
                 }
                 if (i.Element("GrowCost") != null)
                 {
