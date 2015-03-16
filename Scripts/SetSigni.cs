@@ -18,14 +18,16 @@ namespace Assets.Scripts
         public GameObject[] MySelections = new GameObject[3];
         public GameObject[] OtherSelections = new GameObject[3];
 
+        public CreateHands CreateHands;
+
         /// <summary>
-        /// 选择我方
+        /// 选择我方,0,1,2
         /// </summary>
-        public int MySelection;
+        public int MySelection = -1;
         /// <summary>
-        /// 选择对方
+        /// 选择对方,0,1,2
         /// </summary>
-        public int OtherSelection;
+        public int OtherSelection = -1;
 
         private Card _sendingCard;
 
@@ -42,7 +44,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 效果
         /// </summary> 
-        public GameObject[] EffectBtn;
+        //public GameObject[] EffectBtn;
         /// <summary>
         /// 丢弃
         /// </summary>
@@ -71,9 +73,9 @@ namespace Assets.Scripts
             UIEventListener.Get(SetBtn[1]).MyOnClick = () => SetMySigni1(1);
             UIEventListener.Get(SetBtn[2]).MyOnClick = () => SetMySigni1(2);
 
-            UIEventListener.Get(CardTexture[0].gameObject).MyOnClick = () => ShowEffectBtn(0);
-            UIEventListener.Get(CardTexture[1].gameObject).MyOnClick = () => ShowEffectBtn(1);
-            UIEventListener.Get(CardTexture[2].gameObject).MyOnClick = () => ShowEffectBtn(2);
+            UIEventListener.Get(CardTexture[0].gameObject).MyOnClick = () => ShowTrashBtn(0);
+            UIEventListener.Get(CardTexture[1].gameObject).MyOnClick = () => ShowTrashBtn(1);
+            UIEventListener.Get(CardTexture[2].gameObject).MyOnClick = () => ShowTrashBtn(2);
 
             UIEventListener.Get(TrashBtn[0]).MyOnClick = () => TrashSigni(0);
             UIEventListener.Get(TrashBtn[1]).MyOnClick = () => TrashSigni(1);
@@ -82,32 +84,6 @@ namespace Assets.Scripts
             UIEventListener.Get(ChargeBtn[0]).MyOnClick = () => Charge(0);
             UIEventListener.Get(ChargeBtn[1]).MyOnClick = () => Charge(1);
             UIEventListener.Get(ChargeBtn[2]).MyOnClick = () => Charge(2);
-
-            for (int i =0; i<MySelections.Length; i++)
-            {
-                var i1 = i;
-                UIEventListener.Get(MySelections[i]).MyOnClick = ()=> 
-                {
-                    MySelection = i1;
-                    for (int k = MySelections.Length-1; k>=0; k--)
-                    {
-                        MySelections[k].SetActive(false);
-                    }
-                };
-            }
-
-            for (int j = MySelections.Length-1; j>=0; j--)
-            {
-                var j1 = j;
-                UIEventListener.Get(OtherSelections[j]).MyOnClick = ()=> 
-                {
-                    OtherSelection = j1;
-                    for (int k = MySelections.Length-1; k>=0; k--)
-                    {
-                        OtherSelections[k].SetActive(false);
-                    }
-                };
-            }
         }
 
         private void SetMySigni1(int num)
@@ -120,78 +96,76 @@ namespace Assets.Scripts
                 CardTexture[num].transform.localEulerAngles = new Vector3(90, 0, 0);
                 //CardTexture[num].mainTexture = _sendingCard.CardTexture;
                 MyHands[num].MyCard = _sendingCard;
-                SetEffectDelegate(num);
+                //SetEffectDelegate(num);
                 DisAllSetBtn();
                 GameManager.RpcSetSigni(num, _sendingCard.CardId);
-				GameManager.RpcSet(num, true);
-				GameManager.ShowCard.ShowMyCard(_sendingCard);
+                GameManager.RpcSet(num, true);
+                GameManager.ShowCard.ShowMyCard(_sendingCard);
             }
             CountSigniLevel();
             GameManager.CreateHands.ShowTheUseBtn();
         }
 
-		public bool BEnety()
-		{
-			bool bEnety = false;
-			for (int i = 0; i<Signi.Length; i++) 
-			{
-				if(Signi[i]==null)
-				{
-					bEnety = true;
-				}
-			}
-			return bEnety;
-		}
-
-		public void CountSigniLevel()
-		{
-			SigniLevelCount = 0;
-			
-			for (int i = 0; i < Signi.Length; i++)
-			{
-				if (Signi[i] != null)
-				{
-					SigniLevelCount += Signi[i].Level;
-				}             
-			}
-		}
-
-        private void SetEffectDelegate(int num)
+        public bool BEnety()
         {
-            UIEventListener.Get(EffectBtn[num]).MyOnClick = () =>
+            bool bEnety = false;
+            for (int i = 0; i < Signi.Length; i++)
             {
-                if (Signi[num].Cost.Count < 1)
+                if (Signi[i] == null)
                 {
-                    Signi[num].Effect_Qi(Signi[num]);
-                    //横置
-                    CardTexture[num].transform.localEulerAngles = new Vector3(90, 90, 0);
-                    BSet[num] = false;
-                    GameManager.RpcSet(num, false);
+                    bEnety = true;
                 }
-                else
-                {
-                    int num1 = num;
-//                    if(Signi[num1].Cost.Count <= 0)
-//                    {
-//                        return;
-//                    }
-                    Lrig.SetTheCost(0, Signi[num1].Cost.Count - 1, Signi[num1], () =>
-                    {
-                        Signi[num].Effect_Qi(Signi[num]);
-                        //横置
-                        CardTexture[num].transform.localEulerAngles = new Vector3(90, 90, 0);
-                        BSet[num] = false;
-                        GameManager.RpcSet(num, false);
-                    });
-                }
-            };
+            }
+            return bEnety;
         }
 
-        private void ShowEffectBtn(int num)
+        public void CountSigniLevel()
+        {
+            SigniLevelCount = 0;
+
+            for (int i = 0; i < Signi.Length; i++)
+            {
+                if (Signi[i] != null)
+                {
+                    SigniLevelCount += Signi[i].Level;
+                }
+            }
+        }
+
+        //        private void SetEffectDelegate(int num)
+        //        {
+        //            UIEventListener.Get(EffectBtn[num]).MyOnClick = () =>
+        //            {
+        //横置
+        //                    CardTexture[num].transform.localEulerAngles = new Vector3(90, 90, 0);
+        //                    BSet[num] = false;
+        //                    GameManager.RpcSet(num, false);
+        //            };
+        //        }
+
+        /// <summary>
+        /// 横置我方精灵
+        /// </summary>
+        /// <param name="num"></param>
+        public void HorizontalSigni(int num)
+        {
+            CardTexture[num].transform.localEulerAngles = new Vector3(90, 90, 0);
+            BSet[num] = false;
+            GameManager.RpcSet(num, false);
+        }
+
+        /// <summary>
+        /// 显示废弃按钮,且显示发动效果按钮
+        /// </summary>
+        /// <param name="num"></param>
+        private void ShowTrashBtn(int num)
         {
             if (Signi[num] != null && GameManager.MyGameState == GameManager.GameState.主要阶段)
             {
-                ShowEffectBtn(num, !EffectBtn[num].activeSelf);
+                CreateHands.ShowEffectButton(Signi[num]);
+                ShowTrashBtn(num, !TrashBtn[num].activeSelf);
+                if (!TrashBtn[num].activeSelf)
+                    CreateHands.DisEffectBtn();
             }
         }
 
@@ -212,9 +186,8 @@ namespace Assets.Scripts
             }
         }
 
-        private void ShowEffectBtn(int num, bool bshow)
+        private void ShowTrashBtn(int num, bool bshow)
         {
-            EffectBtn[num].SetActive(bshow);
             TrashBtn[num].SetActive(bshow);
         }
 
@@ -259,15 +232,25 @@ namespace Assets.Scripts
             }
         }
 
+        public void DisAllTrashBtnAndEffectBtn()
+        {
+            for (int i = 0; i < TrashBtn.Length; i++)
+            {
+                TrashBtn[i].SetActive(false);
+            }
+            CreateHands.DisEffectBtn();
+        }
+
 
         public void TrashSigni(int num)
         {
             if (Signi[num] != null)
             {
                 Trash.AddTrash(Signi[num]);
+                Signi[num].ResetCardConfig();
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);
-                ShowEffectBtn(num, false);
+                ShowTrashBtn(num, false);
                 CountSigniLevel();
                 GameManager.CreateHands.ShowTheUseBtn();
             }
@@ -299,13 +282,13 @@ namespace Assets.Scripts
 
         public void ShowAttackBtn()
         {
-            ShowEffectBtn(0, false);
-            ShowEffectBtn(1, false);
-            ShowEffectBtn(2, false);
+            ShowTrashBtn(0, false);
+            ShowTrashBtn(1, false);
+            ShowTrashBtn(2, false);
 
             for (int i = 0; i < Signi.Length; i++)
             {
-                if (Signi[i] != null && BSet[i])
+                if (Signi[i] != null && BSet[i] && !Signi[i].BCantAttack)
                 {
                     AttackBtn[i].SetActive(true);
                     int i1 = i;
@@ -321,7 +304,7 @@ namespace Assets.Scripts
                 GameManager.LifeCloth.CrashOtherCloth(true);
                 GameManager.RpcCrashOtherLifeCloth(true);
 
-                if(Signi[num].Bdouble)
+                if (Signi[num].Bdouble && GameManager.LifeCloth.OtherLifeObjs.Count > 0)
                 {
                     GameManager.LifeCloth.CrashOtherCloth(true);
                     GameManager.RpcCrashOtherLifeCloth(true);
@@ -333,7 +316,7 @@ namespace Assets.Scripts
                 {
                     BanishOtherSigni(num);
 
-                    if(Signi[num].Blancer)
+                    if (Signi[num].Blancer)
                     {
                         GameManager.LifeCloth.CrashOtherCloth(true);
                         GameManager.RpcCrashOtherLifeCloth(true);
@@ -358,9 +341,25 @@ namespace Assets.Scripts
                     GameManager.RpcSet(i, true);
                 }
 
-                if(Signi[i]!=null&&Signi[i].Bfreeze)
+                //因为buff和debuff都基本上是维持一个回合而已
+                if (Signi[i] != null)
                 {
-                    Signi[i].Bfreeze = false;
+                    if (Signi[i].Bfreeze)
+                    {
+                        Signi[i].Bfreeze = false;
+                    }
+                    if (Signi[i].BCantAttack)
+                    {
+                        Signi[i].BCantAttack = false;
+                    }
+                    if (Signi[i].Bdouble)
+                    {
+                        Signi[i].Bdouble = false;
+                    }
+                    if (Signi[i].Blancer)
+                    {
+                        Signi[i].Blancer = false;
+                    }
                 }
             }
         }
@@ -371,8 +370,8 @@ namespace Assets.Scripts
         /// <param name="num">位置</param>
         public void BackToHand(int num)
         {
-            Card card = Signi [num];
-            Signi [num] = null;
+            Card card = Signi[num];
+            Signi[num] = null;
             CardTexture[num].gameObject.SetActive(false);
             GameManager.CreateHands.CreateHandByCard(card);
             GameManager.RpcBanishOther(num);
@@ -383,23 +382,23 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="bshow">If set to <c>true</c> bshow.</param>
         /// <param name="condiction">If set to <c>true</c> condiction.</param>
-        public void ShowMySelections(bool bshow,bool condiction)
+        public void ShowMySelections(bool bshow, bool condiction)
         {
             if (bshow)
             {
-                for (int i =0; i<MySelections.Length; i++)
+                for (int i = 0; i < MySelections.Length; i++)
                 {
-                    if (condiction && Signi[i]!=null)
+                    if (condiction && Signi[i] != null)
                     {
-                        MySelections [i].SetActive(true);
+                        MySelections[i].SetActive(true);
                     }
                 }
-            } 
+            }
             else
             {
-                for (int i =0; i<MySelections.Length; i++)
+                for (int i = 0; i < MySelections.Length; i++)
                 {
-                    MySelections [i].SetActive(false);
+                    MySelections[i].SetActive(false);
                 }
             }
         }
@@ -409,23 +408,76 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="bshow">If set to <c>true</c> bshow.</param>
         /// <param name="condiction">If set to <c>true</c> condiction.</param>
-        public void ShowOtherSelections(bool bshow,bool condiction)
+        public void ShowOtherSelections(bool bshow, bool condiction)
         {
             if (bshow)
             {
-                for (int i =0; i<OtherSelections.Length; i++)
+                for (int i = 0; i < OtherSelections.Length; i++)
                 {
-                    if (condiction && OtherSigni[i]!=null)
+                    if (condiction && OtherSigni[i] != null)
                     {
-                        OtherSelections [i].SetActive(true);
+                        OtherSelections[i].SetActive(true);
                     }
                 }
-            } 
+            }
             else
             {
-                for (int i =0; i<OtherSelections.Length; i++)
+                for (int i = 0; i < OtherSelections.Length; i++)
                 {
-                    OtherSelections [i].SetActive(false);
+                    OtherSelections[i].SetActive(false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 显示怪物的选择按钮(这只是设置按钮委托,不显示按钮!!)
+        /// </summary>
+        /// <param name="showMy">是否显示我方的按钮</param>
+        /// <param name="myAction">选择己方怪物添加状态</param>
+        /// <param name="showOther">是否显示对方的按钮</param>
+        /// <param name="otherAction">选择对方怪物添加状态</param>
+        public void SetSelections(bool showMy, System.Action<int> myAction, bool showOther, System.Action<int> otherAction)
+        {
+            if (showMy)
+            {
+                for (int i = 0; i < MySelections.Length; i++)
+                {
+                    var i1 = i;
+                    UIEventListener.Get(MySelections[i]).MyOnClick = () =>
+                    {
+                        MySelection = i1;
+                        if (myAction != null)
+                        {
+                            myAction(MySelection);
+                            MySelection = -1;
+                        }
+                        for (int k = MySelections.Length - 1; k >= 0; k--)
+                        {
+                            MySelections[k].SetActive(false);
+                        }
+                    };
+                }
+            }
+
+            if (showOther)
+            {
+                for (int j = OtherSelections.Length - 1; j >= 0; j--)
+                {
+                    var j1 = j;
+                    UIEventListener.Get(OtherSelections[j]).MyOnClick = () =>
+                    {
+                        OtherSelection = j1;
+                        if (otherAction != null)
+                        {
+                            otherAction(OtherSelection);
+                            OtherSelection = -1;
+                        }
+
+                        for (int k = MySelections.Length - 1; k >= 0; k--)
+                        {
+                            OtherSelections[k].SetActive(false);
+                        }
+                    };
                 }
             }
         }
@@ -451,6 +503,7 @@ namespace Assets.Scripts
             {
                 EnerManager.CreateEner(Signi[num]);
                 GameManager.RpcEnerCharge(Signi[num].CardId);
+                Signi[num].ResetCardConfig();
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);
             }
@@ -464,7 +517,7 @@ namespace Assets.Scripts
                 //EnerManager.CreateOtherEner(OtherSigni[num].MyCard.CardId);
                 GameManager.RpcBanish(num);
                 OtherSigni[num] = null;
-                OtherCardTexture[num].gameObject.SetActive(false);             
+                OtherCardTexture[num].gameObject.SetActive(false);
             }
         }
 

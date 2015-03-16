@@ -487,7 +487,6 @@ namespace Assets.Scripts
                 if (Rounds == 1)
                 {
                     MyGameState = GameState.结束阶段;
-                    WordInfo.ShowTheEndPhaseBtn(false);
                 }
                 else
                 {
@@ -536,12 +535,35 @@ namespace Assets.Scripts
             MyRpc.Rpc("OtherGetCardFromTrash", RPCMode.Others, bReward, cardid);
         }
 
+        /// <summary>
+        /// 把自己的增益buff告诉对面
+        /// </summary>
+        /// <param name="type">buff类型,1枪兵,2双重击溃</param>
+        /// <param name="num">位置,反过来对应 2,1,0</param>
+        /// <param name="bset">是否</param>
+        public void RpcMyBuff(int type, int num, bool bset)
+        {
+            MyRpc.Rpc("SetBuff", RPCMode.Others, type, num, bset);
+        }
+
+        /// <summary>
+        /// 把释放到对面的debuff在对面显示
+        /// </summary>
+        /// <param name="type">类型,1冰冻,2不能攻击</param>
+        /// <param name="num">位置,0,1,2</param>
+        /// <param name="bset">是否</param>
+        public void RpcOtherDebuff(int type, int num, bool bset)
+        {
+            MyRpc.Rpc("SetOtherBuff", RPCMode.Others, type, num, bset);
+        }
+
         #endregion
 
         #region AttackPhase
 
         private void AttackSayPhase()
         {
+            SetSigni.DisAllTrashBtnAndEffectBtn();
             AttackSay();
         }
 
@@ -645,7 +667,6 @@ namespace Assets.Scripts
             {
                 SetSigni.DisAllAttackBtn();
                 MyGameState = GameState.分身攻击阶段;
-                WordInfo.ShowTheEndPhaseBtn(false);
             });
             WordInfo.ShowTheEndPhaseBtn(true);
 
@@ -708,13 +729,22 @@ namespace Assets.Scripts
         }
 
         /// <summary>
-        /// 告诉对面精灵的横置竖置
+        /// 告诉对面我方精灵的横置竖置
         /// </summary>
         /// <param name="num">位置,1,2,3</param>
         /// <param name="bset">是否横,竖置</param>
         public void RpcSet(int num, bool bset)
         {
-            MyRpc.Rpc("SetOtherSigniSet", RPCMode.Others, num, bset);
+            MyRpc.Rpc("SetMySigniSet", RPCMode.Others, num, bset);
+        }
+
+        /// <summary>
+        /// 横置对方的精灵
+        /// </summary>
+        /// <param name="num"></param>
+        public void RpcSetOtherSigniSet(int num)
+        {
+            MyRpc.Rpc("SetOtherSigniSet", RPCMode.Others, num);
         }
 
         /// <summary>
@@ -723,7 +753,15 @@ namespace Assets.Scripts
         /// <param name="bset"></param>
         public void RpcLrigSet(bool bset)
         {
-            MyRpc.Rpc("SetOtherLrigSet", RPCMode.Others, bset);
+            MyRpc.Rpc("SetMyLrigSet", RPCMode.Others, bset);
+        }
+
+        /// <summary>
+        /// 横置对方的分身
+        /// </summary>
+        public void RpcSetOtherLrigSet()
+        {
+            MyRpc.Rpc("SetOtherLrigSet", RPCMode.Others);
         }
 
         private void LrigAttack()
@@ -731,6 +769,13 @@ namespace Assets.Scripts
             Lrig.ShowAttackBtn(true);
 
             //MyRpc.Rpc("ShowOtherGuard", RPCMode.Others);
+
+            WordInfo.SetTheEndPhase(() =>
+            {
+                Lrig.ShowAttackBtn(false);
+                MyGameState = GameState.结束阶段; 
+            });
+
             WordInfo.ShowTheEndPhaseBtn(true);
 
             Reporting.text = "分身攻击阶段";
@@ -758,7 +803,8 @@ namespace Assets.Scripts
         private void EndPhase()
         {
             //Set delegate
-            CreateHands.SetDesBtnOverSix(6,End);
+            WordInfo.ShowTheEndPhaseBtn(false);
+            CreateHands.SetDesBtnOverSix(6, End);
             CreateHands.DesMyHandsOverSix();
         }
 

@@ -387,6 +387,16 @@ namespace Assets.Scripts
             GameManager.RpcLrigSet(true);
         }
 
+        /// <summary>
+        /// 横置分身
+        /// </summary>
+        public void HorizontalLrig()
+        {
+            Bset = false;
+            UiTexture.transform.localEulerAngles = new Vector3(90, 90, 0);
+            GameManager.RpcLrigSet(false);
+        }
+
         public void SetOtherLrig(string card)
         {
             OtherLrigObj.gameObject.SetActive(true);

@@ -26,6 +26,8 @@ namespace Assets.Scripts
         public GameObject MyDesBtn;
         public GameObject UseBtn;
         public GameObject NotUseBtn;
+        public GameObject UseEffectBtn;
+        public GameObject NotUseEffectBtn;
 
         public List<Hands> MyHands = new List<Hands>();
         public List<GameObject> OtherHands = new List<GameObject>();
@@ -58,6 +60,37 @@ namespace Assets.Scripts
                 ShowUseArtBtn(false);
                 GameManager.RpcOtherUseArt(-1);
             };
+
+            UIEventListener.Get(NotUseEffectBtn).MyOnClick = () =>
+            {
+                UseEffectBtn.SetActive(false);
+                NotUseEffectBtn.SetActive(false);
+            };
+        }
+
+        private Card _effectionCard;
+
+        public void ShowEffectButton(Card card)
+        {
+            UIEventListener.Get(UseEffectBtn).MyOnClick = () =>
+            {
+                if (card.Cost.Count < 1)
+                {
+                    card.Effect_Qi(card);
+                }
+                else
+                {
+                    Lrig.SetTheCost(0, card.Cost.Count - 1, card, () => card.Effect_Qi(card));
+                }
+            };
+            UseEffectBtn.SetActive(true);
+            NotUseEffectBtn.SetActive(true);
+        }
+
+        public void DisEffectBtn()
+        {
+            UseEffectBtn.SetActive(false);
+            NotUseEffectBtn.SetActive(false);
         }
 
         /// <summary>
@@ -159,7 +192,7 @@ namespace Assets.Scripts
             MyDesBtn.SetActive(true);
             if (MyHands.Count <= _disNum)
             {
-                if(_Succeed!=null)
+                if (_Succeed != null)
                 {
                     _Succeed();
                 }
@@ -191,7 +224,7 @@ namespace Assets.Scripts
             }
         }
 
-        public void SetDesBtnOverSix(int num,System.Action succeed)
+        public void SetDesBtnOverSix(int num, System.Action succeed)
         {
             _disNum = num;
             _Succeed = succeed;
@@ -402,7 +435,7 @@ namespace Assets.Scripts
                             GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
                             MyHandCards.Remove(MyHands[i1].MyCard);
                             MyHands.Remove(MyHands[i1]);
-                         
+
                             Invoke("Reposition", 0.5f);
                             return;
                         }

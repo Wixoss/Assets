@@ -150,54 +150,70 @@ namespace Assets.Scripts
         /// </summary>
         public string Buff
         {
-            get{return _slancer + _sdouble + _sfreeze;}
+            get { return _slancer + _sdouble + _sfreeze + _sCantAttack; }
         }
-        
+
+        private bool _blancer;
         /// <summary>
         /// 枪兵
         /// </summary>
-        private bool _blancer;
         public bool Blancer
         {
-            get{return _blancer;}
+            get { return _blancer; }
             set
             {
                 _blancer = value;
-                _slancer = _blancer ? "[7CFC00]"+"Buff:枪兵"+"[-]"+ "\n" : "";
+                _slancer = _blancer ? "[7CFC00]" + "[枪兵]" + "[-]" + "\n" : "";
             }
         }
         private string _slancer;
-        
+
+        private bool _bfreeze;
         /// <summary>
         /// 冰冻
         /// </summary>
-        private bool _bfreeze;
         public bool Bfreeze
         {
-            get{return _bfreeze;}
+            get { return _bfreeze; }
             set
             {
                 _bfreeze = value;
-                _sfreeze = _bfreeze ? "[87CEFA]"+"DeBuff:冰冻"+"[-]"+ "\n" : "";
+                _sfreeze = _bfreeze ? "[87CEFA]" + "[冰冻]" + "[-]" + "\n" : "";
             }
         }
-        public string _sfreeze;
-        
-        
+        private string _sfreeze;
+
+
+        private bool _bdouble;
         /// <summary>
         /// 双击
         /// </summary>
-        private bool _bdouble;
         public bool Bdouble
         {
-            get{return _bdouble;}
+            get { return _bdouble; }
             set
             {
                 _bdouble = value;
-                _sdouble = _bdouble ? "[DC143C]"+"Buff:双重击溃" + "[-]" + "\n" : "";
+                _sdouble = _bdouble ? "[DC143C]" + "[双重击溃]" + "[-]" + "\n" : "";
             }
         }
         private string _sdouble;
+
+        private bool _bCantAttack;
+        /// <summary>
+        /// 不能攻击(巴洛克防御)
+        /// </summary>
+        public bool BCantAttack
+        {
+            get { return _bCantAttack; }
+            set
+            {
+                _bCantAttack = value;
+                _sCantAttack = _bCantAttack ? "[FFFF99]" + "[不能攻击]" + "[-]" + "\n" : "";
+            }
+        }
+
+        private string _sCantAttack;
 
         /// <summary>
         /// 效果s(待实现)
@@ -386,6 +402,17 @@ namespace Assets.Scripts
             }
             return myTimings;
         }
+
+        /// <summary>
+        /// 重置几个属性
+        /// </summary>
+        public void ResetCardConfig()
+        {
+            BCantAttack = false;
+            Bdouble = false;
+            Bfreeze = false;
+            Blancer = false;
+        }
     }
 
     public class MyCard : MonoBehaviour
@@ -453,7 +480,7 @@ namespace Assets.Scripts
                 "WX01-023",
                 "WX01-018",
             };
-            
+
             MyCardid = new List<string>()
             {
                 "WD01-009",

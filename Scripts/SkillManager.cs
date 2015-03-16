@@ -53,27 +53,28 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="num">N</param>
         /// <param name="bTrash">是否附带丢弃效果</param>
-        public void CheckDeckNumAndSort(int num,bool bTrash)
+        public void CheckDeckNumAndSort(int num, bool bTrash)
         {
             var showlist = new List<Card>();
-            for(int i =0;i<num;i++)
+            for (int i = 0; i < num; i++)
             {
                 var card = ShowDeck.MainDeck[ShowDeck.MainDeck.Count - 1 - i];
                 showlist.Add(card);
             }
             CardInfo.ShowCardInfo(true);
-            CardInfo.SetUp("查看卡组顶" + num + "张卡", showlist, num, () => 
+            string strash = bTrash ? "并按选择的顺序排列" : "";
+            CardInfo.SetUp("查看卡组顶" + num + "张卡" + strash, showlist, num, () =>
             {
-                for(int i =0;i<CardInfo.SelectHands.Count;i++)
+                for (int i = 0; i < CardInfo.SelectHands.Count; i++)
                 {
                     ShowDeck.MainDeck[ShowDeck.MainDeck.Count - 1 - i] = CardInfo.SelectHands[i].MyCard;
                     showlist.Remove(CardInfo.SelectHands[i].MyCard);
                 }
 
-                if(bTrash)
+                if (bTrash)
                 {
                     Card card;
-                    for(int j = 0;j < showlist.Count;j++)
+                    for (int j = 0; j < showlist.Count; j++)
                     {
                         card = showlist[j];
                         Trash.AddTrash(card);
@@ -90,22 +91,22 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="num">Number.</param>
         /// <param name="type">Type.</param>
-        public void CheckDeckAndAddHand(int num,List<string> type)
+        public void CheckDeckAndAddHand(int num, List<string> type)
         {
             var showlist = new List<Card>();
-            for(int i =0;i<num;i++)
+            for (int i = 0; i < num; i++)
             {
                 var card = ShowDeck.MainDeck[ShowDeck.MainDeck.Count - 1 - i];
                 showlist.Add(card);
             }
             CardInfo.ShowCardInfo(true);
-            CardInfo.SetUp("查看卡组顶" + num + "张卡", showlist, num, () => 
+            CardInfo.SetUp("查看卡组顶" + num + "张卡", showlist, num, () =>
             {
-                for(int i = 0;i<type.Count;i++)
+                for (int i = 0; i < type.Count; i++)
                 {
-                    for(int j = 0;j<showlist.Count;j++)
+                    for (int j = 0; j < showlist.Count; j++)
                     {
-                        if(showlist[j].Type == type[i])
+                        if (showlist[j].Type == type[i])
                         {
                             CreateHands.CreateHandByCard(showlist[j]);
                             ShowDeck.MainDeck.Remove(showlist[j]);
@@ -137,7 +138,7 @@ namespace Assets.Scripts
         public void AddAtkAll(int value)
         {
             var signis = SetSigni.Signi;
-            for (int i =0; i<signis.Length; i++)
+            for (int i = 0; i < signis.Length; i++)
             {
                 signis[i].Atk += value;
             }
@@ -149,7 +150,7 @@ namespace Assets.Scripts
         /// <param name="card">Card.</param>
         /// <param name="value">Value.</param>
         /// <param name="condition">If set to <c>true</c> condition.</param>
-        public void AddAtk(Card card,int value,bool condition)
+        public void AddAtk(Card card, int value, bool condition)
         {
             if (condition)
             {
@@ -165,9 +166,9 @@ namespace Assets.Scripts
         {
             bool bIn = false;
             var signis = SetSigni.Signi;
-            for (int i =0; i<signis.Length; i++)
+            for (int i = 0; i < signis.Length; i++)
             {
-                if(signis[i].CardName == name)
+                if (signis[i].CardName == name)
                 {
                     bIn = true;
                 }

@@ -125,7 +125,7 @@ namespace Assets.Scripts
         }
 
         [RPC]
-        private void SetOtherSigniSet(int num, bool bset)
+        private void SetMySigniSet(int num, bool bset)
         {
             if (_gameManager == null)
             {
@@ -133,6 +133,27 @@ namespace Assets.Scripts
             }
 
             _gameManager.SetSigni.SetOtherSigniSet(num, bset);
+        }
+
+        [RPC]
+        private void SetOtherSigniSet(int num)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+
+            _gameManager.SetSigni.HorizontalSigni(num);
+        }
+
+        [RPC]
+        private void SetOtherLrigSet()
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.Lrig.HorizontalLrig();
         }
 
         [RPC]
@@ -147,7 +168,7 @@ namespace Assets.Scripts
         }
 
         [RPC]
-        private void SetOtherLrigSet(bool bset)
+        private void SetMyLrigSet(bool bset)
         {
             if (_gameManager == null)
             {
@@ -378,6 +399,44 @@ namespace Assets.Scripts
             }
 
             _gameManager.Trash.OtherGetCardFromTrash(brewriteDeck, cardid);
+        }
+
+        [RPC]
+        private void SetBuff(int typenum, int num, bool bset)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+
+            switch (typenum)
+            {
+                case 1:
+                    _gameManager.SetSigni.OtherSigni[num].Blancer = bset;
+                    break;
+                case 2:
+                    _gameManager.SetSigni.OtherSigni[num].Bdouble = bset;
+                    break;
+            }
+        }
+
+        [RPC]
+        private void SetOtherBuff(int typenum, int num, bool bset)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+
+            switch (typenum)
+            {
+                case 1:
+                    _gameManager.SetSigni.Signi[num].Bfreeze = bset;
+                    break;
+                case 2:
+                    _gameManager.SetSigni.Signi[num].BCantAttack = bset;
+                    break;
+            }
         }
 
         //        [RPC]
