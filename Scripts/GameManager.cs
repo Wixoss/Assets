@@ -565,6 +565,7 @@ namespace Assets.Scripts
 
         private void AttackSayPhase()
         {
+            CreateHands.Reflash();
             SetSigni.DisAllTrashBtnAndEffectBtn();
             AttackSay();
         }
@@ -777,7 +778,7 @@ namespace Assets.Scripts
             WordInfo.SetTheEndPhase(() =>
             {
                 Lrig.ShowAttackBtn(false);
-                MyGameState = GameState.结束阶段; 
+                MyGameState = GameState.结束阶段;
             });
 
             WordInfo.ShowTheEndPhaseBtn(true);
@@ -815,6 +816,7 @@ namespace Assets.Scripts
         public void End()
         {
             //if(hands.count>6)丢牌
+            CreateHands.Reflash();
             Reporting.text = "回合结束,控制权转移";
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
             BLocalRound = !BLocalRound;

@@ -185,30 +185,24 @@ namespace Assets.Scripts
                 {
                     case Card.Ener.EnerType.万花:
                         AllEner += cards[i].MyEner.Num;
-                        NoEner += cards[i].MyEner.Num;
                         break;
                     case Card.Ener.EnerType.无:
                         NoEner += cards[i].MyEner.Num;
                         break;
                     case Card.Ener.EnerType.白:
                         WhiteEner += cards[i].MyEner.Num;
-                        NoEner += cards[i].MyEner.Num;
                         break;
                     case Card.Ener.EnerType.红:
                         RedEner += cards[i].MyEner.Num;
-                        NoEner += cards[i].MyEner.Num;
                         break;
                     case Card.Ener.EnerType.绿:
                         GreenEner += cards[i].MyEner.Num;
-                        NoEner += cards[i].MyEner.Num;
                         break;
                     case Card.Ener.EnerType.蓝:
                         BlueEner += cards[i].MyEner.Num;
-                        NoEner += cards[i].MyEner.Num;
                         break;
                     case Card.Ener.EnerType.黑:
                         BlackEner += cards[i].MyEner.Num;
-                        NoEner += cards[i].MyEner.Num;
                         break;
                 }
             }

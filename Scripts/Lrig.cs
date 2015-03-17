@@ -376,7 +376,7 @@ namespace Assets.Scripts
 
                 if (i >= 10 && Bguard == 0)
                 {
-                    LifeCloth.CrashOtherCloth(true);
+                    LifeCloth.CrashOtherCloth(true);                    
                     GameManager.RpcCrashOtherLifeCloth(true);
                     yield break;
                 }

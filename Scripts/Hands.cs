@@ -34,20 +34,30 @@ namespace Assets.Scripts
         public Card.Ener.EnerType MyEnerType;
         public int MyEnerNum;
 
-        public List<string> MyCostType = new List<string>();
-        public List<int> MyCostNum = new List<int>();
-
-        public List<string> MyGrowCostType = new List<string>();
-        public List<int> MyGrowCostNum = new List<int>();
+        //        public List<string> MyCostType = new List<string>();
+        //        public List<int> MyCostNum = new List<int>();
+        //
+        //        public List<string> MyGrowCostType = new List<string>();
+        //        public List<int> MyGrowCostNum = new List<int>();
 
         public int Level;
         public int Limit;
         public int Atk;
 
+        //        [HideInInspector]
+        //        public GameObject UseBtn;
+        //        [HideInInspector]
+        //        public GameObject GuardBtn;
+        //        [HideInInspector]
+        //        public UISprite UseBtnTexture;
+        //        [HideInInspector]
+        //        public UILabel UseBtnLabel;
+        //        [HideInInspector]
+        //        public UISprite GuardBtnTexture;
+        //        [HideInInspector]
+        //        public UILabel GuardBtnLabel;
         [HideInInspector]
-        public GameObject UseBtn;
-        [HideInInspector]
-        public GameObject GuardBtn;
+        public BoxCollider BoxCollider;
 
         private Card _myCard;
         public Card MyCard
@@ -65,23 +75,23 @@ namespace Assets.Scripts
                 MyEnerNum = _myCard.MyEner.Num;
                 MyEnerType = _myCard.MyEner.MyEnerType;
 
-                if (_myCard.Cost.Count > 0)
-                {
-                    for (int i = 0; i < _myCard.Cost.Count; i++)
-                    {
-                        MyCostType.Add(_myCard.Cost[i].MyEnerType.ToString());
-                        MyCostNum.Add(_myCard.Cost[i].Num);
-                    }
-                }
-
-                if (_myCard.GrowCost.Count > 0)
-                {
-                    for (int i = 0; i < _myCard.GrowCost.Count; i++)
-                    {
-                        MyGrowCostType.Add(_myCard.GrowCost[i].MyEnerType.ToString());
-                        MyGrowCostNum.Add(_myCard.GrowCost[i].Num);
-                    }
-                }
+                //                if (_myCard.Cost.Count > 0)
+                //                {
+                //                    for (int i = 0; i < _myCard.Cost.Count; i++)
+                //                    {
+                //                        MyCostType.Add(_myCard.Cost[i].MyEnerType.ToString());
+                //                        MyCostNum.Add(_myCard.Cost[i].Num);
+                //                    }
+                //                }
+                //
+                //                if (_myCard.GrowCost.Count > 0)
+                //                {
+                //                    for (int i = 0; i < _myCard.GrowCost.Count; i++)
+                //                    {
+                //                        MyGrowCostType.Add(_myCard.GrowCost[i].MyEnerType.ToString());
+                //                        MyGrowCostNum.Add(_myCard.GrowCost[i].Num);
+                //                    }
+                //                }
 
                 Level = _myCard.Level;
                 Limit = _myCard.Limit;
@@ -100,6 +110,8 @@ namespace Assets.Scripts
 
         [HideInInspector]
         public UITexture UiTexture;
+        //[HideInInspector]
+        //public GameObject CanUseTips;
 
         public string Cardid;
         public string CardDetail;
@@ -112,10 +124,10 @@ namespace Assets.Scripts
             Bselect = false;
             Effect = null;
             OnClickAction = null;
-            MyCostType.Clear();
-            MyCostNum.Clear();
-            MyGrowCostType.Clear();
-            MyGrowCostNum.Clear();
+            //            MyCostType.Clear();
+            //            MyCostNum.Clear();
+            //            MyGrowCostType.Clear();
+            //            MyGrowCostNum.Clear();
         }
 
         /// <summary>
@@ -133,21 +145,21 @@ namespace Assets.Scripts
             OnClickAction = action;
         }
 
-        public void SetUseBtnDelegate(UIEventListener.VoidDelegate useAction)
-        {
-            if (UseBtn != null)
-            {
-                UIEventListener.Get(UseBtn).onClick = useAction;
-            }
-        }
-
-        public void SetGuardBtnDelegate(UIEventListener.MyVoidDelegate guardAction)
-        {
-            if (GuardBtn != null)
-            {
-                UIEventListener.Get(GuardBtn).MyOnClick = guardAction;
-            }
-        }
+        //        public void SetUseBtnDelegate(UIEventListener.VoidDelegate useAction)
+        //        {
+        //            if (UseBtn != null)
+        //            {
+        //                UIEventListener.Get(UseBtn).onClick = useAction;
+        //            }
+        //        }
+        //
+        //        public void SetGuardBtnDelegate(UIEventListener.MyVoidDelegate guardAction)
+        //        {
+        //            if (GuardBtn != null)
+        //            {
+        //                UIEventListener.Get(GuardBtn).MyOnClick = guardAction;
+        //            }
+        //        }
 
         public void DestoryHands()
         {
@@ -155,16 +167,21 @@ namespace Assets.Scripts
             Destroy(gameObject);
         }
 
+//        public void ShowCanUseTips(bool bshow)
+//        {
+//
+//        }
+
         private void OnClick()
         {
             if (OnClickAction != null)
                 OnClickAction(gameObject);
         }
 
-        public void ShowUseBtn(bool bshow)
-        {
-            UseBtn.SetActive(bshow);
-        }
+        //        public void ShowUseBtn(bool bshow)
+        //        {
+        //            UseBtn.SetActive(bshow);
+        //        }
 
     }
 }
