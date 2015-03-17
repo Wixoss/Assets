@@ -361,7 +361,6 @@ namespace Assets.Scripts
                     GameManager.RpcLrigSet(false);
                     GameManager.RpcLrigAttack();
                     StartCoroutine(WaitToOtherGuard());
-
                 };
             }
         }
@@ -374,14 +373,14 @@ namespace Assets.Scripts
                 yield return new WaitForSeconds(1);
                 i++;
 
-                if (i >= 10 && Bguard == 0)
-                {
-                    LifeCloth.CrashOtherCloth(true);                    
-                    GameManager.RpcCrashOtherLifeCloth(true);
-                    yield break;
-                }
-                else
-                {
+//                if (i >= 10 && Bguard == 0)
+//                {
+//                    LifeCloth.CrashOtherCloth(true);                    
+//                    GameManager.RpcCrashOtherLifeCloth(true);
+//                    yield break;
+//                }
+//                else
+//                {
                     if (Bguard != 0)
                     {
                         if (Bguard == 1)
@@ -397,7 +396,7 @@ namespace Assets.Scripts
                             yield break;
                         }
                     }
-                }
+//                }
             }
         }
 

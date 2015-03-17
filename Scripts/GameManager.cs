@@ -614,7 +614,7 @@ namespace Assets.Scripts
                 yield return new WaitForSeconds(1);
                 i++;
 
-                if (i >= 5 && BUseArt == 0)
+                if (i > 5 && BUseArt == 0)
                 {
                     MyGameState = GameState.精灵攻击阶段;
                     yield break;
@@ -678,6 +678,22 @@ namespace Assets.Scripts
             RpcOtherTiming(0);
             Reporting.text = "精灵攻击阶段";
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
+        }
+
+        /// <summary>
+        /// 停止对方的攻击阶段
+        /// </summary>
+        public void RpcStopOtherAttack()
+        {
+            MyRpc.Rpc("RpcStopOtherAttack", RPCMode.Others);
+        }
+
+        /// <summary>
+        /// 继续对方的攻击阶段
+        /// </summary>
+        public void RpcContinueOtherAttack()
+        {
+            MyRpc.Rpc("RpcContinueOtherAttack", RPCMode.Others);
         }
 
         /// <summary>

@@ -103,7 +103,8 @@ namespace Assets.Scripts
             {
                 if(card.Brust!=null)
                 {
-                    card.Brust(card);
+                    GameManager.RpcStopOtherAttack();
+                    StartCoroutine(WaitToUseBrust(card));
                 }
             }
 
@@ -114,6 +115,49 @@ namespace Assets.Scripts
             GameManager.RpcCheck(card.CardId);
 			GameManager.ShowCard.ShowMyCard(card);
             LifeCloths.Remove(LifeCloths[LifeCloths.Count - 1]);
+        }
+
+        private int _waitbrust = 0;
+
+        private System.Collections.IEnumerator WaitToUseBrust(Card card)
+        {
+            int i = 0;
+
+            GameManager.CreateHands.ShowEffectButton(card,() => StartCoroutine(WaitToBrust(card)));
+
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+                if(_waitbrust == 0)
+                {
+                    i++;
+                    if(i > 5)
+                    {
+                        GameManager.RpcContinueOtherAttack();
+                        GameManager.CreateHands.DisEffectBtn();
+                        yield break;
+                    }
+                }
+                if(_waitbrust == 1)
+                {
+                    _waitbrust = 0;
+                    yield break;
+                }
+            }
+        }
+
+        private System.Collections.IEnumerator WaitToBrust(Card Card)
+        {
+            Card.Brust = card => 
+            {
+                Debug.Log("Brust!" + card.CardId);
+                GameManager.RpcContinueOtherAttack();
+            };
+            Card.Brust(Card);
+            GameManager.CreateHands.DisEffectBtn();
+            _waitbrust = 1;
+            yield return new WaitForSeconds(10);
+            GameManager.RpcContinueOtherAttack();
         }
 
         /// <summary>

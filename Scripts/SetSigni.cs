@@ -163,7 +163,15 @@ namespace Assets.Scripts
         {
             if (Signi[num] != null && GameManager.MyGameState == GameManager.GameState.主要阶段)
             {
-                CreateHands.ShowEffectButton(Signi[num]);
+                CreateHands.ShowEffectButton(Signi[num],() => {
+                    if (Signi[num].EffectCost_Qi.Count < 1)
+                    {
+                        Signi[num].Effect_Qi(Signi[num]);
+                    } else
+                    {
+                        Lrig.SetTheCost(0, Signi[num].EffectCost_Qi.Count - 1, Signi[num], () => Signi[num].Effect_Qi(Signi[num]), 4);
+                    }
+                });
                 ShowTrashBtn(num, !TrashBtn[num].activeSelf);
                 if (!TrashBtn[num].activeSelf)
                     CreateHands.DisEffectBtn();
@@ -283,6 +291,8 @@ namespace Assets.Scripts
 
         public void ShowAttackBtn()
         {
+            if (GameManager.MyGameState != GameManager.GameState.精灵攻击阶段)
+                return;
             ShowTrashBtn(0, false);
             ShowTrashBtn(1, false);
             ShowTrashBtn(2, false);
@@ -298,6 +308,25 @@ namespace Assets.Scripts
             }
         }
 
+        public bool BWaiting = false;
+        public bool BWaitFinish = false;
+
+        private System.Collections.IEnumerator WaitToBrust()
+        {
+            while (true)
+            {
+                if(BWaitFinish)
+                {
+                    BWaitFinish = false;
+                    BWaiting = false;
+                    GameManager.LifeCloth.CrashOtherCloth(true);
+                    GameManager.RpcCrashOtherLifeCloth(true);
+                    yield break;
+                }
+                yield return new WaitForSeconds(1);
+            }
+        }
+
         private void AttackOther(int num)
         {
             if (OtherSigni[num] == null)
@@ -307,8 +336,9 @@ namespace Assets.Scripts
 
                 if (Signi[num].Bdouble && GameManager.LifeCloth.OtherLifeObjs.Count > 0)
                 {
-                    GameManager.LifeCloth.CrashOtherCloth(true);
-                    GameManager.RpcCrashOtherLifeCloth(true);
+                    StartCoroutine(WaitToBrust());
+                    BWaitFinish = false;
+                    BWaiting = true;
                 }
             }
             else

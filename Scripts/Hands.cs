@@ -124,6 +124,8 @@ namespace Assets.Scripts
             Bselect = false;
             Effect = null;
             OnClickAction = null;
+            if (UiTexture != null)
+                UiTexture.color = Color.white;
             //            MyCostType.Clear();
             //            MyCostNum.Clear();
             //            MyGrowCostType.Clear();
@@ -167,10 +169,10 @@ namespace Assets.Scripts
             Destroy(gameObject);
         }
 
-//        public void ShowCanUseTips(bool bshow)
-//        {
-//
-//        }
+        public void ShowCanUseTips(bool bshow)
+        {
+            UiTexture.color = bshow ? Color.Lerp(Color.white, Color.green, 0.1f) : Color.white;
+        }
 
         private void OnClick()
         {

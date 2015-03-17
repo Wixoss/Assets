@@ -239,7 +239,7 @@ namespace Assets.Scripts
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
 
-            StartCoroutine(_gameManager.CreateHands.DestoryOtherHands(num));
+            _gameManager.CreateHands.DestoryOtherHands(num);
 
             //_gameManager.CreateHands.DestoryHands(num);
         }
@@ -294,8 +294,33 @@ namespace Assets.Scripts
             }
             _gameManager.Lrig.Bguard = bguard;
             _gameManager.Lrig.ShowAttackBtn(false);
-            _gameManager.MyGameState = GameManager.GameState.结束阶段;
-            _gameManager.WordInfo.ShowTheEndPhaseBtn(false);
+            //弧光！！
+//            _gameManager.MyGameState = GameManager.GameState.结束阶段;
+//            _gameManager.WordInfo.ShowTheEndPhaseBtn(false);
+        }
+
+        [RPC]
+        private void RpcStopOtherAttack()
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.SetSigni.DisAllAttackBtn();
+        }
+
+        [RPC]
+        private void RpcContinueOtherAttack()
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.SetSigni.BWaitFinish = true;
+            if (!_gameManager.SetSigni.BWaiting)
+            {
+                _gameManager.SetSigni.ShowAttackBtn();
+            }
         }
 
         [RPC]
@@ -325,7 +350,7 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            _gameManager.CreateHands.ShowGuardBtn();
+            StartCoroutine(_gameManager.CreateHands.ShowGuardBtn());
         }
 
         [RPC]
