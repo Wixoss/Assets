@@ -19,7 +19,7 @@ namespace Assets.Scripts
 
         public EnerManager EnerManager;
         public Check Check;
-		public GameOver GameOver;
+        public GameOver GameOver;
 
         /// <summary>
         /// 生命护甲!!
@@ -43,7 +43,7 @@ namespace Assets.Scripts
         public void CreateLifeCloth()
         {
             var card = GameManager.ShowDeck.Lastcard();
-            if(card==null)
+            if (card == null)
                 return;
             LifeCloths.Add(card);
             CreateObj(LifeCloths.Count - 1);
@@ -56,7 +56,7 @@ namespace Assets.Scripts
             LifeObjs.Add(life);
             Transform tran = life.transform;
             tran.parent = transform;
-            tran.localScale = new Vector3(620,620,1);
+            tran.localScale = new Vector3(620, 620, 1);
             tran.localEulerAngles = Vector3.zero;
             tran.localPosition = new Vector3(0, 0, num);
             Invoke("ResetObj", 0.5f);
@@ -73,7 +73,7 @@ namespace Assets.Scripts
             OtherLifeObjs.Add(otherLife);
             Transform tran = otherLife.transform;
             tran.parent = OtherLifeParent;
-            tran.localScale = new Vector3(620,620,1);
+            tran.localScale = new Vector3(620, 620, 1);
             tran.localEulerAngles = Vector3.zero;
             tran.localPosition = new Vector3(0, 0, num);
             Invoke("OtherResetObj", 0.5f);
@@ -89,19 +89,19 @@ namespace Assets.Scripts
         /// </summary>
         public void CrashCloth(bool bHurt)
         {
-            if (bHurt && LifeCloths.Count == 0) 
-			{
-				GameManager.GameOver.ShowGameResoult("You Lost!!");
-				GameManager.RpcGameResult("You Win!!");
-				return;
-			}
-            var card = LifeCloths [LifeCloths.Count - 1];
-            var obj = LifeObjs [LifeCloths.Count - 1];
+            if (bHurt && LifeCloths.Count == 0)
+            {
+                GameManager.GameOver.ShowGameResoult("You Lost!!");
+                GameManager.RpcGameResult("You Win!!");
+                return;
+            }
+            var card = LifeCloths[LifeCloths.Count - 1];
+            var obj = LifeObjs[LifeCloths.Count - 1];
             LifeObjs.Remove(obj);
             Destroy(obj);
             if (card.HasBrust)
             {
-                if(card.Brust!=null)
+                if (card.Brust != null)
                 {
                     GameManager.RpcStopOtherAttack();
                     StartCoroutine(WaitToUseBrust(card));
@@ -111,9 +111,9 @@ namespace Assets.Scripts
             EnerManager.CreateEner(card);
             GameManager.RpcEnerCharge(card.CardId);
 
-            StartCoroutine(Check.SetCheck(card,true));
+            StartCoroutine(Check.SetCheck(card, true));
             GameManager.RpcCheck(card.CardId);
-			GameManager.ShowCard.ShowMyCard(card);
+            GameManager.ShowCard.ShowMyCard(card);
             LifeCloths.Remove(LifeCloths[LifeCloths.Count - 1]);
         }
 
@@ -123,37 +123,45 @@ namespace Assets.Scripts
         {
             int i = 0;
 
-            GameManager.CreateHands.ShowEffectButton(card,() => StartCoroutine(WaitToBrust(card)));
+            GameManager.CreateHands.ShowEffectButton(card, () => StartCoroutine(WaitToBrust(card)), () => _waitbrust = -1);
 
             while (true)
             {
                 yield return new WaitForSeconds(1);
-                if(_waitbrust == 0)
+                if (_waitbrust == 0)
                 {
                     i++;
-                    if(i > 5)
+                    if (i > 5)
                     {
                         GameManager.RpcContinueOtherAttack();
                         GameManager.CreateHands.DisEffectBtn();
                         yield break;
                     }
                 }
-                if(_waitbrust == 1)
+                if (_waitbrust == 1)
                 {
                     _waitbrust = 0;
+                    yield break;
+                }
+                if (_waitbrust == -1)
+                {
+                    _waitbrust = 0;
+                    GameManager.RpcContinueOtherAttack();
+                    GameManager.CreateHands.DisEffectBtn();
                     yield break;
                 }
             }
         }
 
-        private System.Collections.IEnumerator WaitToBrust(Card Card)
+        private System.Collections.IEnumerator WaitToBrust(Card card)
         {
-            Card.Brust = card => 
+            card.Brust = go =>
             {
                 Debug.Log("Brust!" + card.CardId);
                 GameManager.RpcContinueOtherAttack();
+				StopCoroutine(WaitToBrust(card));
             };
-            Card.Brust(Card);
+            card.Brust(card);
             GameManager.CreateHands.DisEffectBtn();
             _waitbrust = 1;
             yield return new WaitForSeconds(10);
@@ -169,8 +177,8 @@ namespace Assets.Scripts
             {
                 return;
             }
-            var card = LifeCloths [LifeCloths.Count - 1];
-            var obj = LifeObjs [LifeCloths.Count - 1];
+            var card = LifeCloths[LifeCloths.Count - 1];
+            var obj = LifeObjs[LifeCloths.Count - 1];
             LifeObjs.Remove(obj);
             Destroy(obj);
             GameManager.Trash.AddTrash(card);
@@ -181,11 +189,11 @@ namespace Assets.Scripts
         {
             if (bHurt && OtherLifeObjs.Count == 0)
             {
-			 	GameManager.GameOver.ShowGameResoult("You Win!!");
-				GameManager.RpcGameResult("You Lost!!");
+                GameManager.GameOver.ShowGameResoult("You Win!!");
+                GameManager.RpcGameResult("You Lost!!");
                 return;
             }
-            var obj = OtherLifeObjs [OtherLifeObjs.Count - 1];
+            var obj = OtherLifeObjs[OtherLifeObjs.Count - 1];
             OtherLifeObjs.Remove(obj);
             Destroy(obj);
         }

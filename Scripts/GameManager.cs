@@ -142,6 +142,11 @@ namespace Assets.Scripts
             }
         }
 
+        private void Awake()
+        {
+            SetEnableOrDisable(ThreeDui, TwoDui);
+        }
+
         #region ReadyPhase
 
         private IEnumerator ReadyPhase()
@@ -249,6 +254,7 @@ namespace Assets.Scripts
                     MyRpc.Rpc("ReportServerEndReadyPhase", RPCMode.Others, true);
                 }
 
+                Reporting.text = "等待对方操作中...";
                 StartCoroutine(WaitToGameStart());
                 //GameTest();
             }
@@ -502,7 +508,7 @@ namespace Assets.Scripts
         {
             CreateHands.ShowTheUseBtn();
             MyTiming = Timing.主要阶段;
-            Reporting.text = "主要阶段,可以使用魔法卡,可以发动效果,可以出怪";
+            Reporting.text = "主要阶段";
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
             //if(使用魔法)
             //MyTiming = Timing.魔法切入阶段
@@ -566,18 +572,18 @@ namespace Assets.Scripts
         private void AttackSayPhase()
         {
             CreateHands.Reflash();
+            WordInfo.ShowTheEndPhaseBtn(false);
             SetSigni.DisAllTrashBtnAndEffectBtn();
             AttackSay();
         }
 
         private void AttackSay()
         {
-            Reporting.text = "攻击宣言阶段";
+            Reporting.text = "攻击宣言阶段,等待对方操作中...";
             MyTiming = Timing.攻击宣言阶段;
             RpcOtherTiming(1);
             RpcOtherUseArt(true);
             StartCoroutine(WaitToOtherUseArt());
-
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
         }
 
@@ -877,7 +883,18 @@ namespace Assets.Scripts
 
 
 
-
+        private void OnGUI()
+        {
+            if (GUI.Button(new Rect(100, 50, 50, 50), "Double"))
+            {
+                SetSigni.ShowMySelections(true, true);
+                SetSigni.SetSelections(true, i =>
+                {
+                    SetSigni.Signi[i].Bdouble = true;
+                    RpcMyBuff(2, i, true);
+                }, false, null);
+            }
+        }
 
 
 

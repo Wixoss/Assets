@@ -110,8 +110,8 @@ namespace Assets.Scripts
 
         [HideInInspector]
         public UITexture UiTexture;
-        //[HideInInspector]
-        //public GameObject CanUseTips;
+        [HideInInspector]
+        public TweenColor TweenColor;
 
         public string Cardid;
         public string CardDetail;
@@ -124,8 +124,12 @@ namespace Assets.Scripts
             Bselect = false;
             Effect = null;
             OnClickAction = null;
-            if (UiTexture != null)
+            if (TweenColor != null && UiTexture != null)
+            {
+                TweenColor.ResetToBeginning();
+                TweenColor.enabled = false;
                 UiTexture.color = Color.white;
+            }            
             //            MyCostType.Clear();
             //            MyCostNum.Clear();
             //            MyGrowCostType.Clear();
@@ -171,7 +175,9 @@ namespace Assets.Scripts
 
         public void ShowCanUseTips(bool bshow)
         {
-            UiTexture.color = bshow ? Color.Lerp(Color.white, Color.green, 0.1f) : Color.white;
+            TweenColor.ResetToBeginning();
+            TweenColor.enabled = bshow;           
+            //UiTexture.color = bshow ? Color.Lerp(Color.white, Color.green, 0.1f) : Color.white;
         }
 
         private void OnClick()

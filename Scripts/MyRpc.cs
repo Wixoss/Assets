@@ -294,9 +294,10 @@ namespace Assets.Scripts
             }
             _gameManager.Lrig.Bguard = bguard;
             _gameManager.Lrig.ShowAttackBtn(false);
+            _gameManager.WordInfo.ShowTheEndPhaseBtn(true);
             //弧光！！
-//            _gameManager.MyGameState = GameManager.GameState.结束阶段;
-//            _gameManager.WordInfo.ShowTheEndPhaseBtn(false);
+            //            _gameManager.MyGameState = GameManager.GameState.结束阶段;
+            //            _gameManager.WordInfo.ShowTheEndPhaseBtn(false);
         }
 
         [RPC]
@@ -306,7 +307,9 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
+            _gameManager.Reporting.text = "等待对方操作中...";
             _gameManager.SetSigni.DisAllAttackBtn();
+            _gameManager.WordInfo.ShowTheEndPhaseBtn(false);
         }
 
         [RPC]
@@ -317,9 +320,16 @@ namespace Assets.Scripts
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
             _gameManager.SetSigni.BWaitFinish = true;
+            Debug.Log(_gameManager.SetSigni.BWaiting);
             if (!_gameManager.SetSigni.BWaiting)
             {
+                _gameManager.Reporting.text = "继续攻击阶段";
                 _gameManager.SetSigni.ShowAttackBtn();
+                if (_gameManager.MyGameState == GameManager.GameState.精灵攻击阶段 ||
+                    _gameManager.MyGameState == GameManager.GameState.分身攻击阶段)
+                {
+                    _gameManager.WordInfo.ShowTheEndPhaseBtn(true);
+                }
             }
         }
 
@@ -350,7 +360,7 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            StartCoroutine(_gameManager.CreateHands.ShowGuardBtn());
+            _gameManager.CreateHands.ShowGuardBtn();            
         }
 
         [RPC]

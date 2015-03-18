@@ -47,7 +47,7 @@ namespace Assets.Scripts
 
         public void SetShowLrigDeck()
         {
-            UIEventListener.Get(LrigDeck).MyOnClick = () =>ShowLrigDeck(GameManager.ShowDeck.LrigDeck);
+            UIEventListener.Get(LrigDeck).MyOnClick = () => ShowLrigDeck(GameManager.ShowDeck.LrigDeck);
         }
 
         public void ShowLrigDeck(bool bshow)
@@ -117,7 +117,7 @@ namespace Assets.Scripts
                         GameManager.ShowDeck.LrigDeck.Remove(mycard);
 
                         CardInfo.ShowCardInfo(false);
-                    },1);
+                    }, 1);
                 }
             }
             else
@@ -150,7 +150,7 @@ namespace Assets.Scripts
                     }
                 }
             }
-
+            ShowUpBtn(false);
             CardInfo.ShowCardInfo(true);
             CardInfo.SetUp("分身升级", lrig, 1, UpgradeCost);
         }
@@ -160,6 +160,7 @@ namespace Assets.Scripts
         {
             if (CardInfo.SelectHands.Count < 1)
             {
+                ShowUpBtn(true);
                 CardInfo.ShowCardInfo(false);
                 return;
             }
@@ -185,12 +186,13 @@ namespace Assets.Scripts
                     GameManager.RpcGrow();
                     GameManager.RpcOtherLrig(UpgradingLrig.CardId);
                     GameManager.ShowCard.ShowMyCard(UpgradingLrig);
-                }, 2);
+                }, 2,()=>ShowUpBtn(true));
             }
         }
 
         //叼爆了的消耗费用算法        
         private List<Card> _savingHands = new List<Card>();
+
         /// <summary>
         /// 叼爆了的消耗费用算法  
         /// </summary>
@@ -198,57 +200,57 @@ namespace Assets.Scripts
         /// <param name="max">费用的种类数(cost.count-1)</param>
         /// <param name="targetCard">需要费用的那张卡</param>
         /// <param name="successd">成功的回调</param>
-        /// <param name="bgrowcost">是否是成长费用</param>
-        /// <param name="Costtype">1:cost,2:GrowCost,3:ChuCost,4:QiCost</param>
-        public void SetTheCost(int num, int max, Card targetCard, Action successd, int Costtype)
+        /// <param name="costtype">1:cost,2:GrowCost,3:ChuCost,4:QiCost</param>
+        /// <param name="failed">失败的回调</param>
+        public void SetTheCost(int num, int max, Card targetCard, Action successd, int costtype,Action failed = null)
         {
             var cards = new List<Card>();
 
-            List<Card.Ener> Mycosttype = new List<Card.Ener>();
+            List<Card.Ener> mycosttype = new List<Card.Ener>();
 
-            switch (Costtype)
+            switch (costtype)
             {
                 case 1:
-                    Mycosttype = targetCard.Cost;
+                    mycosttype = targetCard.Cost;
                     break;
                 case 2:
-                    Mycosttype = targetCard.GrowCost;
+                    mycosttype = targetCard.GrowCost;
                     break;
                 case 3:
-                    Mycosttype = targetCard.EffectCost_Chu;
+                    mycosttype = targetCard.EffectCost_Chu;
                     break;
                 case 4:
-                    Mycosttype = targetCard.EffectCost_Qi;
+                    mycosttype = targetCard.EffectCost_Qi;
                     break;
             }
 
-//                for (int i = 0; i < EnerManager.EnerCards.Count; i++)
-//                {
-//                    //万花等于任何颜色
-//                    if (EnerManager.EnerCards[i].MyEner.MyEnerType == Mycosttype[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
-//                    {
-//                        cards.Add(EnerManager.EnerCards[i]);
-//                    }
-//                }
+            //                for (int i = 0; i < EnerManager.EnerCards.Count; i++)
+            //                {
+            //                    //万花等于任何颜色
+            //                    if (EnerManager.EnerCards[i].MyEner.MyEnerType == Mycosttype[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
+            //                    {
+            //                        cards.Add(EnerManager.EnerCards[i]);
+            //                    }
+            //                }
 
-                for (int i = 0; i < EnerManager.EnerCards.Count; i++)
+            for (int i = 0; i < EnerManager.EnerCards.Count; i++)
+            {
+                //任何颜色都等于无色
+                if (mycosttype[num].MyEnerType == Card.Ener.EnerType.无)
                 {
-                    //任何颜色都等于无色
-                    if (Mycosttype[num].MyEnerType == Card.Ener.EnerType.无)
-                    {
-                        cards.Add(EnerManager.EnerCards[i]);
-                    }
-                    //万花等于任何颜色
-                    if (EnerManager.EnerCards[i].MyEner.MyEnerType == Mycosttype[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
-                    {
-                        cards.Add(EnerManager.EnerCards[i]);
-                    }
+                    cards.Add(EnerManager.EnerCards[i]);
                 }
+                //万花等于任何颜色
+                if (EnerManager.EnerCards[i].MyEner.MyEnerType == mycosttype[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
+                {
+                    cards.Add(EnerManager.EnerCards[i]);
+                }
+            }
 
             string info;
-            info = "所需 " + Mycosttype[num].MyEnerType + "色 费用 " + Mycosttype[num].Num + " 个";
+            info = "所需 " + mycosttype[num].MyEnerType + "色 费用 " + mycosttype[num].Num + " 个";
 
-            CardInfo.SetUp(info, cards, Mycosttype[num].Num, () =>
+            CardInfo.SetUp(info, cards, mycosttype[num].Num, () =>
             {
                 bool enough = true;
 
@@ -256,7 +258,7 @@ namespace Assets.Scripts
 
                 //for (int i = 0; i < count; i++)
                 //{
-                enough = BEnerEnough(targetCard, num, Costtype);
+                enough = BEnerEnough(targetCard, num, costtype);
                 //}
 
                 if (enough)
@@ -273,7 +275,7 @@ namespace Assets.Scripts
                     {
                         num = num + 1;
                         //重复调用以达到目标
-                        SetTheCost(num, max, targetCard, successd, Costtype);
+                        SetTheCost(num, max, targetCard, successd, costtype, failed);
                     }
                     else
                     {
@@ -297,8 +299,10 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    CardInfo.ShowCardInfo(false);
+                    if (failed != null)
+                        failed();
                     GameManager.Reporting.text = "费用不足!";
+                    CardInfo.ShowCardInfo(false);
                     _savingHands.Clear();
                     EnerManager.SavingBackToEner();
                 }
@@ -313,19 +317,19 @@ namespace Assets.Scripts
                 all += CardInfo.SelectHands[i].MyEnerNum;
             }
             bool benough = false;
-            switch(type)
+            switch (type)
             {
                 case 1:
-                    benough = all >= target.Cost[num].Num ? true : false;
+                    benough = all >= target.Cost[num].Num;
                     break;
                 case 2:
-                    benough = all >= target.GrowCost[num].Num ? true : false;
+                    benough = all >= target.GrowCost[num].Num;
                     break;
                 case 3:
-                    benough = all >= target.EffectCost_Chu[num].Num ? true : false;
+                    benough = all >= target.EffectCost_Chu[num].Num;
                     break;
                 case 4:
-                    benough = all >= target.EffectCost_Qi[num].Num ? true : false;
+                    benough = all >= target.EffectCost_Qi[num].Num;
                     break;
             }
             return benough;
@@ -360,6 +364,8 @@ namespace Assets.Scripts
                     AttackBtn.SetActive(false);
                     GameManager.RpcLrigSet(false);
                     GameManager.RpcLrigAttack();
+                    GameManager.WordInfo.ShowTheEndPhaseBtn(false);
+                    GameManager.Reporting.text = "等待对方操作中...";
                     StartCoroutine(WaitToOtherGuard());
                 };
             }
@@ -373,30 +379,30 @@ namespace Assets.Scripts
                 yield return new WaitForSeconds(1);
                 i++;
 
-//                if (i >= 10 && Bguard == 0)
-//                {
-//                    LifeCloth.CrashOtherCloth(true);                    
-//                    GameManager.RpcCrashOtherLifeCloth(true);
-//                    yield break;
-//                }
-//                else
-//                {
-                    if (Bguard != 0)
+                //                if (i >= 10 && Bguard == 0)
+                //                {
+                //                    LifeCloth.CrashOtherCloth(true);                    
+                //                    GameManager.RpcCrashOtherLifeCloth(true);
+                //                    yield break;
+                //                }
+                //                else
+                //                {
+                if (Bguard != 0)
+                {
+                    if (Bguard == 1)
                     {
-                        if (Bguard == 1)
-                        {
-                            Bguard = 0;
-                            yield break;
-                        }
-                        else if (Bguard == -1)
-                        {
-                            LifeCloth.CrashOtherCloth(true);
-                            GameManager.RpcCrashOtherLifeCloth(true);
-                            Bguard = 0;
-                            yield break;
-                        }
+                        Bguard = 0;
+                        yield break;
                     }
-//                }
+                    else if (Bguard == -1)
+                    {
+                        LifeCloth.CrashOtherCloth(true);
+                        GameManager.RpcCrashOtherLifeCloth(true);
+                        Bguard = 0;
+                        yield break;
+                    }
+                }
+                //                }
             }
         }
 
@@ -415,13 +421,13 @@ namespace Assets.Scripts
         public void SetOtherLrigSelection(Action myaction)
         {
             OtherLrigSelection.SetActive(true);
-            UIEventListener.Get(OtherLrigSelection).MyOnClick = () => 
+            UIEventListener.Get(OtherLrigSelection).MyOnClick = () =>
             {
-                if(myaction!=null)
+                if (myaction != null)
                     myaction();
-                GameManager.SetSigni.ShowOtherSelections(false,false);
+                GameManager.SetSigni.ShowOtherSelections(false, false);
                 OtherLrigSelection.SetActive(false);
-            };           
+            };
         }
 
         /// <summary>

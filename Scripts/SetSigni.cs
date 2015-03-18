@@ -257,6 +257,7 @@ namespace Assets.Scripts
             {
                 Trash.AddTrash(Signi[num]);
                 Signi[num].ResetCardConfig();
+                CreateHands.DisEffectBtn();
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);
                 ShowTrashBtn(num, false);
@@ -319,6 +320,7 @@ namespace Assets.Scripts
                 {
                     BWaitFinish = false;
                     BWaiting = false;
+                    Debug.Log("BWaiting = false");
                     GameManager.LifeCloth.CrashOtherCloth(true);
                     GameManager.RpcCrashOtherLifeCloth(true);
                     yield break;
@@ -336,9 +338,10 @@ namespace Assets.Scripts
 
                 if (Signi[num].Bdouble && GameManager.LifeCloth.OtherLifeObjs.Count > 0)
                 {
-                    StartCoroutine(WaitToBrust());
                     BWaitFinish = false;
                     BWaiting = true;
+                    StartCoroutine(WaitToBrust());                   
+                    Debug.Log("BWaiting = false");
                 }
             }
             else

@@ -90,6 +90,12 @@ namespace Assets.Scripts
                     }, false, null);
                 }
 
+                if (GUILayout.Button("指定我方分身再次攻击"))
+                {
+                    _showdeck.GameManager.Lrig.ResetLrig();
+                    _showdeck.GameManager.Lrig.ShowAttackBtn(true);
+                }
+
                 if (GUILayout.Button("指定对方一只精灵冰冻"))
                 {
                     _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
