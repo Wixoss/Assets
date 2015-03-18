@@ -104,7 +104,8 @@ namespace Assets.Scripts
                 if (card.Brust != null)
                 {
                     GameManager.RpcStopOtherAttack();
-                    StartCoroutine(WaitToUseBrust(card));
+                    //StartCoroutine(WaitToUseBrust(card));  //可选择发不发动
+                    StartCoroutine(WaitToBrust(card)); //默认都发动
                 }
             }
 
@@ -117,55 +118,72 @@ namespace Assets.Scripts
             LifeCloths.Remove(LifeCloths[LifeCloths.Count - 1]);
         }
 
-        private int _waitbrust = 0;
+//        private int _waitbrust = 0;
+//
+//        private System.Collections.IEnumerator WaitToUseBrust(Card card)
+//        {
+//            int i = 0;
+//
+//            GameManager.CreateHands.ShowEffectButton(card, () => StartCoroutine(WaitToBrust(card)), () => _waitbrust = -1);
+//
+//            while (true)
+//            {
+//                yield return new WaitForSeconds(1);
+//                if (_waitbrust == 0)
+//                {
+//                    i++;
+//                    if (i > 5)
+//                    {
+//                        GameManager.RpcContinueOtherAttack();
+//                        GameManager.CreateHands.DisEffectBtn();
+//                        yield break;
+//                    }
+//                }
+//                if (_waitbrust == 1)
+//                {
+//                    _waitbrust = 0;
+//                    yield break;
+//                }
+//                if (_waitbrust == -1)
+//                {
+//                    _waitbrust = 0;
+//                    GameManager.RpcContinueOtherAttack();
+//                    GameManager.CreateHands.DisEffectBtn();
+//                    yield break;
+//                }
+//            }
+//        }
 
-        private System.Collections.IEnumerator WaitToUseBrust(Card card)
+        //private int _brust;
+        //private System.Collections.IEnumerator WaitToBrust(Card card)
+        private System.Collections.IEnumerator WaitToBrust(Card card)
         {
+            card.Brust = GameManager.SkillManager.BackHand;
+            card.Brust();
+            //GameManager.ShowCard.ShowMyCardEffect(card);
+
             int i = 0;
-
-            GameManager.CreateHands.ShowEffectButton(card, () => StartCoroutine(WaitToBrust(card)), () => _waitbrust = -1);
-
             while (true)
             {
                 yield return new WaitForSeconds(1);
-                if (_waitbrust == 0)
+                if(GameManager.SkillManager.BSelected)
+                {
+                    GameManager.SkillManager.BSelected = false;
+                    GameManager.RpcContinueOtherAttack();
+                    yield break;
+                }
+                else
                 {
                     i++;
-                    if (i > 5)
+                    if(i>=10)
                     {
+                        GameManager.SkillManager.BSelected = false;
+                        GameManager.SkillManager.DisSelect();
                         GameManager.RpcContinueOtherAttack();
-                        GameManager.CreateHands.DisEffectBtn();
                         yield break;
                     }
                 }
-                if (_waitbrust == 1)
-                {
-                    _waitbrust = 0;
-                    yield break;
-                }
-                if (_waitbrust == -1)
-                {
-                    _waitbrust = 0;
-                    GameManager.RpcContinueOtherAttack();
-                    GameManager.CreateHands.DisEffectBtn();
-                    yield break;
-                }
             }
-        }
-
-        private System.Collections.IEnumerator WaitToBrust(Card card)
-        {
-            card.Brust = go =>
-            {
-                Debug.Log("Brust!" + card.CardId);
-                GameManager.RpcContinueOtherAttack();
-				StopCoroutine(WaitToBrust(card));
-            };
-            card.Brust(card);
-            GameManager.CreateHands.DisEffectBtn();
-            _waitbrust = 1;
-            yield return new WaitForSeconds(10);
-            GameManager.RpcContinueOtherAttack();
         }
 
         /// <summary>

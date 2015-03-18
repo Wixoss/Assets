@@ -176,6 +176,7 @@ namespace Assets.Scripts
         public void ShowCanUseTips(bool bshow)
         {
             TweenColor.ResetToBeginning();
+            TweenColor.PlayForward();
             TweenColor.enabled = bshow;           
             //UiTexture.color = bshow ? Color.Lerp(Color.white, Color.green, 0.1f) : Color.white;
         }

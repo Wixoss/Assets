@@ -366,45 +366,45 @@ namespace Assets.Scripts
                     GameManager.RpcLrigAttack();
                     GameManager.WordInfo.ShowTheEndPhaseBtn(false);
                     GameManager.Reporting.text = "等待对方操作中...";
-                    StartCoroutine(WaitToOtherGuard());
+                    //StartCoroutine(WaitToOtherGuard());
                 };
             }
         }
 
-        private IEnumerator WaitToOtherGuard()
-        {
-            int i = 0;
-            while (true)
-            {
-                yield return new WaitForSeconds(1);
-                i++;
-
-                //                if (i >= 10 && Bguard == 0)
-                //                {
-                //                    LifeCloth.CrashOtherCloth(true);                    
-                //                    GameManager.RpcCrashOtherLifeCloth(true);
-                //                    yield break;
-                //                }
-                //                else
-                //                {
-                if (Bguard != 0)
-                {
-                    if (Bguard == 1)
-                    {
-                        Bguard = 0;
-                        yield break;
-                    }
-                    else if (Bguard == -1)
-                    {
-                        LifeCloth.CrashOtherCloth(true);
-                        GameManager.RpcCrashOtherLifeCloth(true);
-                        Bguard = 0;
-                        yield break;
-                    }
-                }
-                //                }
-            }
-        }
+//        private IEnumerator WaitToOtherGuard()
+//        {
+//            int i = 0;
+//            while (true)
+//            {
+//                yield return new WaitForSeconds(1);
+//                i++;
+//
+//                //                if (i >= 10 && Bguard == 0)
+//                //                {
+//                //                    LifeCloth.CrashOtherCloth(true);                    
+//                //                    GameManager.RpcCrashOtherLifeCloth(true);
+//                //                    yield break;
+//                //                }
+//                //                else
+//                //                {
+//                if (Bguard != 0)
+//                {
+//                    if (Bguard == 1)
+//                    {
+//                        Bguard = 0;
+//                        yield break;
+//                    }
+//                    else if (Bguard == -1)
+//                    {
+//                        LifeCloth.CrashOtherCloth(true);
+//                        GameManager.RpcCrashOtherLifeCloth(true);
+//                        Bguard = 0;
+//                        yield break;
+//                    }
+//                }
+//                //                }
+//            }
+//        }
 
 
         public void ResetLrig()

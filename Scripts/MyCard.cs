@@ -232,7 +232,7 @@ namespace Assets.Scripts
         public Action<Card> Effect_Chang = card => Debug.Log("Effect_Chang");
         public Action<Card> Effect_Chu = card => Debug.Log("Effect_Chu");
         public Action<Card> Effect_Spell = card => Debug.Log("Spell!" + card.CardId);
-        public Action<Card> Brust = card => Debug.Log("Brust!" + card.CardId);
+        public Action Brust = () => Debug.Log("Brust!");
 
         public Card(string cardid)
         {

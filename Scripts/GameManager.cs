@@ -27,6 +27,7 @@ namespace Assets.Scripts
         public Check Check;
         public GameOver GameOver;
         public ShowDeck ShowDeck;
+        public SkillManager SkillManager;
         #endregion
         public enum GameState
         {
@@ -864,42 +865,7 @@ namespace Assets.Scripts
             obj2.SetActive(true);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        private void OnGUI()
-        {
-            if (GUI.Button(new Rect(100, 50, 50, 50), "Double"))
-            {
-                SetSigni.ShowMySelections(true, true);
-                SetSigni.SetSelections(true, i =>
-                {
-                    SetSigni.Signi[i].Bdouble = true;
-                    RpcMyBuff(2, i, true);
-                }, false, null);
-            }
-        }
-
-
-
-
-
+  
         //测试!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //        private void Start()
         //        {

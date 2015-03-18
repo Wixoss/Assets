@@ -295,6 +295,13 @@ namespace Assets.Scripts
             _gameManager.Lrig.Bguard = bguard;
             _gameManager.Lrig.ShowAttackBtn(false);
             _gameManager.WordInfo.ShowTheEndPhaseBtn(true);
+            //不防御的话掉护甲
+            Debug.Log(bguard);
+            if (bguard == -1)
+            {
+                _gameManager.RpcCrashOtherLifeCloth(true);
+                _gameManager.LifeCloth.CrashOtherCloth(true);
+            }
             //弧光！！
             //            _gameManager.MyGameState = GameManager.GameState.结束阶段;
             //            _gameManager.WordInfo.ShowTheEndPhaseBtn(false);
@@ -422,7 +429,7 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            _gameManager.LifeCloth.CrashOtherCloth(false);
+            _gameManager.LifeCloth.CrashOtherCloth(bHurt);
         }
 
         [RPC]

@@ -7,46 +7,55 @@ namespace Assets.Scripts
 
 		public TweenRotation TweenRotation;
 		public TweenColor TweenColor;
-		public UITexture UiTexture;
 
-        private int num;
+        public TweenAlpha TweenAlpha;
+        public UITexture  MyCardTexture;
+        public GameObject MyCard;
+        public UITexture  MyCardEffectTexture;
+        public GameObject MyCardEffect;
+
+        //private int num;
 		public void ShowMyCard(Card card)
 		{
-            num = 0;
-            gameObject.SetActive(true);
-            StartCoroutine(ShowMyCard2(card));
+            CancelInvoke("DisMyCard");
+            ResetMyCard();
+            MyCardTexture.mainTexture = card.CardTexture;    
+            MyCard.SetActive(true);
+            Invoke("DisMyCard", 1.6f);
 		}
 
-	    public IEnumerator ShowMyCard2(Card card)
-	    {
-            Reset();
-            UiTexture.mainTexture = card.CardTexture;        
-	        
-            while (true)
-            {
-                yield return new WaitForSeconds(0.5f);
-                num++;
-                if(num >= 3)
-                {
-                    DisMyCard();
-                    num = 0;
-                    yield break;
-                }
-            }	      
-	    }
-
-		public void DisMyCard()
+		private void DisMyCard()
 		{
-			gameObject.SetActive (false);
-			Reset ();
+            MyCard.SetActive (false);
+            ResetMyCard ();
 		}
 
-		public void Reset()
+        public void ShowMyCardEffect(Card card)
+        {
+            CancelInvoke("ResetMyCardEffect");
+            MyCardEffectTexture.mainTexture = card.CardTexture;
+            MyCardEffect.SetActive(true);
+            Invoke("DisMyCardEffect", 1.2f);
+        }
+
+        private void DisMyCardEffect()
+        {
+            MyCardEffect.SetActive(false);
+            ResetMyCardEffect();
+        }
+
+		private void ResetMyCard()
 		{
 			TweenRotation.ResetToBeginning ();
 			TweenColor.ResetToBeginning ();
 			TweenRotation.enabled = true;
 			TweenColor.enabled = true;
 		}
+
+        private void ResetMyCardEffect()
+        {
+            TweenAlpha.ResetToBeginning();
+            TweenAlpha.enabled = true;
+        }
 	}
 }

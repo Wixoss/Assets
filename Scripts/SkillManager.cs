@@ -197,5 +197,36 @@ namespace Assets.Scripts
         }
 
         #endregion
+
+        /// <summary>
+        /// 是否选择好了
+        /// </summary>
+        public bool BSelected;
+
+        #region 选定发动类
+
+        /// <summary>
+        /// 返回手卡
+        /// </summary>
+        public void BackHand()
+        {
+            SetSigni.ShowOtherSelections(true, true);
+            SetSigni.SetSelections(false, null, true, i =>
+             {
+                BSelected = true;
+                GameManager.RpcBackHand(SetSigni.OtherSelection);
+             });
+        }
+
+        /// <summary>
+        /// 10s后隐藏选择按钮
+        /// </summary>
+        public void DisSelect()
+        {
+            SetSigni.ShowOtherSelections(false, false);
+            SetSigni.ShowMySelections(false, false);
+        }
+
+        #endregion
     }
 }
