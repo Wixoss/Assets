@@ -68,6 +68,7 @@ namespace Assets.Scripts
                     if (_async.isDone)
                     {
                         _async.allowSceneActivation = false;
+                       
                         if (Network.isClient)
                         {
                             MyRpc.Rpc("ReportClientLoad", RPCMode.Others, true);

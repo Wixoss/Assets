@@ -93,6 +93,26 @@ namespace Assets.Scripts
             GameManager.SkillManager.SigniSet();
             Signi[num] = _sendingCard;
 
+            if(Signi[num].EffectChu!=null)
+            {
+                if(Signi[num].EffectCost_Chu.Count<1)
+                {
+                    Signi[num].EffectChu(Signi[num]);
+                    GameManager.ShowCard.ShowMyCardEffect(Signi[num]);
+                    GameManager.RpcOtherCardBuff(Signi[num].CardId);
+                }
+                else
+                {
+                    GameManager.CardInfo.ShowCardInfo(true);
+                    GameManager.Lrig.SetTheCost(0, Signi[num].EffectCost_Chu.Count - 1, Signi[num], () =>
+                    {
+                        Signi[num].EffectChu(Signi[num]);
+                        GameManager.ShowCard.ShowMyCardEffect(Signi[num]);
+                        GameManager.RpcOtherCardBuff(Signi[num].CardId);
+                    },3);
+                }
+            }
+
             if (Signi[num] != null)
             {
                 BSet[num] = true;
@@ -175,7 +195,12 @@ namespace Assets.Scripts
                     }
                     else
                     {
-                        Lrig.SetTheCost(0, Signi[num].EffectCost_Qi.Count - 1, Signi[num], () => Signi[num].EffectQi(Signi[num]), 4);
+                        GameManager.CardInfo.ShowCardInfo(true);
+                        Lrig.SetTheCost(0, Signi[num].EffectCost_Qi.Count - 1, Signi[num], () => 
+                        {
+                            GameManager.CardInfo.ShowCardInfo(true);
+                            Signi[num].EffectQi(Signi[num]);
+                        }, 4);
                     }
                 });
                 ShowTrashBtn(num, !TrashBtn[num].activeSelf);

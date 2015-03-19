@@ -341,6 +341,13 @@ namespace Assets.Scripts
             GameManager.RpcCreateOtherHands(1);
         }
 
+        public void CreateHandFromDeck(Card card)
+        {
+            CreateHandByCard(card);
+            ShowTheUseBtn();
+            GameManager.ShowDeck.MainDeck.Remove(card);
+        }
+
         public IEnumerator DropCard(int num)
         {
             for (int i = 0; i < num; i++)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -7,12 +8,12 @@ namespace Assets.Scripts
     public class SkillManager : MonoBehaviour
     {
         private static CreateHands _createHands;
-        private static Lrig _lrig;
+        //private static Lrig _lrig;
         private static SetSigni _setSigni;
-        private static EnerManager _enerManager;
-        private static LifeCloth _lifeCloth;
+        //private static EnerManager _enerManager;
+        //private static LifeCloth _lifeCloth;
         private static Trash _trash;
-        private static Check _check;
+        //private static Check _check;
         private static CardInfo _cardInfo;
         private static ShowDeck _showDeck;
 
@@ -22,18 +23,26 @@ namespace Assets.Scripts
         public SkillQi SkillQi;
         public SkillSpell SkillSpell;
         public SkillBrust SkillBrust;
+        public MyCard MyCard;
 
         public void Awake()
         {
             _createHands = GameManager.CreateHands;
-            _lrig = GameManager.Lrig;
+            //_lrig = GameManager.Lrig;
             _setSigni = GameManager.SetSigni;
-            _enerManager = GameManager.EnerManager;
-            _lifeCloth = GameManager.LifeCloth;
+            //_enerManager = GameManager.EnerManager;
+            //_lifeCloth = GameManager.LifeCloth;
             _trash = GameManager.Trash;
-            _check = GameManager.Check;
+            //_check = GameManager.Check;
             _cardInfo = GameManager.CardInfo;
             _showDeck = GameManager.ShowDeck;
+
+            SkillChang.Setup();
+            SkillChu.Setup();
+            SkillQi.Setup();
+            SkillSpell.Setup();
+            SkillBrust.Setup();
+            MyCard.Setup();
         }
 
         public void SigniSet()
@@ -71,26 +80,31 @@ namespace Assets.Scripts
         /// 赋值效果至卡处
         /// </summary>
         /// <param name="card">赋值的卡</param>
-        public void GetEffectByCardid(Card card)
+        public void GetEffectByCard(Card card)
         {
             if (SkillChang.CardEffectChangDictionary.ContainsKey(card.CardId))
             {
+                Debug.Log("Chang:"+card.CardId);
                 card.EffectChang = SkillChang.CardEffectChangDictionary[card.CardId];
             }
             if (SkillChu.CardEffectChuDictionary.ContainsKey(card.CardId))
             {
+                Debug.Log("Chu:"+card.CardId);
                 card.EffectChu = SkillChu.CardEffectChuDictionary[card.CardId];
             }
             if (SkillQi.CardEffectQiDictionary.ContainsKey(card.CardId))
             {
+                Debug.Log("Qi:"+card.CardId);
                 card.EffectQi = SkillQi.CardEffectQiDictionary[card.CardId];
             }
             if (SkillSpell.CardEffectSpellDictionary.ContainsKey(card.CardId))
             {
+                Debug.Log("Spell:"+card.CardId);
                 card.EffectSpell = SkillSpell.CardEffectSpellDictionary[card.CardId];
             }
             if (SkillBrust.CardEffectBrustDictionary.ContainsKey(card.CardId))
             {
+                Debug.Log("Brust:"+card.CardId);
                 card.Brust = SkillBrust.CardEffectBrustDictionary[card.CardId];
             }
         }
@@ -131,7 +145,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="num">N</param>
         /// <param name="bTrash">是否附带丢弃效果</param>
-        public void CheckDeckNumAndSort(int num, bool bTrash)
+        public static void CheckDeckNumAndSort(int num, bool bTrash)
         {
             var showlist = new List<Card>();
             for (int i = 0; i < num; i++)
@@ -139,9 +153,9 @@ namespace Assets.Scripts
                 var card = _showDeck.MainDeck[_showDeck.MainDeck.Count - 1 - i];
                 showlist.Add(card);
             }
-            _cardInfo.ShowCardInfo(true);
-            string strash = bTrash ? "并按选择的顺序排列" : "";
-            _cardInfo.SetUp("查看卡组顶" + num + "张卡" + strash, showlist, num, () =>
+
+            string strash = bTrash ? "不选择的话会被丢弃" : "";
+            _cardInfo.SetUp("查看卡组顶" + num + "张卡,按选择的顺序排列" + strash, showlist, num, () =>
             {
                 for (int i = 0; i < _cardInfo.SelectHands.Count; i++)
                 {
@@ -162,6 +176,16 @@ namespace Assets.Scripts
 
                 _cardInfo.ShowCardInfo(false);
             });
+            _cardInfo.ShowCardInfo(true);
+        }
+
+
+        public static List<Card> FindCardByCondition(Func<Card,bool> condition)
+        {
+            var cards = _showDeck.MainDeck;
+            var show = cards.Where(condition);
+            return show.ToList();
+
         }
 
         /// <summary>
@@ -177,7 +201,7 @@ namespace Assets.Scripts
                 var card = _showDeck.MainDeck[_showDeck.MainDeck.Count - 1 - i];
                 showlist.Add(card);
             }
-            _cardInfo.ShowCardInfo(true);
+
             _cardInfo.SetUp("查看卡组顶" + num + "张卡", showlist, num, () =>
             {
                 for (int i = 0; i < type.Count; i++)
@@ -186,14 +210,14 @@ namespace Assets.Scripts
                     {
                         if (showlist[j].Type == type[i])
                         {
-                            _createHands.CreateHandByCard(showlist[j]);
-                            _showDeck.MainDeck.Remove(showlist[j]);
+                            _createHands.CreateHandFromDeck(showlist[j]);
                         }
                     }
                 }
 
                 _cardInfo.ShowCardInfo(false);
             });
+            _cardInfo.ShowCardInfo(true);
         }
 
         /// <summary>
@@ -280,7 +304,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 返回手卡
         /// </summary>
-        public static void BackHand(Action succeed)
+        public static void BackHand(Action succeed = null)
         {
             _setSigni.ShowOtherSelections(true, true);
             _setSigni.SetSelections(false, null, true, i =>

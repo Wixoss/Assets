@@ -134,7 +134,7 @@ namespace Assets.Scripts
 
                 if (GUILayout.Button("检查卡组3张,按喜欢的顺序排列"))
                 {
-                    _showdeck.SkillManager.CheckDeckNumAndSort(3, false);
+                    SkillManager.CheckDeckNumAndSort(3, false);
                 }
             }
 

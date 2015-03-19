@@ -1425,6 +1425,7 @@
 		<TypeOnly>小玉</TypeOnly>
 		<BDef>0</BDef>
 		<BBrust>1</BBrust>
+        <EffectCost_Chu>白:1</EffectCost_Chu>
 		<CardDetail>【出】白1：从你的卡组里探寻1张《甲胄 皇家铠》，将其公开并加入手牌。之后，将卡组洗切。【※】：抽1张卡。</CardDetail>
 	</Signi>
 	<Signi>

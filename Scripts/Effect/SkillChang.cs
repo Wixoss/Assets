@@ -115,7 +115,7 @@ namespace Assets.Scripts
         public Dictionary<String, Action<Card>> CardEffectChangDictionary;
 
 
-        private void Awake()
+        public void Setup()
         {
             CardEffectChangDictionary = new Dictionary<string, Action<Card>>
             {

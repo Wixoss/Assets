@@ -10,5 +10,10 @@ namespace Assets.Scripts
         /// 起效果字典
         /// </summary>
         public Dictionary<String, Action<Card>> CardEffectQiDictionary;
+
+        public void Setup()
+        {
+            CardEffectQiDictionary = new Dictionary<string, Action<Card>>();
+        }
     }
 }

@@ -476,8 +476,7 @@ namespace Assets.Scripts
 
         public ShowDeck ShowDeck;
 
-        [ContextMenu("创建卡组")]
-        public void Awake()
+        public void Setup()
         {
             CreateCardByXml();
 
@@ -485,18 +484,18 @@ namespace Assets.Scripts
             {
                 var card = new Card(MyLrigid[i]);
                 MyLrigid[i] = MyLrigid[i] + "   " + card.CardName + "   " + card.MyCardType;
-                //DataSource.LrigDeck.Add(card);
                 CardTextures.Add(card.CardTexture);
                 ShowDeck.LrigDeck.Add(card);
+                ShowDeck.SkillManager.GetEffectByCard(card);
             }
 
             for (int i = 0; i < MyCardid.Count; i++)
             {
                 var card = new Card(MyCardid[i]);
                 MyCardid[i] = MyCardid[i] + "   " + card.CardName + "   " + card.MyCardType;
-                //DataSource.MainDeck.Add(card);
                 CardTextures.Add(card.CardTexture);
                 ShowDeck.MainDeck.Add(card);
+                ShowDeck.SkillManager.GetEffectByCard(card);
             }
 
             ShowDeck.WashMainDeck();

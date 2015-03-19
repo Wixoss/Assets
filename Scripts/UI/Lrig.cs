@@ -58,8 +58,8 @@ namespace Assets.Scripts
 
         public void ShowLrigDeck(List<Card> targets)
         {
-            CardInfo.ShowCardInfo(true);
             CardInfo.SetUp("使用记艺", targets.Count <= 0 ? GameManager.ShowDeck.LrigDeck : targets, 1, UseArt);
+            CardInfo.ShowCardInfo(true);
         }
 
         private void UseArt()
@@ -183,8 +183,8 @@ namespace Assets.Scripts
                 }
             }
             ShowUpBtn(false);
-            CardInfo.ShowCardInfo(true);
             CardInfo.SetUp("分身升级", lrig, 1, UpgradeCost);
+            CardInfo.ShowCardInfo(true);
         }
 
 
