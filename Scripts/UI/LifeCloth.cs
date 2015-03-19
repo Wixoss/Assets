@@ -118,67 +118,72 @@ namespace Assets.Scripts
             LifeCloths.Remove(LifeCloths[LifeCloths.Count - 1]);
         }
 
-//        private int _waitbrust = 0;
-//
-//        private System.Collections.IEnumerator WaitToUseBrust(Card card)
-//        {
-//            int i = 0;
-//
-//            GameManager.CreateHands.ShowEffectButton(card, () => StartCoroutine(WaitToBrust(card)), () => _waitbrust = -1);
-//
-//            while (true)
-//            {
-//                yield return new WaitForSeconds(1);
-//                if (_waitbrust == 0)
-//                {
-//                    i++;
-//                    if (i > 5)
-//                    {
-//                        GameManager.RpcContinueOtherAttack();
-//                        GameManager.CreateHands.DisEffectBtn();
-//                        yield break;
-//                    }
-//                }
-//                if (_waitbrust == 1)
-//                {
-//                    _waitbrust = 0;
-//                    yield break;
-//                }
-//                if (_waitbrust == -1)
-//                {
-//                    _waitbrust = 0;
-//                    GameManager.RpcContinueOtherAttack();
-//                    GameManager.CreateHands.DisEffectBtn();
-//                    yield break;
-//                }
-//            }
-//        }
+        //        private int _waitbrust = 0;
+        //
+        //        private System.Collections.IEnumerator WaitToUseBrust(Card card)
+        //        {
+        //            int i = 0;
+        //
+        //            GameManager.CreateHands.ShowEffectButton(card, () => StartCoroutine(WaitToBrust(card)), () => _waitbrust = -1);
+        //
+        //            while (true)
+        //            {
+        //                yield return new WaitForSeconds(1);
+        //                if (_waitbrust == 0)
+        //                {
+        //                    i++;
+        //                    if (i > 5)
+        //                    {
+        //                        GameManager.RpcContinueOtherAttack();
+        //                        GameManager.CreateHands.DisEffectBtn();
+        //                        yield break;
+        //                    }
+        //                }
+        //                if (_waitbrust == 1)
+        //                {
+        //                    _waitbrust = 0;
+        //                    yield break;
+        //                }
+        //                if (_waitbrust == -1)
+        //                {
+        //                    _waitbrust = 0;
+        //                    GameManager.RpcContinueOtherAttack();
+        //                    GameManager.CreateHands.DisEffectBtn();
+        //                    yield break;
+        //                }
+        //            }
+        //        }
 
         //private int _brust;
         //private System.Collections.IEnumerator WaitToBrust(Card card)
         private System.Collections.IEnumerator WaitToBrust(Card card)
         {
-            card.Brust = GameManager.SkillManager.BackHand;
-            card.Brust();
-            //GameManager.ShowCard.ShowMyCardEffect(card);
+            yield return new WaitForSeconds(2f);
+            //            card.Brust = () => GameManager.SkillManager.BackHand(() =>
+            //            {
+
+            //            });
+            card.Brust(card);
+            GameManager.RpcOtherCardBuff(card.CardId);
+            GameManager.ShowCard.ShowMyCardEffect(card);
 
             int i = 0;
             while (true)
             {
                 yield return new WaitForSeconds(1);
-                if(GameManager.SkillManager.BSelected)
+                if (SkillManager.BSelected)
                 {
-                    GameManager.SkillManager.BSelected = false;
+                    SkillManager.BSelected = false;
                     GameManager.RpcContinueOtherAttack();
                     yield break;
                 }
                 else
                 {
                     i++;
-                    if(i>=10)
+                    if (i >= 10)
                     {
-                        GameManager.SkillManager.BSelected = false;
-                        GameManager.SkillManager.DisSelect();
+                        SkillManager.BSelected = false;
+                        SkillManager.DisSelect();
                         GameManager.RpcContinueOtherAttack();
                         yield break;
                     }

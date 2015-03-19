@@ -7,7 +7,7 @@ namespace Assets.Scripts
 {
     public class Lrig : MonoBehaviour
     {
-        private List<Card> _myLrigs = new List<Card>();
+        //private List<Card> _myLrigs = new List<Card>();
 
         public string LrigId;
         public UITexture UiTexture;
@@ -27,6 +27,7 @@ namespace Assets.Scripts
         public Card OtherLrig;
 
         public bool Bset;
+
         public Card UpgradingLrig;
         public GameObject LrigDeck;
 
@@ -75,6 +76,16 @@ namespace Assets.Scripts
                     return;
                 }
 
+                if (mycard.TypeOnly.Length > 0)
+                {
+                    if (mycard.TypeOnly != MyLrig.Type)
+                    {
+                        CardInfo.ShowCardInfo(false);
+                        GameManager.Reporting.text = "卡牌限定分身不同";
+                        return;
+                    }
+                }
+
                 //是否在时点
                 bool btimg = false;
 
@@ -95,7 +106,7 @@ namespace Assets.Scripts
 
                 if (mycard.Cost.Count < 1)
                 {
-                    mycard.Effect_Spell(mycard);
+                    mycard.EffectSpell(mycard);
 
                     StartCoroutine(GameManager.Check.SetCheck(mycard));
                     GameManager.ShowCard.ShowMyCard(mycard);
@@ -109,7 +120,7 @@ namespace Assets.Scripts
                 {
                     SetTheCost(0, mycard.Cost.Count - 1, mycard, () =>
                     {
-                        mycard.Effect_Spell(mycard);
+                        mycard.EffectSpell(mycard);
 
                         StartCoroutine(GameManager.Check.SetCheck(mycard));
                         GameManager.ShowCard.ShowMyCard(mycard);
@@ -128,12 +139,33 @@ namespace Assets.Scripts
 
         public void SetUp(Card card)
         {
-            _myLrigs.Add(card);
-            MyLrig = _myLrigs[_myLrigs.Count - 1];
+            if (MyLrig != null)
+            {
+                
+                RemoveLrigChangAction(MyLrig);
+            }
+            MyLrig = card;
             Bset = true;
             LrigId = MyLrig.CardId;
             //UiTexture.mainTexture = MyLrig.CardTexture;
             CardHands.MyCard = card;
+            //常效果:我方设置分身时
+            GameManager.SkillManager.LrigSet();
+        }
+
+        /// <summary>
+        /// 清除上个分身的常回调
+        /// </summary>
+        /// <param name="card"></param>
+        public void RemoveLrigChangAction(Card card)
+        {
+            var skillchang = GameManager.SkillManager.SkillChang;
+            skillchang.EnerChargeActions.Remove(card.MyEffectChangEnerCharge);
+            skillchang.MyRoundOverActions.Remove(card.MyEffectChangMyRoundOver);
+            skillchang.MyRoundStartActions.Remove(card.MyEffectChangMyRoundStart);
+            skillchang.SigniOutActions.Remove(card.MyEffectChangSigniOut);
+            skillchang.SigniSetActions.Remove(card.MyEffectChangSigniSet);
+            skillchang.LrigSetActions.Remove(card.MyEffectChangLrigSet);
         }
 
         public void Upgrade()
@@ -186,7 +218,7 @@ namespace Assets.Scripts
                     GameManager.RpcGrow();
                     GameManager.RpcOtherLrig(UpgradingLrig.CardId);
                     GameManager.ShowCard.ShowMyCard(UpgradingLrig);
-                }, 2,()=>ShowUpBtn(true));
+                }, 2, () => ShowUpBtn(true));
             }
         }
 
@@ -202,7 +234,7 @@ namespace Assets.Scripts
         /// <param name="successd">成功的回调</param>
         /// <param name="costtype">1:cost,2:GrowCost,3:ChuCost,4:QiCost</param>
         /// <param name="failed">失败的回调</param>
-        public void SetTheCost(int num, int max, Card targetCard, Action successd, int costtype,Action failed = null)
+        public void SetTheCost(int num, int max, Card targetCard, Action successd, int costtype, Action failed = null)
         {
             var cards = new List<Card>();
 
@@ -354,7 +386,7 @@ namespace Assets.Scripts
 
         public void ShowAttackBtn(bool bshow)
         {
-            if (Bset)
+            if (Bset && !MyLrig.BCantAttack)
             {
                 AttackBtn.SetActive(bshow);
                 UIEventListener.Get(AttackBtn).MyOnClick = () =>
@@ -371,40 +403,40 @@ namespace Assets.Scripts
             }
         }
 
-//        private IEnumerator WaitToOtherGuard()
-//        {
-//            int i = 0;
-//            while (true)
-//            {
-//                yield return new WaitForSeconds(1);
-//                i++;
-//
-//                //                if (i >= 10 && Bguard == 0)
-//                //                {
-//                //                    LifeCloth.CrashOtherCloth(true);                    
-//                //                    GameManager.RpcCrashOtherLifeCloth(true);
-//                //                    yield break;
-//                //                }
-//                //                else
-//                //                {
-//                if (Bguard != 0)
-//                {
-//                    if (Bguard == 1)
-//                    {
-//                        Bguard = 0;
-//                        yield break;
-//                    }
-//                    else if (Bguard == -1)
-//                    {
-//                        LifeCloth.CrashOtherCloth(true);
-//                        GameManager.RpcCrashOtherLifeCloth(true);
-//                        Bguard = 0;
-//                        yield break;
-//                    }
-//                }
-//                //                }
-//            }
-//        }
+        //        private IEnumerator WaitToOtherGuard()
+        //        {
+        //            int i = 0;
+        //            while (true)
+        //            {
+        //                yield return new WaitForSeconds(1);
+        //                i++;
+        //
+        //                //                if (i >= 10 && Bguard == 0)
+        //                //                {
+        //                //                    LifeCloth.CrashOtherCloth(true);                    
+        //                //                    GameManager.RpcCrashOtherLifeCloth(true);
+        //                //                    yield break;
+        //                //                }
+        //                //                else
+        //                //                {
+        //                if (Bguard != 0)
+        //                {
+        //                    if (Bguard == 1)
+        //                    {
+        //                        Bguard = 0;
+        //                        yield break;
+        //                    }
+        //                    else if (Bguard == -1)
+        //                    {
+        //                        LifeCloth.CrashOtherCloth(true);
+        //                        GameManager.RpcCrashOtherLifeCloth(true);
+        //                        Bguard = 0;
+        //                        yield break;
+        //                    }
+        //                }
+        //                //                }
+        //            }
+        //        }
 
 
         public void ResetLrig()
@@ -412,6 +444,11 @@ namespace Assets.Scripts
             Bset = true;
             UiTexture.transform.localEulerAngles = new Vector3(90, 0, 0);
             GameManager.RpcLrigSet(true);
+            if (MyLrig.BCantAttack)
+            {
+                MyLrig.BCantAttack = false;
+                GameManager.RpcOtherDebuff(2, 3, false);
+            }
         }
 
         /// <summary>
@@ -439,6 +476,7 @@ namespace Assets.Scripts
             UiTexture.transform.localEulerAngles = new Vector3(90, 90, 0);
             GameManager.RpcLrigSet(false);
         }
+
 
         public void SetOtherLrig(string card)
         {

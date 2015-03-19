@@ -67,6 +67,7 @@ namespace Assets.Scripts
         /// </summary>
         public int SigniLevelCount;
 
+
         private void Awake()
         {
             UIEventListener.Get(SetBtn[0]).MyOnClick = () => SetMySigni1(0);
@@ -88,7 +89,10 @@ namespace Assets.Scripts
 
         private void SetMySigni1(int num)
         {
+            //常效果:精灵出场时调用
+            GameManager.SkillManager.SigniSet();
             Signi[num] = _sendingCard;
+
             if (Signi[num] != null)
             {
                 BSet[num] = true;
@@ -151,7 +155,7 @@ namespace Assets.Scripts
         {
             CardTexture[num].transform.localEulerAngles = new Vector3(90, 90, 0);
             BSet[num] = false;
-            AttackBtn [num].SetActive(false);
+            AttackBtn[num].SetActive(false);
             GameManager.RpcSet(num, false);
         }
 
@@ -163,13 +167,15 @@ namespace Assets.Scripts
         {
             if (Signi[num] != null && GameManager.MyGameState == GameManager.GameState.主要阶段)
             {
-                CreateHands.ShowEffectButton(Signi[num],() => {
+                CreateHands.ShowEffectButton(Signi[num], () =>
+                {
                     if (Signi[num].EffectCost_Qi.Count < 1)
                     {
-                        Signi[num].Effect_Qi(Signi[num]);
-                    } else
+                        Signi[num].EffectQi(Signi[num]);
+                    }
+                    else
                     {
-                        Lrig.SetTheCost(0, Signi[num].EffectCost_Qi.Count - 1, Signi[num], () => Signi[num].Effect_Qi(Signi[num]), 4);
+                        Lrig.SetTheCost(0, Signi[num].EffectCost_Qi.Count - 1, Signi[num], () => Signi[num].EffectQi(Signi[num]), 4);
                     }
                 });
                 ShowTrashBtn(num, !TrashBtn[num].activeSelf);
@@ -253,8 +259,16 @@ namespace Assets.Scripts
 
         public void TrashSigni(int num)
         {
+
             if (Signi[num] != null)
             {
+
+                if (Signi[num].SigniOutAction != null)
+                {
+                    Signi[num].SigniOutAction(Signi[num]);
+                }
+                RemoveSigniChangAction(Signi[num]);
+
                 Trash.AddTrash(Signi[num]);
                 Signi[num].ResetCardConfig();
                 CreateHands.DisEffectBtn();
@@ -264,7 +278,26 @@ namespace Assets.Scripts
                 CountSigniLevel();
                 GameManager.CreateHands.ShowTheUseBtn();
             }
+            //常效果:精灵离场时调用
+            GameManager.SkillManager.SigniOut();
+
         }
+
+        /// <summary>
+        /// 清除常效果的回调
+        /// </summary>
+        /// <param name="card"></param>
+        public void RemoveSigniChangAction(Card card)
+        {
+            var skillchang = GameManager.SkillManager.SkillChang;
+            skillchang.EnerChargeActions.Remove(card.MyEffectChangEnerCharge);
+            skillchang.MyRoundOverActions.Remove(card.MyEffectChangMyRoundOver);
+            skillchang.MyRoundStartActions.Remove(card.MyEffectChangMyRoundStart);
+            skillchang.SigniOutActions.Remove(card.MyEffectChangSigniOut);
+            skillchang.SigniSetActions.Remove(card.MyEffectChangSigniSet);
+            skillchang.LrigSetActions.Remove(card.MyEffectChangLrigSet);
+        }
+
 
         public void TrashOtherSigni(int num)
         {
@@ -288,6 +321,9 @@ namespace Assets.Scripts
                 GameManager.RpcBanishOther(num);
                 GameManager.RpcEnerCharge();
             }
+
+            //常效果:我方充能时
+            GameManager.SkillManager.EnerCharge();
         }
 
         public void ShowAttackBtn()
@@ -316,7 +352,7 @@ namespace Assets.Scripts
         {
             while (true)
             {
-                if(BWaitFinish)
+                if (BWaitFinish)
                 {
                     BWaitFinish = false;
                     BWaiting = false;
@@ -340,7 +376,7 @@ namespace Assets.Scripts
                 {
                     BWaitFinish = false;
                     BWaiting = true;
-                    StartCoroutine(WaitToBrust());                   
+                    StartCoroutine(WaitToBrust());
                     Debug.Log("BWaiting = false");
                 }
             }
@@ -446,7 +482,8 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="bshow">If set to <c>true</c> bshow.</param>
         /// <param name="condiction">If set to <c>true</c> condiction.</param>
-        public void ShowOtherSelections(bool bshow, bool condiction)
+        /// <param name="bLrig"></param>
+        public void ShowOtherSelections(bool bshow, bool condiction, bool bLrig = false)
         {
             if (bshow)
             {
@@ -518,7 +555,7 @@ namespace Assets.Scripts
                     };
                 }
             }
-        }       
+        }
 
 
         #region 对方的精灵操作
@@ -539,12 +576,21 @@ namespace Assets.Scripts
         {
             if (Signi[num] != null)
             {
+                if (Signi[num].SigniOutAction != null)
+                {
+                    Signi[num].SigniOutAction(Signi[num]);
+                }
+
+                RemoveSigniChangAction(Signi[num]);
+
                 EnerManager.CreateEner(Signi[num]);
                 GameManager.RpcEnerCharge(Signi[num].CardId);
                 Signi[num].ResetCardConfig();
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);
             }
+            //常效果:精灵离场时调用
+            GameManager.SkillManager.SigniOut();
         }
 
 

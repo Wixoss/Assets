@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 namespace Assets.Scripts
 {
@@ -40,6 +39,12 @@ namespace Assets.Scripts
         public Check Check;
         public GameManager GameManager;
         public CardInfo CardInfo;
+
+        /// <summary>
+        /// 对面展示的卡
+        /// </summary>
+        public List<Card> OtherShowCards = new List<Card>();
+
 
         private void Awake()
         {
@@ -183,6 +188,8 @@ namespace Assets.Scripts
 
             }
 
+            //常效果:我方回合冲能时
+            GameManager.SkillManager.EnerCharge();
             //            EnerManager.SetTheEner();
 
             Invoke("SetZero", 0.5f);
@@ -532,6 +539,11 @@ namespace Assets.Scripts
             for (int i = 0; i < MyHands.Count; i++)
             {
                 card = MyHands[i].MyCard;
+                if (card.TypeOnly.Length > 0)
+                {
+                    if (card.TypeOnly != Lrig.MyLrig.Type)
+                        return;
+                }
                 if (card.MyCardType == Card.CardType.精灵卡)
                 {
                     //等级少于等于分身等级,且场上等级总和少于等于分身限制数
@@ -596,7 +608,7 @@ namespace Assets.Scripts
                 i++;
                 if (i > 5 && GameManager.BUseArt == 0)
                 {
-                    card.Effect_Spell(card);
+                    card.EffectSpell(card);
                     GameManager.Reporting.text = "主要阶段";
                     GameManager.RpcOtherUseArt(false);
                     GameManager.RpcOtherTiming(0);
@@ -615,7 +627,7 @@ namespace Assets.Scripts
                     {
                         GameManager.Reporting.text = "主要阶段";
                         GameManager.BUseArt = 0;
-                        card.Effect_Spell(card);
+                        card.EffectSpell(card);
                         GameManager.RpcOtherTiming(0);
                         ShowTheUseBtn();
                         yield break;
@@ -634,7 +646,7 @@ namespace Assets.Scripts
                 i++;
                 if (i >= 10)
                 {
-                    card.Effect_Spell(card);
+                    card.EffectSpell(card);
                     GameManager.Reporting.text = "主要阶段";
                     GameManager.RpcOtherUseArt(false);
                     GameManager.RpcOtherTiming(0);
@@ -645,8 +657,10 @@ namespace Assets.Scripts
                 {
                     if (GameManager.Check.GetOtherCard() != null)
                     {
-                        GameManager.Check.GetOtherCard().Effect_Spell(GameManager.Check.GetOtherCard());
+//                        GameManager.Check.GetOtherCard().EffectSpell();                                            
+                        yield return new WaitForSeconds(1f);
                         GameManager.Reporting.text = "主要阶段";
+                        card.EffectSpell(card);
                         ShowTheUseBtn();
                         yield break;
                     }

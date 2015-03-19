@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -103,7 +102,37 @@ namespace Assets.Scripts
         /// <summary>
         /// 小玉限定还是什么?(主卡专用)
         /// </summary>
-        public string TypeOnly;
+        public string TypeOnly = "";
+
+        /// <summary>
+        /// 精灵出场时调用
+        /// </summary>
+        public SkillChang.EffectChang MyEffectChangSigniSet = new SkillChang.EffectChang();
+        /// <summary>
+        /// 精灵离场时调用
+        /// </summary>
+        public SkillChang.EffectChang MyEffectChangSigniOut = new SkillChang.EffectChang();
+        /// <summary>
+        /// 我放回合开始时
+        /// </summary>
+        public SkillChang.EffectChang MyEffectChangMyRoundStart = new SkillChang.EffectChang();
+        /// <summary>
+        /// 敌方回合开始时
+        /// </summary>
+        public SkillChang.EffectChang MyEffectChangMyRoundOver = new SkillChang.EffectChang();
+        /// <summary>
+        /// 我方充能时调用
+        /// </summary>
+        public SkillChang.EffectChang MyEffectChangEnerCharge = new SkillChang.EffectChang();
+        /// <summary>
+        /// 我发设置分身时
+        /// </summary>
+        public SkillChang.EffectChang MyEffectChangLrigSet = new SkillChang.EffectChang();
+
+        /// <summary>
+        /// 精灵自己离场时调用
+        /// </summary>
+        public Action<Card> SigniOutAction; 
 
         /// <summary>
         /// 能量的能量类型与数量
@@ -144,6 +173,11 @@ namespace Assets.Scripts
         /// 攻击力
         /// </summary>
         public int Atk;
+
+        /// <summary>
+        /// 是否已经发动了常效果
+        /// </summary>
+        public bool BChang;
 
         /// <summary>
         /// 能否防御
@@ -228,11 +262,11 @@ namespace Assets.Scripts
         /// <summary>
         /// 效果s(待实现)
         /// </summary>
-        public Action<Card> Effect_Qi = card => Debug.Log("Effect_Qi");
-        public Action<Card> Effect_Chang = card => Debug.Log("Effect_Chang");
-        public Action<Card> Effect_Chu = card => Debug.Log("Effect_Chu");
-        public Action<Card> Effect_Spell = card => Debug.Log("Spell!" + card.CardId);
-        public Action Brust = () => Debug.Log("Brust!");
+        public Action<Card> EffectChang = card => Debug.Log("Effect_Qi"); //常
+        public Action<Card> EffectChu = card => Debug.Log("Effect_Chang"); //出
+        public Action<Card> EffectQi = card => Debug.Log("Effect_Chu"); //起
+        public Action<Card> EffectSpell = card => Debug.Log("Spell!");
+        public Action<Card> Brust = card => Debug.Log("Brust!");
 
         public Card(string cardid)
         {
@@ -430,6 +464,7 @@ namespace Assets.Scripts
             Bdouble = false;
             Bfreeze = false;
             Blancer = false;
+            BChang = false;
         }
     }
 
@@ -501,75 +536,75 @@ namespace Assets.Scripts
 
             MyCardid = new List<string>()
             {
-//                "WD01-009",
-//                "WD01-009",
-//                "WD01-009",
-//                "WD01-009",
+                "WD01-009",
+                "WD01-009",
+                "WD01-009",
+                "WD01-009",
                 
-//                "WD01-010",
-//                "WD01-010",
-//                "WD01-010",
-//                "WD01-010",
+                "WD01-010",
+                "WD01-010",
+                "WD01-010",
+                "WD01-010",
                 
-//                "WD01-011",
-//                "WD01-011",
-//                "WD01-011",
-//                "WD01-011",
+                "WD01-011",
+                "WD01-011",
+                "WD01-011",
+                "WD01-011",
                 
-//                "WD01-012",
-//                "WD01-012",
-//                "WD01-012",
-//                "WD01-012",
+                "WD01-012",
+                "WD01-012",
+                "WD01-012",
+                "WD01-012",
                 
-//                "WD01-013",
-//                "WD01-013",
-//                "WD01-013",
-//                "WD01-013",
+                "WD01-013",
+                "WD01-013",
+                "WD01-013",
+                "WD01-013",
                 
-//                "WD01-014",
-//                "WD01-014",
-//                "WD01-014",
-//                "WD01-014",
+                "WD01-014",
+                "WD01-014",
+                "WD01-014",
+                "WD01-014",
                 
-//                "WD01-015",
-//                "WD01-015",
-//                "WD01-015",
-//                "WD01-015",
+                "WD01-015",
+                "WD01-015",
+                "WD01-015",
+                "WD01-015",
 
-                "WX01-101",
-                "WX01-101",
-                "WX01-101",
-                "WX01-101",
-                
-                "WX01-102",
-                "WX01-102",
-                "WX01-102",
-                "WX01-102",
-                
-                "WX01-103",
-                "WX01-103",
-                "WX01-103",
-                "WX01-103",
-
-                "WX01-101",
-                "WX01-101",
-                "WX01-101",
-                "WX01-101",
-                
-                "WX01-102",
-                "WX01-102",
-                "WX01-102",
-                "WX01-102",
-                
-                "WX01-051",
-                "WX01-051",
-                "WX01-051",
-                "WX01-051",
-                                
-                "WX01-100",
-                "WX01-100",
-                "WX01-100",
-                "WX01-100",
+//                "WX01-101",
+//                "WX01-101",
+//                "WX01-101",
+//                "WX01-101",
+//                
+//                "WX01-102",
+//                "WX01-102",
+//                "WX01-102",
+//                "WX01-102",
+//                
+//                "WX01-103",
+//                "WX01-103",
+//                "WX01-103",
+//                "WX01-103",
+//
+//                "WX01-101",
+//                "WX01-101",
+//                "WX01-101",
+//                "WX01-101",
+//                
+//                "WX01-102",
+//                "WX01-102",
+//                "WX01-102",
+//                "WX01-102",
+//                
+//                "WX01-051",
+//                "WX01-051",
+//                "WX01-051",
+//                "WX01-051",
+//                                
+//                "WX01-100",
+//                "WX01-100",
+//                "WX01-100",
+//                "WX01-100",
 
                 //------------
                 

@@ -125,6 +125,17 @@ namespace Assets.Scripts
         }
 
         [RPC]
+        private void ShowOtherCardBuff(string cardid)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            Card card = new Card(cardid);
+            _gameManager.ShowCard.ShowMyCardEffect(card);
+        }
+
+        [RPC]
         private void SetMySigniSet(int num, bool bset)
         {
             if (_gameManager == null)
@@ -148,6 +159,16 @@ namespace Assets.Scripts
 
         [RPC]
         private void SetOtherLrigSet()
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.Lrig.HorizontalLrig();
+        }
+
+        [RPC]
+        private void SetOtherLrigCantAttack()
         {
             if (_gameManager == null)
             {
@@ -299,12 +320,39 @@ namespace Assets.Scripts
             Debug.Log(bguard);
             if (bguard == -1)
             {
-                _gameManager.RpcCrashOtherLifeCloth(true);
+                GameManager.RpcCrashOtherLifeCloth(true);
                 _gameManager.LifeCloth.CrashOtherCloth(true);
             }
             //弧光！！
             //            _gameManager.MyGameState = GameManager.GameState.结束阶段;
             //            _gameManager.WordInfo.ShowTheEndPhaseBtn(false);
+        }
+
+        [RPC]
+        private void SendOtherMyShowCard(string card)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+
+            _gameManager.CreateHands.OtherShowCards.Add(new Card(card));
+        }
+
+        [RPC]
+        private void ShowOtherMyCards()
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+
+            _gameManager.CardInfo.ShowCardInfo(true);
+            _gameManager.CardInfo.SetUp("对面获取的卡牌", _gameManager.CreateHands.OtherShowCards, 0, () =>
+            {
+                _gameManager.CreateHands.OtherShowCards.Clear();
+                _gameManager.CardInfo.ShowCardInfo(false);
+            });
         }
 
         [RPC]
@@ -367,7 +415,7 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            _gameManager.CreateHands.ShowGuardBtn();            
+            _gameManager.CreateHands.ShowGuardBtn();
         }
 
         [RPC]
@@ -473,9 +521,19 @@ namespace Assets.Scripts
             switch (typenum)
             {
                 case 1:
+                    if (num == 3)
+                    {
+                        _gameManager.Lrig.MyLrig.Bfreeze = bset;
+                        break;
+                    }
                     _gameManager.SetSigni.Signi[num].Bfreeze = bset;
                     break;
                 case 2:
+                    if (num == 3)
+                    {
+                        _gameManager.Lrig.MyLrig.BCantAttack = bset;
+                        break;
+                    }
                     _gameManager.SetSigni.Signi[num].BCantAttack = bset;
                     break;
             }

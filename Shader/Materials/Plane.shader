@@ -19,7 +19,7 @@
 
 		void surf (Input IN, inout SurfaceOutput o) {
 			half4 c = tex2D (_MainTex, IN.uv_MainTex);
-			o.Albedo = c.rgb;
+			o.Emission = c.rgb;
 			o.Alpha = c.a;
 		}
 		ENDCG

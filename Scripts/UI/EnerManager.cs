@@ -132,6 +132,8 @@ namespace Assets.Scripts
                 return;
             CreateEner(card);
             GameManager.RpcEnerCharge(card.CardId);
+            //常效果:我方回合冲能时
+            GameManager.SkillManager.EnerCharge();
         }
 
         /// <summary>

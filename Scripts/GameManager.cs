@@ -8,7 +8,7 @@ namespace Assets.Scripts
     {
         public int Rounds;
         public UILabel Reporting;
-        public MyRpc MyRpc;
+        public static MyRpc MyRpc;
         public static bool BLocalRound;
 
         public ShowCard ShowCard;
@@ -201,7 +201,7 @@ namespace Assets.Scripts
         /// 告诉对方我已经设置好护甲
         /// </summary>
         /// <param name="num"></param>
-        public void RpcCreateLifeCloth(int num)
+        public static void RpcCreateLifeCloth(int num)
         {
             MyRpc.Rpc("SetOtherCloth", RPCMode.Others, num);
         }
@@ -324,6 +324,9 @@ namespace Assets.Scripts
 
         private IEnumerator SetPhase()
         {
+            //常:我方回合开始时:
+            SkillManager.MyRoundStart();
+
             SetAllSigni();
             yield return new WaitForSeconds(2);
             MyGameState = GameState.抽牌阶段;
@@ -371,7 +374,7 @@ namespace Assets.Scripts
         /// 在对面显示自己卡组数
         /// </summary>
         /// <param name="num"></param>
-        public void RpcOtherDeck(int num)
+        public static void RpcOtherDeck(int num)
         {
             MyRpc.Rpc("SetOtherMainDeck", RPCMode.Others, num);
         }
@@ -407,7 +410,7 @@ namespace Assets.Scripts
         /// 告诉别人自己充能了
         /// </summary>
         /// <param name="cardid"></param>
-        public void RpcEnerCharge(string cardid)
+        public static void RpcEnerCharge(string cardid)
         {
             MyRpc.Rpc("SetOtherEner", RPCMode.Others, cardid);
         }
@@ -440,7 +443,7 @@ namespace Assets.Scripts
         /// 告诉对方我已经放置好了分身
         /// </summary>
         /// <param name="cardid"></param>
-        public void RpcOtherLrig(string cardid)
+        public static void RpcOtherLrig(string cardid)
         {
             MyRpc.Rpc("SetOtherLrig", RPCMode.Others, cardid);
         }
@@ -450,7 +453,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="cardid">Cardid.</param>
         /// <param name="i">The index.</param>
-        public void RpcOtherTrash(string cardid, int i = -1)
+        public static void RpcOtherTrash(string cardid, int i = -1)
         {
             MyRpc.Rpc("SetOtherTrash", RPCMode.Others, cardid, i);
         }
@@ -459,7 +462,7 @@ namespace Assets.Scripts
         /// 告诉对方自己用了能量
         /// </summary>
         /// <param name="cardid"></param>
-        public void RpcDeleteOtherEner(string cardid)
+        public static void RpcDeleteOtherEner(string cardid)
         {
             MyRpc.Rpc("DeleteOtherEner", RPCMode.Others, cardid);
         }
@@ -468,8 +471,7 @@ namespace Assets.Scripts
         ///告诉对方自己删除了手牌
         /// </summary>
         /// <param name="num">Number.</param>
-        /// <param name="bhandkill">If set to <c>true</c> bhandkill.</param>
-        public void RpcDestoryOtherHands(int num)
+        public static void RpcDestoryOtherHands(int num)
         {
             MyRpc.Rpc("DestoryOtherHand", RPCMode.Others, num);
         }
@@ -478,9 +480,22 @@ namespace Assets.Scripts
         /// 告诉对方自己新增了手牌
         /// </summary>
         /// <param name="num"></param>
-        public void RpcCreateOtherHands(int num)
+        public static void RpcCreateOtherHands(int num)
         {
             MyRpc.Rpc("CreateOtherHands", RPCMode.Others, num);
+        }
+
+        /// <summary>
+        /// 展示手牌给对方
+        /// </summary>
+        /// <param name="myCards"></param>
+        public static void RpcOtherShowCards(List<Card> myCards)
+        {
+            for (int i = 0; i < myCards.Count; i++)
+            {
+                MyRpc.Rpc("SendOtherMyShowCard", RPCMode.Others, myCards[i].CardId);
+            }
+            MyRpc.Rpc("ShowOtherMyCards", RPCMode.Others);
         }
 
         #endregion
@@ -520,7 +535,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="num">位置</param>
         /// <param name="cardid">卡牌id</param>
-        public void RpcSetSigni(int num, string cardid)
+        public static void RpcSetSigni(int num, string cardid)
         {
             MyRpc.Rpc("SetOtherSigni", RPCMode.Others, num, cardid);
         }
@@ -529,7 +544,7 @@ namespace Assets.Scripts
         /// 在检查区中显示
         /// </summary>
         /// <param name="cardid"></param>
-        public void RpcCheck(string cardid)
+        public static void RpcCheck(string cardid)
         {
             MyRpc.Rpc("SetOtherCheck", RPCMode.Others, cardid);
         }
@@ -539,7 +554,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="cardid">Cardid.</param>
         /// <param name="bReward">bReward.</param>
-        public void RpcGetCardFromTrash(bool bReward, string cardid = "")
+        public static void RpcGetCardFromTrash(bool bReward, string cardid = "")
         {
             MyRpc.Rpc("OtherGetCardFromTrash", RPCMode.Others, bReward, cardid);
         }
@@ -550,7 +565,7 @@ namespace Assets.Scripts
         /// <param name="type">buff类型,1枪兵,2双重击溃</param>
         /// <param name="num">位置,反过来对应 2,1,0</param>
         /// <param name="bset">是否</param>
-        public void RpcMyBuff(int type, int num, bool bset)
+        public static void RpcMyBuff(int type, int num, bool bset)
         {
             MyRpc.Rpc("SetBuff", RPCMode.Others, type, num, bset);
         }
@@ -559,11 +574,16 @@ namespace Assets.Scripts
         /// 把释放到对面的debuff在对面显示
         /// </summary>
         /// <param name="type">类型,1冰冻,2不能攻击</param>
-        /// <param name="num">位置,0,1,2</param>
+        /// <param name="num">位置,0,1,2,3为分身</param>
         /// <param name="bset">是否</param>
-        public void RpcOtherDebuff(int type, int num, bool bset)
+        public static void RpcOtherDebuff(int type, int num, bool bset)
         {
             MyRpc.Rpc("SetOtherBuff", RPCMode.Others, type, num, bset);
+        }
+
+        public static void RpcOtherCardBuff(string cardid)
+        {
+            MyRpc.Rpc("ShowOtherCardBuff", RPCMode.Others, cardid);
         }
 
         #endregion
@@ -592,7 +612,7 @@ namespace Assets.Scripts
         /// 对面显示使用技艺按钮
         /// </summary>
         /// <param name="bshow"></param>
-        public void RpcOtherUseArt(bool bshow)
+        public static void RpcOtherUseArt(bool bshow)
         {
             MyRpc.Rpc("ShowOtherUseArt", RPCMode.Others, bshow);
         }
@@ -601,7 +621,7 @@ namespace Assets.Scripts
         /// 
         /// </summary>
         /// <param name="i">1:攻击宣言阶段,2:魔法切入,0:其他</param>
-        public void RpcOtherTiming(int i)
+        public static void RpcOtherTiming(int i)
         {
             MyRpc.Rpc("SetOtherTiming", RPCMode.Others, i);
         }
@@ -664,7 +684,7 @@ namespace Assets.Scripts
         /// 0是原始,1是用,-1是不用
         /// </summary>
         /// <param name="buse"></param>
-        public void RpcOtherUseArt(int buse)
+        public static void RpcOtherUseArt(int buse)
         {
             MyRpc.Rpc("SetOtherUseArt", RPCMode.Others, buse);
         }
@@ -690,7 +710,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 停止对方的攻击阶段
         /// </summary>
-        public void RpcStopOtherAttack()
+        public static void RpcStopOtherAttack()
         {
             MyRpc.Rpc("RpcStopOtherAttack", RPCMode.Others);
         }
@@ -698,7 +718,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 继续对方的攻击阶段
         /// </summary>
-        public void RpcContinueOtherAttack()
+        public static void RpcContinueOtherAttack()
         {
             MyRpc.Rpc("RpcContinueOtherAttack", RPCMode.Others);
         }
@@ -707,7 +727,7 @@ namespace Assets.Scripts
         /// 我方驱逐Other
         /// </summary>
         /// <param name="num"></param>
-        public void RpcBanish(int num)
+        public static void RpcBanish(int num)
         {
             MyRpc.Rpc("SetBanish", RPCMode.Others, num);
         }
@@ -715,7 +735,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 告诉对方对方的护甲被击破
         /// </summary>
-        public void RpcCrashOtherLifeCloth(bool bHurt)
+        public static void RpcCrashOtherLifeCloth(bool bHurt)
         {
             MyRpc.Rpc("CrashOtherCloth", RPCMode.Others, bHurt);
         }
@@ -724,7 +744,7 @@ namespace Assets.Scripts
         /// 告诉对方我的护甲被击溃
         /// </summary>
         /// <param name="bHurt">If set to <c>true</c> b hurt.</param>
-        public void RpcCrashMyCloth(bool bHurt)
+        public static void RpcCrashMyCloth(bool bHurt)
         {
             MyRpc.Rpc("CrashMyCloth", RPCMode.Others, bHurt);
         }
@@ -733,7 +753,7 @@ namespace Assets.Scripts
         /// 告诉对方是否防御了
         /// </summary>
         /// <param name="bguard"></param>
-        public void RpcGuard(int bguard)
+        public static void RpcGuard(int bguard)
         {
             MyRpc.Rpc("SetOtherGuard", RPCMode.Others, bguard);
         }
@@ -742,7 +762,7 @@ namespace Assets.Scripts
         /// 在对方客户端上现在对面的牌被驱逐了
         /// </summary>
         /// <param name="num"></param>
-        public void RpcBanishOther(int num)
+        public static void RpcBanishOther(int num)
         {
             MyRpc.Rpc("SetOtherBanish", RPCMode.Others, num);
         }
@@ -751,7 +771,7 @@ namespace Assets.Scripts
         /// 在对方显示对方的牌被弹回手卡
         /// </summary>
         /// <param name="num">Number.</param>
-        public void RpcBackHand(int num)
+        public static void RpcBackHand(int num)
         {
             MyRpc.Rpc("SetOtherBackHand", RPCMode.Others, num);
         }
@@ -761,7 +781,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="num">位置,1,2,3</param>
         /// <param name="bset">是否横,竖置</param>
-        public void RpcSet(int num, bool bset)
+        public static void RpcSet(int num, bool bset)
         {
             MyRpc.Rpc("SetMySigniSet", RPCMode.Others, num, bset);
         }
@@ -770,7 +790,7 @@ namespace Assets.Scripts
         /// 横置对方的精灵
         /// </summary>
         /// <param name="num"></param>
-        public void RpcSetOtherSigniSet(int num)
+        public static void RpcSetOtherSigniSet(int num)
         {
             MyRpc.Rpc("SetOtherSigniSet", RPCMode.Others, num);
         }
@@ -779,7 +799,7 @@ namespace Assets.Scripts
         /// 告诉对面分身攻击后横置
         /// </summary>
         /// <param name="bset"></param>
-        public void RpcLrigSet(bool bset)
+        public static void RpcLrigSet(bool bset)
         {
             MyRpc.Rpc("SetMyLrigSet", RPCMode.Others, bset);
         }
@@ -787,7 +807,12 @@ namespace Assets.Scripts
         /// <summary>
         /// 横置对方的分身
         /// </summary>
-        public void RpcSetOtherLrigSet()
+        public static void RpcSetOtherLrigSet()
+        {
+            MyRpc.Rpc("SetOtherLrigSet", RPCMode.Others);
+        }
+
+        public static void RpcSetOtherLrigCantAttack()
         {
             MyRpc.Rpc("SetOtherLrigSet", RPCMode.Others);
         }
@@ -814,12 +839,12 @@ namespace Assets.Scripts
         /// <summary>
         /// 询问对面是否需要防御,10秒后放弃防御
         /// </summary>
-        public void RpcLrigAttack()
+        public static void RpcLrigAttack()
         {
             MyRpc.Rpc("ShowOtherGuard", RPCMode.Others);
         }
 
-        public void RpcGameResult(string word)
+        public static void RpcGameResult(string word)
         {
             MyRpc.Rpc("ShowGameResult", RPCMode.Others, word);
         }
@@ -838,6 +863,9 @@ namespace Assets.Scripts
 
         public void End()
         {
+            //常效果:我方回合结束时
+            SkillManager.MyRoundOver();
+
             //if(hands.count>6)丢牌
             CreateHands.Reflash();
             Reporting.text = "回合结束,控制权转移";
@@ -865,7 +893,7 @@ namespace Assets.Scripts
             obj2.SetActive(true);
         }
 
-  
+
         //测试!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //        private void Start()
         //        {

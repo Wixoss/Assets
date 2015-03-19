@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -60,7 +59,7 @@ namespace Assets.Scripts
                 {
                     _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true, i =>
-                        _showdeck.GameManager.RpcBackHand(_showdeck.GameManager.SetSigni.OtherSelection));
+                        GameManager.RpcBackHand(_showdeck.GameManager.SetSigni.OtherSelection));
                 }
 
                 if (GUILayout.Button("指定对方一只精灵驱逐"))
@@ -76,7 +75,7 @@ namespace Assets.Scripts
                     _showdeck.GameManager.SetSigni.SetSelections(true, i =>
                     {
                         _showdeck.GameManager.SetSigni.Signi[i].Blancer = true;
-                        _showdeck.GameManager.RpcMyBuff(1, i, true);
+                        GameManager.RpcMyBuff(1, i, true);
                     }, false, null);
                 }
 
@@ -86,7 +85,7 @@ namespace Assets.Scripts
                     _showdeck.GameManager.SetSigni.SetSelections(true, i =>
                     {
                         _showdeck.GameManager.SetSigni.Signi[i].Bdouble = true;
-                        _showdeck.GameManager.RpcMyBuff(2, i, true);
+                        GameManager.RpcMyBuff(2, i, true);
                     }, false, null);
                 }
 
@@ -102,7 +101,7 @@ namespace Assets.Scripts
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true, i =>
                     {
                         _showdeck.GameManager.SetSigni.OtherSigni[i].Bfreeze = true;
-                        _showdeck.GameManager.RpcOtherDebuff(1, i, true);
+                        GameManager.RpcOtherDebuff(1, i, true);
                     });
                 }
 
@@ -112,7 +111,7 @@ namespace Assets.Scripts
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true, i =>
                     {
                         _showdeck.GameManager.SetSigni.OtherSigni[i].BCantAttack = true;
-                        _showdeck.GameManager.RpcOtherDebuff(2, i, true);
+                        GameManager.RpcOtherDebuff(2, i, true);
                     });
                 }
 
@@ -120,12 +119,12 @@ namespace Assets.Scripts
                 {
                     _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true,
-                        i => _showdeck.GameManager.RpcSetOtherSigniSet(i));
+                        GameManager.RpcSetOtherSigniSet);
                 }
 
                 if (GUILayout.Button("横置对方分身"))
                 {
-                    _showdeck.GameManager.Lrig.SetOtherLrigSelection(_showdeck.GameManager.RpcSetOtherLrigSet);
+                    _showdeck.GameManager.Lrig.SetOtherLrigSelection(GameManager.RpcSetOtherLrigSet);
                 }
 
                 if (GUILayout.Button("丢弃3手卡,自己选择"))
