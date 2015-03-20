@@ -59,14 +59,14 @@ namespace Assets.Scripts
                 {
                     _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true, i =>
-                        GameManager.RpcBackHand(_showdeck.GameManager.SetSigni.OtherSelection));
+                        GameManager.RpcBackHand(_showdeck.GameManager.SetSigni.OtherSelection),false);
                 }
 
                 if (GUILayout.Button("指定对方一只精灵驱逐"))
                 {
                     _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true,
-                        i => _showdeck.GameManager.SetSigni.BanishOtherSigni(i));
+                        i => _showdeck.GameManager.SetSigni.BanishOtherSigni(i), false);
                 }
 
                 if (GUILayout.Button("指定我方一只精灵枪兵"))
@@ -76,7 +76,7 @@ namespace Assets.Scripts
                     {
                         _showdeck.GameManager.SetSigni.Signi[i].Blancer = true;
                         GameManager.RpcMyBuff(1, i, true);
-                    }, false, null);
+                    }, false, null, false);
                 }
 
                 if (GUILayout.Button("指定我方一只精灵双重击溃"))
@@ -86,7 +86,7 @@ namespace Assets.Scripts
                     {
                         _showdeck.GameManager.SetSigni.Signi[i].Bdouble = true;
                         GameManager.RpcMyBuff(2, i, true);
-                    }, false, null);
+                    }, false, null, false);
                 }
 
                 if (GUILayout.Button("指定我方分身再次攻击"))
@@ -102,7 +102,7 @@ namespace Assets.Scripts
                     {
                         _showdeck.GameManager.SetSigni.OtherSigni[i].Bfreeze = true;
                         GameManager.RpcOtherDebuff(1, i, true);
-                    });
+                    }, false);
                 }
 
                 if (GUILayout.Button("指定对方一只精灵不能攻击"))
@@ -112,14 +112,14 @@ namespace Assets.Scripts
                     {
                         _showdeck.GameManager.SetSigni.OtherSigni[i].BCantAttack = true;
                         GameManager.RpcOtherDebuff(2, i, true);
-                    });
+                    }, false);
                 }
 
                 if (GUILayout.Button("横置对方精灵"))
                 {
                     _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true,
-                        GameManager.RpcSetOtherSigniSet);
+                        GameManager.RpcSetOtherSigniSet, false);
                 }
 
                 if (GUILayout.Button("横置对方分身"))

@@ -66,9 +66,9 @@ namespace Assets.Scripts
             {
                 GameManager.SetSigni.OtherSigni[i].BCantAttack = true;
                 GameManager.RpcOtherDebuff(2, i, true);
-            });
+            },true);
 
-            GameManager.Lrig.SetOtherLrigSelection(() => GameManager.RpcOtherDebuff(2, 3, true));
+           // GameManager.Lrig.SetOtherLrigSelection(() => GameManager.RpcOtherDebuff(2, 3, true));
         }
 
         private void CardWd01015(Card card)

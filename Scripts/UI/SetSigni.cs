@@ -92,29 +92,9 @@ namespace Assets.Scripts
             //常效果:精灵出场时调用
             GameManager.SkillManager.SigniSet();
             Signi[num] = _sendingCard;
-
-            if(Signi[num].EffectChu!=null)
-            {
-                if(Signi[num].EffectCost_Chu.Count<1)
-                {
-                    Signi[num].EffectChu(Signi[num]);
-                    GameManager.ShowCard.ShowMyCardEffect(Signi[num]);
-                    GameManager.RpcOtherCardBuff(Signi[num].CardId);
-                }
-                else
-                {
-                    GameManager.CardInfo.ShowCardInfo(true);
-                    GameManager.Lrig.SetTheCost(0, Signi[num].EffectCost_Chu.Count - 1, Signi[num], () =>
-                    {
-                        Signi[num].EffectChu(Signi[num]);
-                        GameManager.ShowCard.ShowMyCardEffect(Signi[num]);
-                        GameManager.RpcOtherCardBuff(Signi[num].CardId);
-                    },3);
-                }
-            }
-
             if (Signi[num] != null)
             {
+                StartCoroutine(EffectChuDalay(Signi[num]));
                 BSet[num] = true;
                 CardTexture[num].gameObject.SetActive(true);
                 CardTexture[num].transform.localEulerAngles = new Vector3(90, 0, 0);
@@ -128,6 +108,30 @@ namespace Assets.Scripts
             }
             CountSigniLevel();
             GameManager.CreateHands.ShowTheUseBtn();
+        }
+
+        private System.Collections.IEnumerator EffectChuDalay(Card card)
+        {
+            yield return new WaitForSeconds(2f);
+            if (card.EffectChu != null)
+            {
+                if (card.EffectCost_Chu.Count < 1)
+                {
+                    card.EffectChu(card);
+                    GameManager.ShowCard.ShowMyCardEffect(card);
+                    GameManager.RpcOtherCardBuff(card.CardId);
+                }
+                else
+                {
+                    GameManager.CardInfo.ShowCardInfo(true);
+                    GameManager.Lrig.SetTheCost(0, card.EffectCost_Chu.Count - 1, card, () =>
+                    {
+                        card.EffectChu(card);
+                        GameManager.ShowCard.ShowMyCardEffect(card);
+                        GameManager.RpcOtherCardBuff(card.CardId);
+                    }, 3);
+                }
+            }
         }
 
         public bool BEnety()
@@ -196,7 +200,7 @@ namespace Assets.Scripts
                     else
                     {
                         GameManager.CardInfo.ShowCardInfo(true);
-                        Lrig.SetTheCost(0, Signi[num].EffectCost_Qi.Count - 1, Signi[num], () => 
+                        Lrig.SetTheCost(0, Signi[num].EffectCost_Qi.Count - 1, Signi[num], () =>
                         {
                             GameManager.CardInfo.ShowCardInfo(true);
                             Signi[num].EffectQi(Signi[num]);
@@ -472,8 +476,9 @@ namespace Assets.Scripts
             Card card = Signi[num];
             Signi[num] = null;
             CardTexture[num].gameObject.SetActive(false);
+            card.ResetCardConfig();
             GameManager.CreateHands.CreateHandByCard(card);
-            GameManager.RpcBanishOther(num);
+            //GameManager.RpcBanishOther(num);
         }
 
         /// <summary>
@@ -536,7 +541,8 @@ namespace Assets.Scripts
         /// <param name="myAction">选择己方怪物添加状态</param>
         /// <param name="showOther">是否显示对方的按钮</param>
         /// <param name="otherAction">选择对方怪物添加状态</param>
-        public void SetSelections(bool showMy, System.Action<int> myAction, bool showOther, System.Action<int> otherAction)
+        /// <param name="bincludeLrig">是否包括分身</param>
+        public void SetSelections(bool showMy, System.Action<int> myAction, bool showOther, System.Action<int> otherAction, bool bincludeLrig)
         {
             if (showMy)
             {
@@ -546,17 +552,39 @@ namespace Assets.Scripts
                     UIEventListener.Get(MySelections[i]).MyOnClick = () =>
                     {
                         MySelection = i1;
+                        //为了后续的成功回调
+                        for (int k = MySelections.Length - 1; k >= 0; k--)
+                        {
+                            MySelections[k].SetActive(false);
+                        }
+
+                        if (bincludeLrig)
+                        {
+                            Lrig.MyLrigSelection.SetActive(false);
+                        }
+
                         if (myAction != null)
                         {
                             myAction(MySelection);
                             MySelection = -1;
                         }
-                        for (int k = MySelections.Length - 1; k >= 0; k--)
-                        {
-                            MySelections[k].SetActive(false);
-                        }
+
                     };
                 }
+
+                if (bincludeLrig)
+                {
+                    Lrig.SetMyLrigSelection(() =>
+                    {
+                        if (myAction != null)
+                        {
+                            MySelection = 3;
+                            myAction(MySelection);
+                            MySelection = -1;
+                        }
+                    });
+                }
+
             }
 
             if (showOther)
@@ -567,17 +595,36 @@ namespace Assets.Scripts
                     UIEventListener.Get(OtherSelections[j]).MyOnClick = () =>
                     {
                         OtherSelection = j1;
+                        //为了后续的成功回调
+                        for (int k = MySelections.Length - 1; k >= 0; k--)
+                        {
+                            OtherSelections[k].SetActive(false);
+                        }
+
+                        if (bincludeLrig)
+                        {
+                            Lrig.MyLrigSelection.SetActive(false);
+                        }
+
                         if (otherAction != null)
                         {
                             otherAction(OtherSelection);
                             OtherSelection = -1;
                         }
-
-                        for (int k = MySelections.Length - 1; k >= 0; k--)
-                        {
-                            OtherSelections[k].SetActive(false);
-                        }
                     };
+                }
+
+                if (bincludeLrig)
+                {
+                    Lrig.SetOtherLrigSelection(() =>
+                    {
+                        if (myAction != null)
+                        {
+                            OtherSelection = 3;
+                            otherAction(OtherSelection);
+                            OtherSelection = -1;
+                        }
+                    });
                 }
             }
         }

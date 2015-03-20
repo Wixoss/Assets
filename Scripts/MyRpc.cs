@@ -526,7 +526,10 @@ namespace Assets.Scripts
                         _gameManager.Lrig.MyLrig.Bfreeze = bset;
                         break;
                     }
-                    _gameManager.SetSigni.Signi[num].Bfreeze = bset;
+                    if (_gameManager.SetSigni.Signi[num] != null)
+                    {
+                        _gameManager.SetSigni.Signi[num].Bfreeze = bset;
+                    }
                     break;
                 case 2:
                     if (num == 3)
@@ -534,7 +537,10 @@ namespace Assets.Scripts
                         _gameManager.Lrig.MyLrig.BCantAttack = bset;
                         break;
                     }
-                    _gameManager.SetSigni.Signi[num].BCantAttack = bset;
+                    if (_gameManager.SetSigni.Signi[num] != null)
+                    {
+                        _gameManager.SetSigni.Signi[num].BCantAttack = bset;
+                    }
                     break;
             }
         }

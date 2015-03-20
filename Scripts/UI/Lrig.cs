@@ -33,6 +33,7 @@ namespace Assets.Scripts
 
         public LifeCloth LifeCloth;
         public GameObject OtherLrigSelection;
+        public GameObject MyLrigSelection;
 
         /// <summary>
         ///Other Guard. 0 is nothing,1 guard,-1 not guard
@@ -466,6 +467,23 @@ namespace Assets.Scripts
                 OtherLrigSelection.SetActive(false);
             };
         }
+
+        /// <summary>
+        /// 设置我方分身按钮事件并且显示
+        /// </summary>
+        /// <param name="mAction"></param>
+        public void SetMyLrigSelection(Action mAction)
+        {
+            MyLrigSelection.SetActive(true);
+            UIEventListener.Get(MyLrigSelection).MyOnClick = () =>
+            {
+                if (mAction != null)
+                    mAction();
+                GameManager.SetSigni.ShowMySelections(false, false);
+                MyLrigSelection.SetActive(false);
+            };
+        }
+
 
         /// <summary>
         /// 横置分身

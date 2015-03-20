@@ -84,27 +84,27 @@ namespace Assets.Scripts
         {
             if (SkillChang.CardEffectChangDictionary.ContainsKey(card.CardId))
             {
-                Debug.Log("Chang:"+card.CardId);
+                Debug.Log("Chang:" + card.CardId);
                 card.EffectChang = SkillChang.CardEffectChangDictionary[card.CardId];
             }
             if (SkillChu.CardEffectChuDictionary.ContainsKey(card.CardId))
             {
-                Debug.Log("Chu:"+card.CardId);
+                Debug.Log("Chu:" + card.CardId);
                 card.EffectChu = SkillChu.CardEffectChuDictionary[card.CardId];
             }
             if (SkillQi.CardEffectQiDictionary.ContainsKey(card.CardId))
             {
-                Debug.Log("Qi:"+card.CardId);
+                Debug.Log("Qi:" + card.CardId);
                 card.EffectQi = SkillQi.CardEffectQiDictionary[card.CardId];
             }
             if (SkillSpell.CardEffectSpellDictionary.ContainsKey(card.CardId))
             {
-                Debug.Log("Spell:"+card.CardId);
+                Debug.Log("Spell:" + card.CardId);
                 card.EffectSpell = SkillSpell.CardEffectSpellDictionary[card.CardId];
             }
             if (SkillBrust.CardEffectBrustDictionary.ContainsKey(card.CardId))
             {
-                Debug.Log("Brust:"+card.CardId);
+                Debug.Log("Brust:" + card.CardId);
                 card.Brust = SkillBrust.CardEffectBrustDictionary[card.CardId];
             }
         }
@@ -180,7 +180,7 @@ namespace Assets.Scripts
         }
 
 
-        public static List<Card> FindCardByCondition(Func<Card,bool> condition)
+        public static List<Card> FindCardByCondition(Func<Card, bool> condition)
         {
             var cards = _showDeck.MainDeck;
             var show = cards.Where(condition);
@@ -307,13 +307,17 @@ namespace Assets.Scripts
         public static void BackHand(Action succeed = null)
         {
             _setSigni.ShowOtherSelections(true, true);
+
+            Debug.Log("ShowOtherSelections");
+
             _setSigni.SetSelections(false, null, true, i =>
              {
+                 GameManager.RpcBackHand(_setSigni.OtherSelection);
+                 _setSigni.ShowBanishOtherSigni(_setSigni.OtherSelection);
                  BSelected = true;
                  if (succeed != null)
                      succeed();
-                 GameManager.RpcBackHand(_setSigni.OtherSelection);
-             });
+             }, false);
         }
 
         /// <summary>

@@ -262,9 +262,9 @@ namespace Assets.Scripts
         /// <summary>
         /// 效果s(待实现)
         /// </summary>
-        public Action<Card> EffectChang = card => Debug.Log("Effect_Qi"); //常
-        public Action<Card> EffectChu = card => Debug.Log("Effect_Chang"); //出
-        public Action<Card> EffectQi = card => Debug.Log("Effect_Chu"); //起
+        public Action<Card> EffectChang = card => Debug.Log("EffectChang"); //常
+        public Action<Card> EffectChu = card => Debug.Log("EffectChu"); //出
+        public Action<Card> EffectQi = card => Debug.Log("EffectQi"); //起
         public Action<Card> EffectSpell = card => Debug.Log("Spell!");
         public Action<Card> Brust = card => Debug.Log("Brust!");
 

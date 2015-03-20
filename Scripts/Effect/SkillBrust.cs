@@ -21,6 +21,8 @@ namespace Assets.Scripts
             };
         }
 
+        // 迸发最好都加上一个成功了的回调
+
         private void CardWd01009(Card card)
         {
             SkillManager.BackHand();
