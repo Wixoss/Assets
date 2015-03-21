@@ -42,13 +42,13 @@ namespace Assets.Scripts
         /// </summary>
         public List<EffectChang> LrigSetActions = new List<EffectChang>();
 
-        public void SigniSet()
+        public void SigniSet(Card card)
         {
             for (int i = 0; i < SigniSetActions.Count; i++)
             {
                 if (SigniSetActions[i].CardChangAction != null)
                 {
-                    SigniSetActions[i].CardChangAction(SigniSetActions[i].Card);
+                    SigniSetActions[i].CardChangAction(card);
                 }
             }
         }
@@ -119,8 +119,8 @@ namespace Assets.Scripts
         {
             CardEffectChangDictionary = new Dictionary<string, Action<Card>>
             {
-                {"WX01-001",CardWx01001},
-                {"WX01-009",CardWd01009},
+                {"WD01-001",CardWx01001},
+                {"WD01-009",CardWd01009},
             };
         }
 
@@ -131,12 +131,18 @@ namespace Assets.Scripts
                 Card = card,
                 CardChangAction = card1 =>
                 {
+                    //如果条件发动后，每有一只怪出场，那只怪＋2000
+                    if(card.BChang)
+                    {
+                        SkillManager.AddAtk(card1, 2000);
+                    }
+
                     //场上没有 皇家铠 且效果没发动
                     if (SkillManager.BSigniInGround("甲胄 皇家铠") && !card.BChang)
                     {
                         SkillManager.AddAtkAll(2000);
                         card.BChang = true;
-                    }
+                    }  
                 }
             };
 
@@ -183,10 +189,10 @@ namespace Assets.Scripts
                 Card = card,
                 CardChangAction = card1 =>
                 {
-                    if (!card.BChang)
+                    if (card.BChang)
                     {
                         SkillManager.AddAtkAll(-1000);
-                        card.BChang = true;
+                        card.BChang = false;
                     }
                 }
             };
@@ -197,14 +203,20 @@ namespace Assets.Scripts
             MyRoundOverActions.Add(chang);
             card.MyEffectChangMyRoundOver = chang;
 
-            card.SigniOutAction = card1 =>
+            var chang3 = new EffectChang
             {
-                if (card.BChang)
+                Card = card,
+                CardChangAction = card1 =>
                 {
-                    SkillManager.AddAtkAll(-1000);
-                    card.BChang = false;
+                    if (card.BChang)
+                    {
+                        SkillManager.AddAtkAll(-1000);
+                        card.BChang = false;
+                    }
                 }
             };
+
+            SigniOutActions.Add(chang3);
         }
 
     }

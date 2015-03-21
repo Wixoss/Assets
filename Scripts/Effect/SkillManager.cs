@@ -16,6 +16,7 @@ namespace Assets.Scripts
         //private static Check _check;
         private static CardInfo _cardInfo;
         private static ShowDeck _showDeck;
+        private static ShowCard _showCard;
 
         public GameManager GameManager;
         public SkillChang SkillChang;
@@ -36,6 +37,7 @@ namespace Assets.Scripts
             //_check = GameManager.Check;
             _cardInfo = GameManager.CardInfo;
             _showDeck = GameManager.ShowDeck;
+            _showCard = GameManager.ShowCard;
 
             SkillChang.Setup();
             SkillChu.Setup();
@@ -45,9 +47,9 @@ namespace Assets.Scripts
             MyCard.Setup();
         }
 
-        public void SigniSet()
+        public void SigniSet(Card card)
         {
-            SkillChang.SigniSet();
+            SkillChang.SigniSet(card);
         }
 
         public void SigniOut()
@@ -121,6 +123,11 @@ namespace Assets.Scripts
             _createHands.ShowTheUseBtn();
         }
 
+        public static void WashDeck()
+        {
+            _showDeck.WashMainDeck();
+        }
+
         /// <summary>
         /// 丢弃手牌(自己选择)
         /// </summary>
@@ -155,6 +162,7 @@ namespace Assets.Scripts
             }
 
             string strash = bTrash ? "不选择的话会被丢弃" : "";
+            _cardInfo.ShowCardInfo(true);
             _cardInfo.SetUp("查看卡组顶" + num + "张卡,按选择的顺序排列" + strash, showlist, num, () =>
             {
                 for (int i = 0; i < _cardInfo.SelectHands.Count; i++)
@@ -176,7 +184,7 @@ namespace Assets.Scripts
 
                 _cardInfo.ShowCardInfo(false);
             });
-            _cardInfo.ShowCardInfo(true);
+
         }
 
 
@@ -201,7 +209,7 @@ namespace Assets.Scripts
                 var card = _showDeck.MainDeck[_showDeck.MainDeck.Count - 1 - i];
                 showlist.Add(card);
             }
-
+            _cardInfo.ShowCardInfo(true);
             _cardInfo.SetUp("查看卡组顶" + num + "张卡", showlist, num, () =>
             {
                 for (int i = 0; i < type.Count; i++)
@@ -217,7 +225,7 @@ namespace Assets.Scripts
 
                 _cardInfo.ShowCardInfo(false);
             });
-            _cardInfo.ShowCardInfo(true);
+
         }
 
         /// <summary>
@@ -242,8 +250,17 @@ namespace Assets.Scripts
             var signis = _setSigni.Signi;
             for (int i = 0; i < signis.Length; i++)
             {
-                signis[i].Atk += value;
+                if(signis[i]!=null)
+                {
+                    signis[i].Atk += value;
+                    GameManager.RpcOtherCardAtkChange(i, value);
+                }
             }
+        }
+
+        public static Card[] GetSignis(bool bmy)
+        {
+            return bmy ? _setSigni.Signi : _setSigni.OtherSigni;
         }
 
         /// <summary>
@@ -252,11 +269,15 @@ namespace Assets.Scripts
         /// <param name="card">Card.</param>
         /// <param name="value">Value.</param>
         /// <param name="condition">If set to <c>true</c> condition.</param>
-        public void AddAtk(Card card, int value, bool condition)
+        public static void AddAtk(Card card, int value)
         {
-            if (condition)
+            card.Atk += value;
+            for (int i = 0; i < _setSigni.Signi.Length; i++)
             {
-                card.Atk += value;
+                if(_setSigni.Signi[i]==card)
+                {
+                    GameManager.RpcOtherCardAtkChange(i, value);
+                }
             }
         }
 
@@ -270,7 +291,7 @@ namespace Assets.Scripts
             var signis = _setSigni.Signi;
             for (int i = 0; i < signis.Length; i++)
             {
-                if (signis[i].CardName == cardname)
+                if (signis[i] != null && signis[i].CardName == cardname)
                 {
                     bin = true;
                 }
@@ -284,7 +305,7 @@ namespace Assets.Scripts
             var signis = _setSigni.Signi;
             for (int i = 0; i < signis.Length; i++)
             {
-                if (signis[i] == card)
+                if (signis[i] != null && signis[i] == card)
                 {
                     bin = true;
                 }
@@ -304,15 +325,16 @@ namespace Assets.Scripts
         /// <summary>
         /// 返回手卡
         /// </summary>
-        public static void BackHand(Action succeed = null)
+        public static void BackHand(Card sourcecard,Action succeed = null)
         {
             _setSigni.ShowOtherSelections(true, true);
-
-            Debug.Log("ShowOtherSelections");
-
             _setSigni.SetSelections(false, null, true, i =>
              {
                  GameManager.RpcBackHand(_setSigni.OtherSelection);
+
+                 _showCard.ShowMyCardEffect(sourcecard);
+                 GameManager.RpcOtherCardBuff(sourcecard.CardId);
+
                  _setSigni.ShowBanishOtherSigni(_setSigni.OtherSelection);
                  BSelected = true;
                  if (succeed != null)

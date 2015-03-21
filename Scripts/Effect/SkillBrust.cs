@@ -25,7 +25,7 @@ namespace Assets.Scripts
 
         private void CardWd01009(Card card)
         {
-            SkillManager.BackHand();
+            SkillManager.BackHand(card);
         }
 
         private void DropCard(Card card)

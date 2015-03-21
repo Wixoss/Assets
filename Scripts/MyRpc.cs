@@ -347,12 +347,22 @@ namespace Assets.Scripts
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
 
+            _gameManager.CardInfo.ShowCardInfo(true);
             _gameManager.CardInfo.SetUp("对面获取的卡牌", _gameManager.CreateHands.OtherShowCards, 0, () =>
             {
                 _gameManager.CreateHands.OtherShowCards.Clear();
                 _gameManager.CardInfo.ShowCardInfo(false);
             });
-            _gameManager.CardInfo.ShowCardInfo(true);
+        }
+
+        [RPC]
+        private void ShowOtherMyCardsAtkChange(int num, int value)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.SetSigni.OtherSigni [num].Atk += value;
         }
 
         [RPC]

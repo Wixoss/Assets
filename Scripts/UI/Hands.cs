@@ -177,7 +177,11 @@ namespace Assets.Scripts
         {
             TweenColor.ResetToBeginning();
             TweenColor.PlayForward();
-            TweenColor.enabled = bshow;           
+            TweenColor.enabled = bshow;
+            if (!bshow)
+            {
+                UiTexture.color = Color.white;
+            }
             //UiTexture.color = bshow ? Color.Lerp(Color.white, Color.green, 0.1f) : Color.white;
         }
 

@@ -73,8 +73,8 @@ namespace Assets.Scripts
 
         private void ShowEner()
         {
-            CardInfo.SetUp("显示能量", EnerCards, 0, () => CardInfo.ShowCardInfo(false));
             CardInfo.ShowCardInfo(true);
+            CardInfo.SetUp("显示能量", EnerCards, 0, () => CardInfo.ShowCardInfo(false));
         }
 
         private void ShowOtherEner()
@@ -85,8 +85,8 @@ namespace Assets.Scripts
                 cards.Add(OtherEner[i].MyCard);
             }
 
-            CardInfo.SetUp("对方能量", cards, 0, () => CardInfo.ShowCardInfo(false));
             CardInfo.ShowCardInfo(true);
+            CardInfo.SetUp("对方能量", cards, 0, () => CardInfo.ShowCardInfo(false));
         }
 
 

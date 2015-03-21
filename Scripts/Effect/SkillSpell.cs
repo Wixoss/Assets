@@ -24,26 +24,16 @@ namespace Assets.Scripts
 
         private void CardWd01006(Card card)
         {
-            SkillManager.BackHand(() => SkillManager.BackHand());
+            SkillManager.BackHand(card,() => SkillManager.BackHand(card));
         }
 
 
         private void CardWd01007(Card card)
         {
-//            var cards = GameManager.ShowDeck.MainDeck;
-//            List<Card> shows = new List<Card>();
-//            for (int i = 0; i < cards.Count; i++)
-//            {
-//                if (cards[i].MyCardColor == Card.CardColor.白)
-//                {
-//                    shows.Add(cards[i]);
-//                }
-//            }
-
             var targets = SkillManager.FindCardByCondition(x => x.MyCardColor == Card.CardColor.白);
             var cardinfo = GameManager.CardInfo;
 
-
+            cardinfo.ShowCardInfo(true);
             cardinfo.SetUp("探寻至多2只白色SIGNI", targets, 2, () =>
             {
                 var mycards = new List<Card>();
@@ -55,8 +45,8 @@ namespace Assets.Scripts
                 }
                 GameManager.RpcOtherShowCards(mycards);
                 cardinfo.ShowCardInfo(false);
+                SkillManager.WashDeck();
             });
-            cardinfo.ShowCardInfo(true);
         }
 
         private void CardWd01008(Card card)
@@ -75,18 +65,19 @@ namespace Assets.Scripts
         {
             var targets = SkillManager.FindCardByCondition(x => x.MyCardType ==  Card.CardType.精灵卡);
             var cardinfo = GameManager.CardInfo;
-
+            cardinfo.ShowCardInfo(true);
             cardinfo.SetUp("探寻至多1只SIGNI", targets, 1, () =>
             {
-                if(cardinfo.SelectHands[0]!=null)
+                if(cardinfo.SelectHands.Count>0 && cardinfo.SelectHands[0]!=null)
                 {
                     var mycard = cardinfo.SelectHands[0].MyCard;
                     GameManager.CreateHands.CreateHandFromDeck(mycard);
                     GameManager.RpcOtherShowCards(new List<Card>{mycard});
                 } 
                 cardinfo.ShowCardInfo(false);
+                SkillManager.WashDeck();
             });
-            cardinfo.ShowCardInfo(true);
+
         }
 
         private void CardWx01103(Card card)

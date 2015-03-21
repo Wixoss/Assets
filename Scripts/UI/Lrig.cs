@@ -59,8 +59,8 @@ namespace Assets.Scripts
 
         public void ShowLrigDeck(List<Card> targets)
         {
-            CardInfo.SetUp("使用记艺", targets.Count <= 0 ? GameManager.ShowDeck.LrigDeck : targets, 1, UseArt);
             CardInfo.ShowCardInfo(true);
+            CardInfo.SetUp("使用记艺", targets.Count <= 0 ? GameManager.ShowDeck.LrigDeck : targets, 1, UseArt);
         }
 
         private void UseArt()
@@ -107,28 +107,29 @@ namespace Assets.Scripts
 
                 if (mycard.Cost.Count < 1)
                 {
+                    CardInfo.ShowCardInfo(false);
                     mycard.EffectSpell(mycard);
+
+                    //StartCoroutine(ShowBuff(mycard));
 
                     StartCoroutine(GameManager.Check.SetCheck(mycard));
                     GameManager.ShowCard.ShowMyCard(mycard);
                     GameManager.RpcCheck(mycard.CardId);
                     GameManager.ShowDeck.LrigDeck.Remove(mycard);
-
-                    CardInfo.ShowCardInfo(false);
-
                 }
                 else
                 {
                     SetTheCost(0, mycard.Cost.Count - 1, mycard, () =>
                     {
+                        CardInfo.ShowCardInfo(false);
                         mycard.EffectSpell(mycard);
+
+                        //StartCoroutine(ShowBuff(mycard));
 
                         StartCoroutine(GameManager.Check.SetCheck(mycard));
                         GameManager.ShowCard.ShowMyCard(mycard);
                         GameManager.RpcCheck(mycard.CardId);
                         GameManager.ShowDeck.LrigDeck.Remove(mycard);
-
-                        CardInfo.ShowCardInfo(false);
                     }, 1);
                 }
             }
@@ -138,14 +139,26 @@ namespace Assets.Scripts
             }
         }
 
+//        private IEnumerator ShowBuff(Card card)
+//        {
+//            yield return new WaitForSeconds(2);
+//            GameManager.ShowCard.ShowMyCardEffect(card);
+//            GameManager.RpcOtherCardBuff(card.CardId);
+//        }
+
         public void SetUp(Card card)
         {
             if (MyLrig != null)
-            {
-                
+            {                
                 RemoveLrigChangAction(MyLrig);
             }
             MyLrig = card;
+
+            if (MyLrig.EffectChang != null)
+            {
+                MyLrig.EffectChang(MyLrig);
+            }
+
             Bset = true;
             LrigId = MyLrig.CardId;
             //UiTexture.mainTexture = MyLrig.CardTexture;
@@ -184,8 +197,8 @@ namespace Assets.Scripts
                 }
             }
             ShowUpBtn(false);
-            CardInfo.SetUp("分身升级", lrig, 1, UpgradeCost);
             CardInfo.ShowCardInfo(true);
+            CardInfo.SetUp("分身升级", lrig, 1, UpgradeCost);
         }
 
 
@@ -269,12 +282,12 @@ namespace Assets.Scripts
             for (int i = 0; i < EnerManager.EnerCards.Count; i++)
             {
                 //任何颜色都等于无色
-                if (mycosttype[num].MyEnerType == Card.Ener.EnerType.无)
-                {
-                    cards.Add(EnerManager.EnerCards[i]);
-                }
-                //万花等于任何颜色
-                if (EnerManager.EnerCards[i].MyEner.MyEnerType == mycosttype[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花)
+//                if (mycosttype[num].MyEnerType == Card.Ener.EnerType.无)
+//                {
+//                    cards.Add(EnerManager.EnerCards[i]);
+//                }
+                //万花等于任何颜色 && 任何颜色都等于无色
+                if (EnerManager.EnerCards[i].MyEner.MyEnerType == mycosttype[num].MyEnerType || EnerManager.EnerCards[i].MyEner.MyEnerType == Card.Ener.EnerType.万花 ||mycosttype[num].MyEnerType == Card.Ener.EnerType.无)
                 {
                     cards.Add(EnerManager.EnerCards[i]);
                 }
@@ -328,6 +341,7 @@ namespace Assets.Scripts
                         {
                             successd();
                         }
+                        GameManager.Reporting.text = "主要阶段";
                     }
                 }
                 else

@@ -34,8 +34,8 @@
 			uv.y += _Time.y *_Speed;
 
 			float flow = tex2D (_FlowTex, uv).a;
-
-			o.Emission = c.rgb + float3 (flow,flow,flow) * _Light *_Color ;
+            
+			o.Emission = c.rgb + float3 (flow,flow,flow) * _Light * _Color;
 			//o.Alpha = c.a;
 		}
 		ENDCG

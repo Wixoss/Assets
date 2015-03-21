@@ -27,17 +27,18 @@ namespace Assets.Scripts
 
             var cardinfo = GameManager.CardInfo;
 
+            cardinfo.ShowCardInfo(true);
             cardinfo.SetUp("探寻1张《甲胄 皇家铠", target, 1, ()=>
             {
-                if(cardinfo.SelectHands[0]!=null)
+                if(cardinfo.SelectHands.Count > 0 && cardinfo.SelectHands[0]!=null)
                 {
                     var mycard = cardinfo.SelectHands [0].MyCard;
                     GameManager.CreateHands.CreateHandFromDeck(mycard);
                     GameManager.RpcOtherShowCards(new List<Card>{mycard});
-                    cardinfo.ShowCardInfo(false);
                 }
+                cardinfo.ShowCardInfo(false);
+                SkillManager.WashDeck();
             });
-            cardinfo.ShowCardInfo(true);
         }
 
         private void CardWd01014(Card card)

@@ -221,9 +221,8 @@ namespace Assets.Scripts
                     }
                 }
             }
-
-            CardInfo.SetUp("放置0级分身", lrig, 1, SelectLrigDelegate);
             CardInfo.ShowCardInfo(true);
+            CardInfo.SetUp("放置0级分身", lrig, 1, SelectLrigDelegate);
             Lrig.SetShowLrigDeck();
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
 
@@ -584,6 +583,16 @@ namespace Assets.Scripts
         public static void RpcOtherCardBuff(string cardid)
         {
             MyRpc.Rpc("ShowOtherCardBuff", RPCMode.Others, cardid);
+        }
+
+        /// <summary>
+        /// 告诉对面攻击力变化
+        /// </summary>
+        /// <param name="num">Number.</param>
+        /// <param name="value">Value.</param>
+        public static void RpcOtherCardAtkChange(int num, int value)
+        {
+            MyRpc.Rpc("ShowOtherMyCardsAtkChange", RPCMode.Others, num, value);
         }
 
         #endregion

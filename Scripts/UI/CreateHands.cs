@@ -344,7 +344,10 @@ namespace Assets.Scripts
         public void CreateHandFromDeck(Card card)
         {
             CreateHandByCard(card);
-            ShowTheUseBtn();
+            if (GameManager.MyGameState == GameManager.GameState.主要阶段 || GameManager.MyGameState == GameManager.GameState.分身攻击阶段)
+            {
+                ShowTheUseBtn();
+            }
             GameManager.ShowDeck.MainDeck.Remove(card);
         }
 
@@ -457,9 +460,6 @@ namespace Assets.Scripts
 
         private void UseCard()
         {
-            if (_usingHands == null && GameManager.MyGameState != GameManager.GameState.主要阶段)
-                return;
-
             if (_usingHands.MyCard.MyCardType == Card.CardType.精灵卡)
             {
                 UIEventListener.Get(UseCardBtn).MyOnClick = () =>
@@ -492,6 +492,7 @@ namespace Assets.Scripts
 
                         GameManager.Reporting.text = "等待对方操作中...";
                         StartCoroutine(WaitToOtherUseArt(_usingHands.MyCard));
+                        GameManager.WordInfo.ShowTheEndPhaseBtn(false);
                         GameManager.RpcOtherUseArt(true);
 
                         StartCoroutine(Check.SetCheck(_usingHands.MyCard));
@@ -520,6 +521,7 @@ namespace Assets.Scripts
 
                         GameManager.Reporting.text = "等待对方操作中...";
                         StartCoroutine(WaitToOtherUseArt(_usingHands.MyCard));
+                        GameManager.WordInfo.ShowTheEndPhaseBtn(false);
                         GameManager.RpcOtherUseArt(true);
 
                         StartCoroutine(Check.SetCheck(_usingHands.MyCard));
@@ -542,6 +544,9 @@ namespace Assets.Scripts
         /// </summary>
         public void ShowTheUseBtn()
         {
+            if (GameManager.MyGameState != GameManager.GameState.主要阶段)
+                return;
+
             Card card;
             for (int i = 0; i < MyHands.Count; i++)
             {
@@ -616,7 +621,12 @@ namespace Assets.Scripts
                 if (i > 5 && GameManager.BUseArt == 0)
                 {
                     card.EffectSpell(card);
+
+                    GameManager.ShowCard.ShowMyCardEffect(card);
+                    GameManager.RpcOtherCardBuff(card.CardId);
+
                     GameManager.Reporting.text = "主要阶段";
+                    GameManager.WordInfo.ShowTheEndPhaseBtn(true);
                     GameManager.RpcOtherUseArt(false);
                     GameManager.RpcOtherTiming(0);
                     ShowTheUseBtn();
@@ -633,8 +643,13 @@ namespace Assets.Scripts
                     if (GameManager.BUseArt == -1)
                     {
                         GameManager.Reporting.text = "主要阶段";
+                        GameManager.WordInfo.ShowTheEndPhaseBtn(true);
                         GameManager.BUseArt = 0;
                         card.EffectSpell(card);
+
+                        GameManager.ShowCard.ShowMyCardEffect(card);
+                        GameManager.RpcOtherCardBuff(card.CardId);
+
                         GameManager.RpcOtherTiming(0);
                         ShowTheUseBtn();
                         yield break;
@@ -654,7 +669,12 @@ namespace Assets.Scripts
                 if (i >= 10)
                 {
                     card.EffectSpell(card);
+
+                    GameManager.ShowCard.ShowMyCardEffect(card);
+                    GameManager.RpcOtherCardBuff(card.CardId);
+
                     GameManager.Reporting.text = "主要阶段";
+                    GameManager.WordInfo.ShowTheEndPhaseBtn(true);
                     GameManager.RpcOtherUseArt(false);
                     GameManager.RpcOtherTiming(0);
                     ShowTheUseBtn();
@@ -667,7 +687,12 @@ namespace Assets.Scripts
 //                        GameManager.Check.GetOtherCard().EffectSpell();                                            
                         yield return new WaitForSeconds(1f);
                         GameManager.Reporting.text = "主要阶段";
+                        GameManager.WordInfo.ShowTheEndPhaseBtn(true);
                         card.EffectSpell(card);
+
+                        GameManager.ShowCard.ShowMyCardEffect(card);
+                        GameManager.RpcOtherCardBuff(card.CardId);
+
                         ShowTheUseBtn();
                         yield break;
                     }
@@ -910,6 +935,7 @@ namespace Assets.Scripts
         private bool BHasArt()
         {
             bool bcan = false;
+            _targetCards.Clear();
             for (int i = 0; i < GameManager.ShowDeck.LrigDeck.Count; i++)
             {
                 if (GameManager.ShowDeck.LrigDeck[i].MyTiming.Count > 0)

@@ -69,8 +69,8 @@ namespace Assets.Scripts
             var othertrash = new List<Card>(OtherTrashCards);
             othertrash.AddRange(OtherLrigTrash);
 
-            CardInfo.SetUp("显示废弃(包括了分身废弃)", othertrash, 0, () => CardInfo.ShowCardInfo(false));
             CardInfo.ShowCardInfo(true);
+            CardInfo.SetUp("显示废弃(包括了分身废弃)", othertrash, 0, () => CardInfo.ShowCardInfo(false));
         }
 
         public void ShowTrash()
@@ -78,8 +78,8 @@ namespace Assets.Scripts
             var trash = new List<Card>(TrashCards);
             trash.AddRange(LrigTrash);
 
-            CardInfo.SetUp("显示废弃(包括了分身废弃)", trash, 0, () => CardInfo.ShowCardInfo(false));
             CardInfo.ShowCardInfo(true);
+            CardInfo.SetUp("显示废弃(包括了分身废弃)", trash, 0, () => CardInfo.ShowCardInfo(false));
         }
 
         /// <summary>

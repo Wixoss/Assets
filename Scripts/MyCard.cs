@@ -174,6 +174,8 @@ namespace Assets.Scripts
         /// </summary>
         public int Atk;
 
+        public int BaseAtk;
+
         /// <summary>
         /// 是否已经发动了常效果
         /// </summary>
@@ -262,11 +264,11 @@ namespace Assets.Scripts
         /// <summary>
         /// 效果s(待实现)
         /// </summary>
-        public Action<Card> EffectChang = card => Debug.Log("EffectChang"); //常
-        public Action<Card> EffectChu = card => Debug.Log("EffectChu"); //出
+        public Action<Card> EffectChang = null; //常
+        public Action<Card> EffectChu = null; //出
         public Action<Card> EffectQi = card => Debug.Log("EffectQi"); //起
         public Action<Card> EffectSpell = card => Debug.Log("Spell!");
-        public Action<Card> Brust = card => Debug.Log("Brust!");
+        public Action<Card> Brust = null;
 
         public Card(string cardid)
         {
@@ -341,7 +343,8 @@ namespace Assets.Scripts
                 }
                 if (i.Element("Atk") != null)
                 {
-                    Atk = Convert.ToInt16(i.Element("Atk").Value);
+                    BaseAtk = Convert.ToInt16(i.Element("Atk").Value);
+                    Atk = BaseAtk;
                 }
             }
 
@@ -465,6 +468,7 @@ namespace Assets.Scripts
             Bfreeze = false;
             Blancer = false;
             BChang = false;
+            Atk = BaseAtk;
         }
     }
 
