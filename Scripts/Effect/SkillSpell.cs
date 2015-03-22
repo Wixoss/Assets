@@ -54,7 +54,14 @@ namespace Assets.Scripts
             GameManager.SetSigni.ShowOtherSelections(true, true);
             GameManager.SetSigni.SetSelections(false, null, true, i =>
             {
-                GameManager.SetSigni.OtherSigni[i].BCantAttack = true;
+                if(i<3)
+                {
+                    GameManager.SetSigni.OtherSigni[i].BCantAttack = true;
+                }
+                else
+                {
+                    GameManager.Lrig.OtherLrig.BCantAttack = true;
+                }
                 GameManager.RpcOtherDebuff(2, i, true);
             },true);
 
