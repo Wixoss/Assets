@@ -8,6 +8,7 @@ namespace Assets.Scripts
     {
         public Dictionary<String, Action<Card>> CardEffectSpellDictionary;
         public GameManager GameManager;
+        public SkillManager SkillManager;
 
         public void Setup()
         {
@@ -18,13 +19,17 @@ namespace Assets.Scripts
                 {"WD01-008",CardWd01008},
                 {"WD01-015",CardWd01015},
                 {"WX01-103",CardWx01103},
+                {"WD02-006",CardWd02006},
+                {"WD02-007",CardWd02007},
+                {"WD02-008",CardWd02008},
+                {"WD02-015",CardWd02015}
             };
         }
 
 
         private void CardWd01006(Card card)
         {
-            SkillManager.BackHand(card,() => SkillManager.BackHand(card));
+            SkillManager.BackHand(card, () => SkillManager.BackHand(card));
         }
 
 
@@ -51,10 +56,10 @@ namespace Assets.Scripts
 
         private void CardWd01008(Card card)
         {
-            GameManager.SetSigni.ShowOtherSelections(true, true);
+            GameManager.SetSigni.ShowOtherSelections(true);
             GameManager.SetSigni.SetSelections(false, null, true, i =>
             {
-                if(i<3)
+                if (i < 3)
                 {
                     GameManager.SetSigni.OtherSigni[i].BCantAttack = true;
                 }
@@ -63,24 +68,24 @@ namespace Assets.Scripts
                     GameManager.Lrig.OtherLrig.BCantAttack = true;
                 }
                 GameManager.RpcOtherDebuff(2, i, true);
-            },true);
+            }, true);
 
-           // GameManager.Lrig.SetOtherLrigSelection(() => GameManager.RpcOtherDebuff(2, 3, true));
+            // GameManager.Lrig.SetOtherLrigSelection(() => GameManager.RpcOtherDebuff(2, 3, true));
         }
 
         private void CardWd01015(Card card)
         {
-            var targets = SkillManager.FindCardByCondition(x => x.MyCardType ==  Card.CardType.精灵卡);
+            var targets = SkillManager.FindCardByCondition(x => x.MyCardType == Card.CardType.精灵卡);
             var cardinfo = GameManager.CardInfo;
             cardinfo.ShowCardInfo(true);
             cardinfo.SetUp("探寻至多1只SIGNI", targets, 1, () =>
             {
-                if(cardinfo.SelectHands.Count>0 && cardinfo.SelectHands[0]!=null)
+                if (cardinfo.SelectHands.Count > 0 && cardinfo.SelectHands[0] != null)
                 {
                     var mycard = cardinfo.SelectHands[0].MyCard;
                     GameManager.CreateHands.CreateHandFromDeck(mycard);
-                    GameManager.RpcOtherShowCards(new List<Card>{mycard});
-                } 
+                    GameManager.RpcOtherShowCards(new List<Card> { mycard });
+                }
                 cardinfo.ShowCardInfo(false);
                 SkillManager.WashDeck();
             });
@@ -92,11 +97,32 @@ namespace Assets.Scripts
             GameManager.SkillManager.DropCard(1);
         }
 
+        private void CardWd02006(Card card)
+        {
+            SkillManager.Baninish(card, null, i => i.Atk <= 15000);
+        }
 
-//        private void DisSelectionBtn()
-//        {
-//            SkillManager.DisSelect();
-//        }
+        private void CardWd02007(Card card)
+        {
+            SkillManager.DesCard(3, () =>
+            {
+                for (int i = 0; i < GameManager.SetSigni.Signi.Length; i++)
+                {
+                    GameManager.SetSigni.BanishMySigni(i);
+                    GameManager.SetSigni.BanishOtherSigni(i);
+                }
+            });
+        }
+
+        private void CardWd02008(Card card)
+        {
+            SkillManager.Baninish(card, null, i => i.Atk <= 7000);
+        }
+
+        private void CardWd02015(Card card)
+        {
+            SkillManager.Baninish(card, null, i => i.Atk <= 5000);
+        }
 
     }
 }

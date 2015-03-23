@@ -6,6 +6,8 @@ namespace Assets.Scripts
 {
     public class SkillChang : MonoBehaviour
     {
+        public SkillManager SkillManager;
+
         public struct EffectChang
         {
             public Card Card;
@@ -121,6 +123,7 @@ namespace Assets.Scripts
             {
                 {"WD01-001",CardWx01001},
                 {"WD01-009",CardWd01009},
+                {"WD02-001",CardWd01001},
             };
         }
 
@@ -132,7 +135,7 @@ namespace Assets.Scripts
                 CardChangAction = card1 =>
                 {
                     //如果条件发动后，每有一只怪出场，那只怪＋2000
-                    if(card.BChang)
+                    if (card.BChang)
                     {
                         SkillManager.AddAtk(card1, 2000);
                     }
@@ -142,7 +145,7 @@ namespace Assets.Scripts
                     {
                         SkillManager.AddAtkAll(2000);
                         card.BChang = true;
-                    }  
+                    }
                 }
             };
 
@@ -160,6 +163,58 @@ namespace Assets.Scripts
                     if (!SkillManager.BSigniInGround("甲胄 皇家铠") && card.BChang)
                     {
                         SkillManager.AddAtkAll(-2000);
+                        card.BChang = false;
+                    }
+                }
+            };
+
+            SigniOutActions.Add(no);
+            card.MyEffectChangSigniOut = no;
+            //IfSigniInGround(card, "甲胄 皇家铠", 2000);
+        }
+
+        /// <summary>
+        /// 只要场上有**,就加攻击力
+        /// </summary>
+        /// <param name="card">发动效果的卡</param>
+        /// <param name="cardname">**</param>
+        /// <param name="value"></param>
+        private void IfSigniInGround(Card card, string cardname, int value)
+        {
+            var chang = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    //如果条件发动后，每有一只怪出场，那只怪＋2000
+                    if (card.BChang)
+                    {
+                        SkillManager.AddAtk(card1, value);
+                    }
+
+                    //场上没有 皇家铠 且效果没发动
+                    if (SkillManager.BSigniInGround(cardname) && !card.BChang)
+                    {
+                        SkillManager.AddAtkAll(value);
+                        card.BChang = true;
+                    }
+                }
+            };
+
+            LrigSetActions.Add(chang);
+            card.MyEffectChangLrigSet = chang;
+            SigniSetActions.Add(chang);
+            card.MyEffectChangSigniSet = chang;
+
+            var no = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    //场上没有 皇家铠 且效果发动了
+                    if (!SkillManager.BSigniInGround(cardname) && card.BChang)
+                    {
+                        SkillManager.AddAtkAll(-value);
                         card.BChang = false;
                     }
                 }
@@ -217,6 +272,64 @@ namespace Assets.Scripts
             };
 
             SigniOutActions.Add(chang3);
+        }
+
+        private void CardWd01001(Card card)
+        {
+            var chang = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    //如果条件发动后，每有一只怪出场，那只怪＋2000
+                    if (card.BChang)
+                    {
+                        SkillManager.AddAtk(card1, 2000);
+                    }
+
+                    //场上没有 皇家铠 且效果没发动
+                    if (SkillManager.BSigniInGround("罗石 火山石") && !card.BChang)
+                    {
+                        SkillManager.AddAtkAll(2000);
+                        card.BChang = true;
+                    }
+                }
+            };
+
+            var chang2 = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    if (card.BChang)
+                    {
+                        SkillManager.AddAtkAll(-2000);
+                        card.BChang = false;
+                    }
+                }
+            };
+
+            MyRoundStartActions.Add(chang);
+            card.MyEffectChangMyRoundStart = chang2;
+
+            MyRoundOverActions.Add(chang2);
+            card.MyEffectChangMyRoundOver = chang;
+
+            var no = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    //场上没有 皇家铠 且效果发动了
+                    if (!SkillManager.BSigniInGround("罗石 火山石") && card.BChang)
+                    {
+                        SkillManager.AddAtkAll(-2000);
+                        card.BChang = false;
+                    }
+                }
+            };
+
+            SigniOutActions.Add(no);
         }
 
     }

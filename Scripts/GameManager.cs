@@ -146,16 +146,15 @@ namespace Assets.Scripts
         private void Awake()
         {
             SetEnableOrDisable(ThreeDui, TwoDui);
+            MyRpc = GameObject.Find("RPC").GetComponent<MyRpc>();
+            SkillManager.Setup();
         }
 
         #region ReadyPhase
 
         private IEnumerator ReadyPhase()
         {
-            MyRpc = GameObject.Find("RPC").GetComponent<MyRpc>();
-
             SetEnableOrDisable(TwoDui, ThreeDui);
-
             DropFiveCards();
             yield return new WaitForSeconds(2);
             ChangeCards();
@@ -195,6 +194,24 @@ namespace Assets.Scripts
             MyRpc.Rpc("ReportOtherStuff", RPCMode.Others, Reporting.text);
             yield return new WaitForSeconds(2);
             SetLrig();
+        }
+
+        /// <summary>
+        /// 把自己的卡id发给对面做成字典
+        /// </summary>
+        /// <param name="cardid"></param>
+        public static void RpcOtherMyCardid(string cardid)
+        {
+            MyRpc.Rpc("SendOtherMyCard", RPCMode.Others, cardid);
+        }
+
+        /// <summary>
+        /// 把自己的卡id发给对面做成字典,已经Ok
+        /// </summary>
+        /// <param name="bdone"></param>
+        public static void RpcOtherMyCardidOk(bool bdone)
+        {
+            MyRpc.Rpc("SendOtherMyCardOk", RPCMode.Others, bdone);
         }
 
         /// <summary>
@@ -902,6 +919,10 @@ namespace Assets.Scripts
             obj2.SetActive(true);
         }
 
+        public Card GetCardFromDictionary(string cardid)
+        {
+            return SkillManager.MyCard.CardDictionary[cardid];
+        }
 
         //测试!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //        private void Start()

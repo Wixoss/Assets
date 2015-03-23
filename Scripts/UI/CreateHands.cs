@@ -116,7 +116,7 @@ namespace Assets.Scripts
                 var card = GameManager.ShowDeck.Lastcard();
                 CreateMyFirstHands(card);
                 yield return new WaitForSeconds(0.2f);
-            }
+            }         
             Reposition();
             GameManager.RpcCreateOtherHands(5);
             //            yield return new WaitForSeconds(5);

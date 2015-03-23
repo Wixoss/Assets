@@ -8,6 +8,7 @@ namespace Assets.Scripts
     {
         public Dictionary<string, Action<Card>> CardEffectBrustDictionary;
         public GameManager GameManager;
+        public SkillManager SkillManager;
 
         public void Setup()
         {
@@ -18,6 +19,7 @@ namespace Assets.Scripts
                 {"WX01-101",EnerChange},
                 {"WX01-102",EnerChange},
                 {"WX01-103",EnerChange},
+                {"WD02-009",CardWd02009}
             };
         }
 
@@ -36,6 +38,11 @@ namespace Assets.Scripts
         private void EnerChange(Card card)
         {
             GameManager.EnerManager.EnerCharge();
+        }
+
+        private void CardWd02009(Card card)
+        {
+            SkillManager.Baninish(card, null, i => i.Atk <= 7000);
         }
     }
 }

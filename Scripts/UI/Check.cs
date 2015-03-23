@@ -25,9 +25,9 @@ namespace Assets.Scripts
             }
         }
 
-        public void SetOtherCheck(string cardid)
+        public void SetOtherCheck(Card card)
         {
-            _otherCard = new Card(cardid);
+            _otherCard = card;
             OtherUiTexture.mainTexture = _otherCard.CardTexture;
             OtherUiTexture.gameObject.SetActive(true);
             Invoke("DisOtherCheck", 3);

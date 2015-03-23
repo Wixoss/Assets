@@ -26,7 +26,7 @@ namespace Assets.Scripts
         public SkillBrust SkillBrust;
         public MyCard MyCard;
 
-        public void Awake()
+        public void Setup()
         {
             _createHands = GameManager.CreateHands;
             //_lrig = GameManager.Lrig;
@@ -66,7 +66,6 @@ namespace Assets.Scripts
         {
             SkillChang.MyRoundOver();
         }
-
 
         public void EnerCharge()
         {
@@ -132,10 +131,16 @@ namespace Assets.Scripts
         /// 丢弃手牌(自己选择)
         /// </summary>
         /// <param name="num">需要丢弃的手牌数</param>
-        public void DesCard(int num)
+        /// <param name="myAction"></param>
+        public static void DesCard(int num, Action myAction = null)
         {
             _createHands.DisTheUseBtn();
-            _createHands.SetDesBtnOverSix(_createHands.MyHands.Count - num, _createHands.ShowTheUseBtn);
+            _createHands.SetDesBtnOverSix(_createHands.MyHands.Count - num, () =>
+            {
+                if (myAction != null)
+                    myAction();
+                _createHands.ShowTheUseBtn();
+            });
             _createHands.DesMyHandsOverSix();
         }
 
@@ -157,7 +162,7 @@ namespace Assets.Scripts
             var showlist = new List<Card>();
             for (int i = 0; i < num; i++)
             {
-                var card = _showDeck.MainDeck[_showDeck.MainDeck.Count - 1 - i];
+                var card = _showDeck.MainDeck[0 + i];
                 showlist.Add(card);
             }
 
@@ -167,7 +172,7 @@ namespace Assets.Scripts
             {
                 for (int i = 0; i < _cardInfo.SelectHands.Count; i++)
                 {
-                    _showDeck.MainDeck[_showDeck.MainDeck.Count - 1 - i] = _cardInfo.SelectHands[i].MyCard;
+                    _showDeck.MainDeck[0 + i] = _cardInfo.SelectHands[i].MyCard;
                     showlist.Remove(_cardInfo.SelectHands[i].MyCard);
                 }
 
@@ -206,7 +211,7 @@ namespace Assets.Scripts
             var showlist = new List<Card>();
             for (int i = 0; i < num; i++)
             {
-                var card = _showDeck.MainDeck[_showDeck.MainDeck.Count - 1 - i];
+                var card = _showDeck.MainDeck[0 + i];
                 showlist.Add(card);
             }
             _cardInfo.ShowCardInfo(true);
@@ -250,7 +255,7 @@ namespace Assets.Scripts
             var signis = _setSigni.Signi;
             for (int i = 0; i < signis.Length; i++)
             {
-                if(signis[i]!=null)
+                if (signis[i] != null)
                 {
                     signis[i].Atk += value;
                     GameManager.RpcOtherCardAtkChange(i, value);
@@ -274,7 +279,7 @@ namespace Assets.Scripts
             card.Atk += value;
             for (int i = 0; i < _setSigni.Signi.Length; i++)
             {
-                if(_setSigni.Signi[i]==card)
+                if (_setSigni.Signi[i] == card)
                 {
                     GameManager.RpcOtherCardAtkChange(i, value);
                 }
@@ -323,11 +328,11 @@ namespace Assets.Scripts
         #region 选定发动类,要多一个succeed的回调
 
         /// <summary>
-        /// 返回手卡
+        /// 选择返回对方一只精灵回手卡
         /// </summary>
-        public static void BackHand(Card sourcecard,Action succeed = null)
+        public static void BackHand(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
         {
-            _setSigni.ShowOtherSelections(true, true);
+            _setSigni.ShowOtherSelections(true);
             _setSigni.SetSelections(false, null, true, i =>
              {
                  GameManager.RpcBackHand(_setSigni.OtherSelection);
@@ -342,13 +347,35 @@ namespace Assets.Scripts
              }, false);
         }
 
+
+        /// <summary>
+        /// 选择破坏对方一只精灵
+        /// </summary>
+        /// <param name="sourcecard">发动效果的卡</param>
+        /// <param name="succeed">成功后是否继续下一步?</param>
+        /// <param name="condiction">条件</param>
+        public static void Baninish(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
+        {
+            _setSigni.ShowOtherSelections(true, condiction);
+            _setSigni.SetSelections(false, null, true, i =>
+            {
+                _setSigni.BanishOtherSigni(i);
+                _showCard.ShowMyCardEffect(sourcecard);
+                GameManager.RpcOtherCardBuff(sourcecard.CardId);
+
+                BSelected = true;
+                if (succeed != null)
+                    succeed();
+            }, false);
+        }
+
         /// <summary>
         /// 10s后隐藏选择按钮
         /// </summary>
         public static void DisSelect()
         {
-            _setSigni.ShowOtherSelections(false, false);
-            _setSigni.ShowMySelections(false, false);
+            _setSigni.ShowOtherSelections(false);
+            _setSigni.ShowMySelections(false);
         }
 
         #endregion

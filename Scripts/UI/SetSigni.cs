@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -88,12 +89,12 @@ namespace Assets.Scripts
         }
 
         private void SetMySigni1(int num)
-        {           
+        {
             Signi[num] = _sendingCard;
             if (Signi[num] != null)
             {
                 StartCoroutine(EffectChuDalay(Signi[num]));
-                if(Signi[num].EffectChang != null)
+                if (Signi[num].EffectChang != null)
                 {
                     Signi[num].EffectChang(Signi[num]);
                 }
@@ -311,7 +312,7 @@ namespace Assets.Scripts
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);
                 ShowTrashBtn(num, false);
-            } 
+            }
             CountSigniLevel();
             GameManager.CreateHands.ShowTheUseBtn();
             //常效果:精灵离场时调用
@@ -491,15 +492,22 @@ namespace Assets.Scripts
         /// <summary>
         /// 显示我方选择按钮
         /// </summary>
-        /// <param name="bshow">If set to <c>true</c> bshow.</param>
-        /// <param name="condiction">If set to <c>true</c> condiction.</param>
-        public void ShowMySelections(bool bshow, bool condiction)
+        /// <param name="bshow">是否显示</param>
+        /// <param name="condiction">条件Func</param>
+        public void ShowMySelections(bool bshow, Func<Card, bool> condiction = null)
         {
             if (bshow)
             {
                 for (int i = 0; i < MySelections.Length; i++)
                 {
-                    if (condiction && Signi[i] != null)
+                    if (condiction != null)
+                    {
+                        if (condiction(Signi[i]) && Signi[i] != null)
+                        {
+                            MySelections[i].SetActive(true);
+                        }
+                    }
+                    else
                     {
                         MySelections[i].SetActive(true);
                     }
@@ -517,16 +525,23 @@ namespace Assets.Scripts
         /// <summary>
         /// 显示对方选择按钮
         /// </summary>
-        /// <param name="bshow">If set to <c>true</c> bshow.</param>
-        /// <param name="condiction">If set to <c>true</c> condiction.</param>
-        /// <param name="bLrig"></param>
-        public void ShowOtherSelections(bool bshow, bool condiction, bool bLrig = false)
+        /// <param name="bshow">是否显示</param>
+        /// <param name="condiction">条件</param>
+        /// <param name="bLrig">是否包含对方分身</param>
+        public void ShowOtherSelections(bool bshow, Func<Card, bool> condiction = null, bool bLrig = false)
         {
             if (bshow)
             {
                 for (int i = 0; i < OtherSelections.Length; i++)
                 {
-                    if (condiction && OtherSigni[i] != null)
+                    if (condiction != null)
+                    {
+                        if (condiction(OtherSigni[i]) && OtherSigni[i] != null)
+                        {
+                            OtherSelections[i].SetActive(true);
+                        }
+                    }
+                    else
                     {
                         OtherSelections[i].SetActive(true);
                     }
@@ -549,7 +564,7 @@ namespace Assets.Scripts
         /// <param name="showOther">是否显示对方的按钮</param>
         /// <param name="otherAction">选择对方怪物添加状态</param>
         /// <param name="bincludeLrig">是否包括分身</param>
-        public void SetSelections(bool showMy, System.Action<int> myAction, bool showOther, System.Action<int> otherAction, bool bincludeLrig)
+        public void SetSelections(bool showMy, Action<int> myAction, bool showOther, Action<int> otherAction, bool bincludeLrig)
         {
             if (showMy)
             {
@@ -651,7 +666,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="num">第几只</param>
         public void BanishMySigni(int num)
-        {          
+        {
             if (Signi[num] != null)
             {
                 if (Signi[num].SigniOutAction != null)

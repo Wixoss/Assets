@@ -57,21 +57,21 @@ namespace Assets.Scripts
 
                 if (GUILayout.Button("指定对方一只精灵回手"))
                 {
-                    _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
+                    _showdeck.GameManager.SetSigni.ShowOtherSelections(true);
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true, i =>
-                        GameManager.RpcBackHand(_showdeck.GameManager.SetSigni.OtherSelection),false);
+                        GameManager.RpcBackHand(_showdeck.GameManager.SetSigni.OtherSelection), false);
                 }
 
                 if (GUILayout.Button("指定对方一只精灵驱逐"))
                 {
-                    _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
+                    _showdeck.GameManager.SetSigni.ShowOtherSelections(true);
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true,
                         i => _showdeck.GameManager.SetSigni.BanishOtherSigni(i), false);
                 }
 
                 if (GUILayout.Button("指定我方一只精灵枪兵"))
                 {
-                    _showdeck.GameManager.SetSigni.ShowMySelections(true, true);
+                    _showdeck.GameManager.SetSigni.ShowMySelections(true);
                     _showdeck.GameManager.SetSigni.SetSelections(true, i =>
                     {
                         _showdeck.GameManager.SetSigni.Signi[i].Blancer = true;
@@ -81,7 +81,7 @@ namespace Assets.Scripts
 
                 if (GUILayout.Button("指定我方一只精灵双重击溃"))
                 {
-                    _showdeck.GameManager.SetSigni.ShowMySelections(true, true);
+                    _showdeck.GameManager.SetSigni.ShowMySelections(true);
                     _showdeck.GameManager.SetSigni.SetSelections(true, i =>
                     {
                         _showdeck.GameManager.SetSigni.Signi[i].Bdouble = true;
@@ -97,7 +97,7 @@ namespace Assets.Scripts
 
                 if (GUILayout.Button("指定对方一只精灵冰冻"))
                 {
-                    _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
+                    _showdeck.GameManager.SetSigni.ShowOtherSelections(true);
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true, i =>
                     {
                         _showdeck.GameManager.SetSigni.OtherSigni[i].Bfreeze = true;
@@ -107,7 +107,7 @@ namespace Assets.Scripts
 
                 if (GUILayout.Button("指定对方一只精灵不能攻击"))
                 {
-                    _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
+                    _showdeck.GameManager.SetSigni.ShowOtherSelections(true);
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true, i =>
                     {
                         _showdeck.GameManager.SetSigni.OtherSigni[i].BCantAttack = true;
@@ -117,7 +117,7 @@ namespace Assets.Scripts
 
                 if (GUILayout.Button("横置对方精灵"))
                 {
-                    _showdeck.GameManager.SetSigni.ShowOtherSelections(true, true);
+                    _showdeck.GameManager.SetSigni.ShowOtherSelections(true);
                     _showdeck.GameManager.SetSigni.SetSelections(false, null, true,
                         GameManager.RpcSetOtherSigniSet, false);
                 }
@@ -129,7 +129,7 @@ namespace Assets.Scripts
 
                 if (GUILayout.Button("丢弃3手卡,自己选择"))
                 {
-                    _showdeck.SkillManager.DesCard(3);
+                    SkillManager.DesCard(3);
                 }
 
                 if (GUILayout.Button("检查卡组3张,按喜欢的顺序排列"))
@@ -138,7 +138,7 @@ namespace Assets.Scripts
                 }
             }
 
-            for (int i = _showdeck.MainDeck.Count - 1; i >= 0; i--)
+            for (int i = 0; i < _showdeck.MainDeck.Count; i++)
             {
                 EditorGUILayout.LabelField("CardId", _showdeck.MainDeck[i].CardId);
                 EditorGUILayout.LabelField("CardName", _showdeck.MainDeck[i].CardName);

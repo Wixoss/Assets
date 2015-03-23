@@ -46,9 +46,10 @@ namespace Assets.Scripts
         public Card Lastcard()
         {
             Card lastcard;
-            if (GameManager.ShowDeck.MainDeck.Count > 0)
+            if (MainDeck.Count > 0)
             {
-                lastcard = MainDeck[GameManager.ShowDeck.MainDeck.Count - 1];
+                //lastcard = MainDeck[MainDeck.Count - 1];
+                lastcard = MainDeck[0];
             }
             else
             {
@@ -62,14 +63,14 @@ namespace Assets.Scripts
                 //20张卡在手上和能量区中!!NULL
                 if (MainDeck.Count > 0)
                 {
-                    lastcard = MainDeck[GameManager.ShowDeck.MainDeck.Count - 1];
+                    lastcard = MainDeck[0];
                 }
                 else
                 {
                     lastcard = null;
                 }
             }
-
+           
             MainDeck.Remove(lastcard);
             MainDeckObj.SetActive(MainDeck.Count > 0);
             MainDeckObj.transform.localScale = new Vector3(1, 0.06f * MainDeck.Count, 1);

@@ -139,8 +139,8 @@ namespace Assets.Scripts
         /// <summary>
         /// 在对方场上能量区显示
         /// </summary>
-        /// <param name="cardid"></param>
-        public void CreateOtherEner(string cardid)
+        /// <param name="card"></param>
+        public void CreateOtherEner(Card card)
         {
             var obj = Instantiate(Enerobj) as GameObject;
             Transform trans = obj.transform;
@@ -149,7 +149,7 @@ namespace Assets.Scripts
             trans.localEulerAngles = Vector3.zero;
             trans.localScale = new Vector3(0.7f, 0.7f, 1);
             var hand = obj.GetComponent<Hands>();
-            hand.MyCard = new Card(cardid);
+            hand.MyCard = card;
             OtherEner.Add(hand);
             Invoke("ResetOtherEner", 0.5f);
         }

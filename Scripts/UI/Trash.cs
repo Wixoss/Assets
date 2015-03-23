@@ -49,9 +49,8 @@ namespace Assets.Scripts
             UiTexture.mainTexture = card.CardTexture;
         }
 
-        public void AddOtherTrash(string cardid)
+        public void AddOtherTrash(Card card)
         {
-            var card = new Card(cardid);
             if (card.MyCardType != Card.CardType.技艺卡)
             {
                 OtherTrashCards.Add(card);
@@ -113,7 +112,7 @@ namespace Assets.Scripts
             }
         }
 
-        public void OtherGetCardFromTrash(bool bRewrite,string cardid)
+        public void OtherGetCardFromTrash(bool bRewrite,Card card)
         {
             if (bRewrite)
             {
@@ -121,7 +120,7 @@ namespace Assets.Scripts
                 OtherUiTexture.gameObject.SetActive(OtherTrashCards.Count > 0);
                 return;
             }
-            var card = new Card(cardid);
+            //var card = new Card(cardid);
             if (card.MyCardType == Card.CardType.技艺卡)
             {
                 OtherLrigTrash.Remove(card);

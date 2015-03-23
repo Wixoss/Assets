@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -132,7 +133,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 精灵自己离场时调用
         /// </summary>
-        public Action<Card> SigniOutAction; 
+        public Action<Card> SigniOutAction;
 
         /// <summary>
         /// 能量的能量类型与数量
@@ -474,36 +475,90 @@ namespace Assets.Scripts
 
     public class MyCard : MonoBehaviour
     {
-        public List<Texture2D> CardTextures = new List<Texture2D>();
+        //public List<Texture2D> CardTextures = new List<Texture2D>();
         public List<string> MyCardid;
         public List<string> MyLrigid;
 
+        public Dictionary<string, Card> CardDictionary = new Dictionary<string, Card>();
+
         public ShowDeck ShowDeck;
+
+        public bool BGetOtherCard;
+        public List<string> OtherCardid = new List<string>();
 
         public void Setup()
         {
             CreateCardByXml();
-
+            Card mycard;
             for (int i = 0; i < MyLrigid.Count; i++)
             {
-                var card = new Card(MyLrigid[i]);
-                MyLrigid[i] = MyLrigid[i] + "   " + card.CardName + "   " + card.MyCardType;
-                CardTextures.Add(card.CardTexture);
-                ShowDeck.LrigDeck.Add(card);
-                ShowDeck.SkillManager.GetEffectByCard(card);
+                if (!CardDictionary.ContainsKey(MyLrigid[i]))
+                {
+                    mycard = new Card(MyLrigid[i]);
+                    CardDictionary.Add(MyLrigid[i], mycard);
+                    GameManager.RpcOtherMyCardid(MyLrigid[i]);
+                }
+                else
+                {
+                    mycard = CardDictionary[MyLrigid[i]];
+                }
+                //var card = new Card(MyLrigid[i]);
+                //MyLrigid[i] = MyLrigid[i] + "   " + card.CardName + "   " + card.MyCardType;
+                // CardTextures.Add(card.CardTexture);
+                ShowDeck.LrigDeck.Add(mycard);
+                ShowDeck.SkillManager.GetEffectByCard(mycard);
             }
 
             for (int i = 0; i < MyCardid.Count; i++)
             {
-                var card = new Card(MyCardid[i]);
-                MyCardid[i] = MyCardid[i] + "   " + card.CardName + "   " + card.MyCardType;
-                CardTextures.Add(card.CardTexture);
-                ShowDeck.MainDeck.Add(card);
-                ShowDeck.SkillManager.GetEffectByCard(card);
+                if (!CardDictionary.ContainsKey(MyCardid[i]))
+                {
+                    mycard = new Card(MyCardid[i]);
+                    CardDictionary.Add(MyCardid[i], mycard);
+                    GameManager.RpcOtherMyCardid(MyCardid[i]);
+                }
+                else
+                {
+                    mycard = CardDictionary[MyCardid[i]];
+                }
+                //var card = new Card(MyCardid[i]);
+                //MyCardid[i] = MyCardid[i] + "   " + card.CardName + "   " + card.MyCardType;
+                //CardTextures.Add(card.CardTexture);
+                ShowDeck.MainDeck.Add(mycard);
+                ShowDeck.SkillManager.GetEffectByCard(mycard);
             }
 
+            GameManager.RpcOtherMyCardidOk(true);
+
             ShowDeck.WashMainDeck();
+            StartCoroutine(WaitToOtherSendCard());
         }
+
+
+        private IEnumerator WaitToOtherSendCard()
+        {
+            while (true)
+            {
+                if (BGetOtherCard)
+                {
+                    if (OtherCardid.Count > 0)
+                    {
+                        for (int i = 0; i < OtherCardid.Count; i++)
+                        {
+                            if (!CardDictionary.ContainsKey(OtherCardid[i]))
+                            {
+                                var card = new Card(OtherCardid[i]);
+                                CardDictionary.Add(OtherCardid[i], card);
+                            }
+                        }
+                    }
+                    BGetOtherCard = false;
+                    yield break;
+                }
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
 
         public List<Card> RandomCards(List<Card> old)
         {

@@ -477,7 +477,7 @@ namespace Assets.Scripts
             {
                 if (myaction != null)
                     myaction();
-                GameManager.SetSigni.ShowOtherSelections(false, false);
+                GameManager.SetSigni.ShowOtherSelections(false);
                 OtherLrigSelection.SetActive(false);
             };
         }
@@ -493,7 +493,7 @@ namespace Assets.Scripts
             {
                 if (mAction != null)
                     mAction();
-                GameManager.SetSigni.ShowMySelections(false, false);
+                GameManager.SetSigni.ShowMySelections(false);
                 MyLrigSelection.SetActive(false);
             };
         }
@@ -510,10 +510,10 @@ namespace Assets.Scripts
         }
 
 
-        public void SetOtherLrig(string card)
+        public void SetOtherLrig(Card card)
         {
             OtherLrigObj.gameObject.SetActive(true);
-            OtherLrigObj.MyCard = new Card(card);
+            OtherLrigObj.MyCard = card;
             OtherLrig = OtherLrigObj.MyCard;
         }
 

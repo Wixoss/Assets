@@ -119,7 +119,7 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            Card card = new Card(cardid);
+            var card = _gameManager.GetCardFromDictionary(cardid);
             _gameManager.SetSigni.SetOtherSigni(num, card);
             _gameManager.ShowCard.ShowMyCard(card);
         }
@@ -131,7 +131,7 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            Card card = new Card(cardid);
+            var card = _gameManager.GetCardFromDictionary(cardid);
             _gameManager.ShowCard.ShowMyCardEffect(card);
         }
 
@@ -184,8 +184,9 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            _gameManager.Lrig.SetOtherLrig(cardid);
-            _gameManager.ShowCard.ShowMyCard(new Card(cardid));
+            var card = _gameManager.GetCardFromDictionary(cardid);
+            _gameManager.Lrig.SetOtherLrig(card);
+            _gameManager.ShowCard.ShowMyCard(card);
         }
 
         [RPC]
@@ -205,7 +206,8 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            _gameManager.EnerManager.CreateOtherEner(cardid);
+            var card = _gameManager.GetCardFromDictionary(cardid);
+            _gameManager.EnerManager.CreateOtherEner(card);
         }
 
         [RPC]
@@ -249,7 +251,8 @@ namespace Assets.Scripts
             {
                 _gameManager.SetSigni.TrashOtherSigni(num);
             }
-            _gameManager.Trash.AddOtherTrash(cardid);
+            var card = _gameManager.GetCardFromDictionary(cardid);
+            _gameManager.Trash.AddOtherTrash(card);
         }
 
         [RPC]
@@ -302,8 +305,11 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            _gameManager.Check.SetOtherCheck(cardid);
-            _gameManager.ShowCard.ShowMyCard(new Card(cardid));
+
+            var card = _gameManager.GetCardFromDictionary(cardid);
+
+            _gameManager.Check.SetOtherCheck(card);
+            _gameManager.ShowCard.ShowMyCard(card);
         }
 
         [RPC]
@@ -329,14 +335,34 @@ namespace Assets.Scripts
         }
 
         [RPC]
-        private void SendOtherMyShowCard(string card)
+        private void SendOtherMyShowCard(string cardid)
         {
             if (_gameManager == null)
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
+            var card = _gameManager.GetCardFromDictionary(cardid);
+            _gameManager.CreateHands.OtherShowCards.Add(card);
+        }
 
-            _gameManager.CreateHands.OtherShowCards.Add(new Card(card));
+        [RPC]
+        private void SendOtherMyCard(string cardid)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.SkillManager.MyCard.OtherCardid.Add(cardid);
+        }
+
+        [RPC]
+        private void SendOtherMyCardOk(bool bdone)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.SkillManager.MyCard.BGetOtherCard = bdone;           
         }
 
         [RPC]
@@ -497,8 +523,8 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-
-            _gameManager.Trash.OtherGetCardFromTrash(brewriteDeck, cardid);
+            var card = _gameManager.GetCardFromDictionary(cardid);
+            _gameManager.Trash.OtherGetCardFromTrash(brewriteDeck, card);
         }
 
         [RPC]
