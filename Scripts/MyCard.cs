@@ -274,21 +274,33 @@ namespace Assets.Scripts
         public Card(string cardid)
         {
             //MyState = State.其他;
-            SetCardById(cardid);
+            //SetCardById(cardid);
+            CardId = cardid;
             CardTexture = Resources.Load<Texture2D>(CardId);
         }
+
+//        public void GetAtkByCardId(string cardid)
+//        {
+//            var card = CreateCardByXml.GetCardByCardId(CardId);
+//            foreach (var i in card)
+//            {
+//                if(i.Element("Atk")!=null)
+//                {
+//                    Atk = Convert.ToInt16(i.Element("Atk").Value);
+//                }
+//            }
+//        }
 
         /// <summary>
         /// 读取xml
         /// </summary>
         /// <param name="cardid"></param>
-        private void SetCardById(string cardid)
+        public void SetCardById()
         {
-            var card = CreateCardByXml.GetCardByCardId(cardid);
+            var card = CreateCardByXml.GetCardByCardId(CardId);
 
             foreach (var i in card)
             {
-                CardId = i.Element("CardId").Value;
                 CardName = i.Element("CardName").Value;
                 MyCardColor = GetCardColorByString(i.Element("Color").Value);
                 MyCardType = GetCardTypeByString(i.Element("CardType").Value);
@@ -348,12 +360,6 @@ namespace Assets.Scripts
                     Atk = BaseAtk;
                 }
             }
-
-            //			switch (MyCardType) 
-            //			{
-            //			case CardType.法术卡:
-            //
-            //			}
             MyEner.Num = 1;
         }
 
@@ -470,6 +476,12 @@ namespace Assets.Scripts
             Blancer = false;
             BChang = false;
             Atk = BaseAtk;
+            MyEffectChangSigniSet = new SkillChang.EffectChang();
+            MyEffectChangSigniOut = new SkillChang.EffectChang();
+            MyEffectChangMyRoundStart = new SkillChang.EffectChang();
+            MyEffectChangMyRoundOver = new SkillChang.EffectChang();
+            MyEffectChangEnerCharge = new SkillChang.EffectChang();
+            MyEffectChangLrigSet = new SkillChang.EffectChang();
         }
     }
 
@@ -479,51 +491,67 @@ namespace Assets.Scripts
         public List<string> MyCardid;
         public List<string> MyLrigid;
 
-        public Dictionary<string, Card> CardDictionary = new Dictionary<string, Card>();
+        public struct AtkDetail
+        {
+            public int Atk;
+            public string CardDetail;
+            public Card.CardType CardType;
+            public Card.CardColor CardColor;
+            public string Type;
+            public int Level;
+        }
+
+        public Dictionary<string, AtkDetail> CardAtkDetailDictionary = new Dictionary<string, AtkDetail>();
 
         public ShowDeck ShowDeck;
 
-        public bool BGetOtherCard;
-        public List<string> OtherCardid = new List<string>();
-
+//        public bool BGetOtherCard;
+//        public List<string> OtherCardid = new List<string>();
+       
         public void Setup()
         {
             CreateCardByXml();
             Card mycard;
             for (int i = 0; i < MyLrigid.Count; i++)
-            {
-                if (!CardDictionary.ContainsKey(MyLrigid[i]))
+            { 
+                mycard = new Card(MyLrigid[i]);
+                mycard.SetCardById();
+                if (!CardAtkDetailDictionary.ContainsKey(MyLrigid[i]))
                 {
-                    mycard = new Card(MyLrigid[i]);
-                    CardDictionary.Add(MyLrigid[i], mycard);
+                    var detal = new AtkDetail
+                    {
+                        Atk = mycard.Atk,
+                        CardDetail = mycard.CardDetail,
+                        CardType = mycard.MyCardType,
+                        CardColor = mycard.MyCardColor,
+                        Type = mycard.Type,
+                        Level = mycard.Level,
+                    };
+                    CardAtkDetailDictionary.Add(MyLrigid[i], detal);
                     GameManager.RpcOtherMyCardid(MyLrigid[i]);
                 }
-                else
-                {
-                    mycard = CardDictionary[MyLrigid[i]];
-                }
-                //var card = new Card(MyLrigid[i]);
-                //MyLrigid[i] = MyLrigid[i] + "   " + card.CardName + "   " + card.MyCardType;
-                // CardTextures.Add(card.CardTexture);
                 ShowDeck.LrigDeck.Add(mycard);
                 ShowDeck.SkillManager.GetEffectByCard(mycard);
             }
 
             for (int i = 0; i < MyCardid.Count; i++)
             {
-                if (!CardDictionary.ContainsKey(MyCardid[i]))
+                mycard = new Card(MyCardid[i]);
+                mycard.SetCardById();
+                if (!CardAtkDetailDictionary.ContainsKey(MyCardid[i]))
                 {
-                    mycard = new Card(MyCardid[i]);
-                    CardDictionary.Add(MyCardid[i], mycard);
+                    var detal = new AtkDetail
+                    {
+                        Atk = mycard.Atk,
+                        CardDetail = mycard.CardDetail,
+                        CardType = mycard.MyCardType,
+                        CardColor = mycard.MyCardColor,
+                        Type = mycard.Type,
+                        Level = mycard.Level,
+                    };
+                    CardAtkDetailDictionary.Add(MyCardid[i], detal);
                     GameManager.RpcOtherMyCardid(MyCardid[i]);
                 }
-                else
-                {
-                    mycard = CardDictionary[MyCardid[i]];
-                }
-                //var card = new Card(MyCardid[i]);
-                //MyCardid[i] = MyCardid[i] + "   " + card.CardName + "   " + card.MyCardType;
-                //CardTextures.Add(card.CardTexture);
                 ShowDeck.MainDeck.Add(mycard);
                 ShowDeck.SkillManager.GetEffectByCard(mycard);
             }
@@ -539,20 +567,30 @@ namespace Assets.Scripts
         {
             while (true)
             {
-                if (BGetOtherCard)
+                if (MyRpc.Bdone)
                 {
-                    if (OtherCardid.Count > 0)
+                    if (MyRpc.OtherCards.Count > 0)
                     {
-                        for (int i = 0; i < OtherCardid.Count; i++)
+                        for (int i = 0; i < MyRpc.OtherCards.Count; i++)
                         {
-                            if (!CardDictionary.ContainsKey(OtherCardid[i]))
+                            if (!CardAtkDetailDictionary.ContainsKey(MyRpc.OtherCards[i]))
                             {
-                                var card = new Card(OtherCardid[i]);
-                                CardDictionary.Add(OtherCardid[i], card);
+                                var card = new Card(MyRpc.OtherCards[i]);
+                                card.SetCardById();
+                                var detal = new AtkDetail
+                                {
+                                    Atk = card.Atk,
+                                    CardDetail = card.CardDetail,
+                                    CardType = card.MyCardType,
+                                    CardColor = card.MyCardColor,
+                                    Type = card.Type,
+                                    Level = card.Level,
+                                };
+                                CardAtkDetailDictionary.Add(MyRpc.OtherCards[i], detal);
                             }
                         }
                     }
-                    BGetOtherCard = false;
+                    MyRpc.Bdone = false;
                     yield break;
                 }
                 yield return new WaitForSeconds(0.5f);
@@ -580,54 +618,52 @@ namespace Assets.Scripts
         {
             MyLrigid = new List<string>()
             {
-                "WD01-001",
-                "WD01-002",
-                "WD01-003",
-                "WD01-004",
-                "WD01-005",
-                "WD01-006",
-                "WD01-007",
-                "WD01-008",
-                "WX01-023",
-                "WX01-018",
+                "WD02-001",
+                "WD02-002",
+                "WD02-003",
+                "WD02-004",
+                "WD02-005",
+                "WD02-006",
+                "WD02-007",
+                "WD02-008",
             };
 
             MyCardid = new List<string>()
             {
-                "WD01-009",
-                "WD01-009",
-                "WD01-009",
-                "WD01-009",
+                "WD02-009",
+                "WD02-009",
+                "WD02-009",
+                "WD02-009",
                 
-                "WD01-010",
-                "WD01-010",
-                "WD01-010",
-                "WD01-010",
+                "WD02-010",
+                "WD02-010",
+                "WD02-010",
+                "WD02-010",
                 
-                "WD01-011",
-                "WD01-011",
-                "WD01-011",
-                "WD01-011",
+                "WD02-011",
+                "WD02-011",
+                "WD02-011",
+                "WD02-011",
                 
-                "WD01-012",
-                "WD01-012",
-                "WD01-012",
-                "WD01-012",
+                "WD02-012",
+                "WD02-012",
+                "WD02-012",
+                "WD02-012",
                 
-                "WD01-013",
-                "WD01-013",
-                "WD01-013",
-                "WD01-013",
+                "WD02-013",
+                "WD02-013",
+                "WD02-013",
+                "WD02-013",
                 
-                "WD01-014",
-                "WD01-014",
-                "WD01-014",
-                "WD01-014",
+                "WD02-014",
+                "WD02-014",
+                "WD02-014",
+                "WD02-014",
                 
-                "WD01-015",
-                "WD01-015",
-                "WD01-015",
-                "WD01-015",
+                "WD02-015",
+                "WD02-015",
+                "WD02-015",
+                "WD02-015",
 
 //                "WX01-101",
 //                "WX01-101",

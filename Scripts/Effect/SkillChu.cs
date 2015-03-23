@@ -57,7 +57,7 @@ namespace Assets.Scripts
 
         private void CardWd02011(Card card)
         {
-            card.Atk += 8000;
+            SkillManager.AddAtk(card, 8000);
 
             var over = new SkillChang.EffectChang
             {
@@ -65,9 +65,10 @@ namespace Assets.Scripts
                 CardChangAction = card1 =>
                 {
                     SkillManager.AddAtk(card1, -8000);
-                    SkillManager.SkillChang.MyRoundOverActions.Remove(card.MyEffectChangMyRoundOver);
+                    SkillManager.SkillChang.MyRoundOverActions.Remove(card1.MyEffectChangMyRoundOver);
                 }
             };
+
             card.MyEffectChangMyRoundOver = over;
             SkillManager.SkillChang.MyRoundOverActions.Add(over);
         }

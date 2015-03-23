@@ -306,8 +306,8 @@ namespace Assets.Scripts
                 }
                 RemoveSigniChangAction(Signi[num]);
 
-                Trash.AddTrash(Signi[num]);
                 Signi[num].ResetCardConfig();
+                Trash.AddTrash(Signi[num]);
                 CreateHands.DisEffectBtn();
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);
@@ -500,14 +500,14 @@ namespace Assets.Scripts
             {
                 for (int i = 0; i < MySelections.Length; i++)
                 {
-                    if (condiction != null)
+                    if (condiction != null && Signi[i] != null)
                     {
-                        if (condiction(Signi[i]) && Signi[i] != null)
+                        if (condiction(Signi[i]))
                         {
                             MySelections[i].SetActive(true);
                         }
                     }
-                    else
+                    else if(condiction == null && Signi[i]!=null)
                     {
                         MySelections[i].SetActive(true);
                     }
@@ -534,14 +534,14 @@ namespace Assets.Scripts
             {
                 for (int i = 0; i < OtherSelections.Length; i++)
                 {
-                    if (condiction != null)
+                    if (condiction != null && OtherSigni[i] != null)
                     {
-                        if (condiction(OtherSigni[i]) && OtherSigni[i] != null)
+                        if (condiction(OtherSigni[i]))
                         {
                             OtherSelections[i].SetActive(true);
                         }
                     }
-                    else
+                    else if(condiction == null && OtherSigni[i]!=null)
                     {
                         OtherSelections[i].SetActive(true);
                     }
@@ -676,9 +676,9 @@ namespace Assets.Scripts
 
                 RemoveSigniChangAction(Signi[num]);
 
+                Signi[num].ResetCardConfig();
                 EnerManager.CreateEner(Signi[num]);
                 GameManager.RpcEnerCharge(Signi[num].CardId);
-                Signi[num].ResetCardConfig();
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);
             }

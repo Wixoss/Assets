@@ -19,7 +19,8 @@ namespace Assets.Scripts
                 {"WX01-101",EnerChange},
                 {"WX01-102",EnerChange},
                 {"WX01-103",EnerChange},
-                {"WD02-009",CardWd02009}
+                {"WD02-009",CardWd02009},
+                {"WD02-011",DropCard},
             };
         }
 
@@ -33,11 +34,13 @@ namespace Assets.Scripts
         private void DropCard(Card card)
         {
             GameManager.SkillManager.DropCard(1);
+            SkillManager.BSelected = true;
         }
 
         private void EnerChange(Card card)
         {
             GameManager.EnerManager.EnerCharge();
+            SkillManager.BSelected = true;
         }
 
         private void CardWd02009(Card card)

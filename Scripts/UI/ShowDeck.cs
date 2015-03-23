@@ -7,7 +7,7 @@ namespace Assets.Scripts
     {
         public List<Card> MainDeck = new List<Card>();
         public List<Card> LrigDeck = new List<Card>();
-        public Trash Trash;
+//        public Trash Trash;
         public GameObject MainDeckObj;
         public GameObject OtherMainDeckObj;
         public GameManager GameManager;
@@ -34,11 +34,12 @@ namespace Assets.Scripts
             var card = Lastcard();
             if (card == null)
                 return;
-            Trash.AddTrash(card);
+            GameManager.Trash.AddTrash(card);
         }
 
         public void TrashToMainDeck()
         {
+            var Trash = GameManager.Trash;
             MainDeck = Trash.RewriteDeck(Trash.TrashCards);
             GameManager.RpcGetCardFromTrash(true);
         }

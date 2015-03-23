@@ -28,13 +28,10 @@ namespace Assets.Scripts
 
         public void Setup()
         {
+
             _createHands = GameManager.CreateHands;
-            //_lrig = GameManager.Lrig;
             _setSigni = GameManager.SetSigni;
-            //_enerManager = GameManager.EnerManager;
-            //_lifeCloth = GameManager.LifeCloth;
             _trash = GameManager.Trash;
-            //_check = GameManager.Check;
             _cardInfo = GameManager.CardInfo;
             _showDeck = GameManager.ShowDeck;
             _showCard = GameManager.ShowCard;
@@ -276,11 +273,12 @@ namespace Assets.Scripts
         /// <param name="condition">If set to <c>true</c> condition.</param>
         public static void AddAtk(Card card, int value)
         {
-            card.Atk += value;
+//            card.Atk += value;
             for (int i = 0; i < _setSigni.Signi.Length; i++)
             {
                 if (_setSigni.Signi[i] == card)
                 {
+                    _setSigni.Signi[i].Atk += value;
                     GameManager.RpcOtherCardAtkChange(i, value);
                 }
             }

@@ -921,7 +921,16 @@ namespace Assets.Scripts
 
         public Card GetCardFromDictionary(string cardid)
         {
-            return SkillManager.MyCard.CardDictionary[cardid];
+            var card = new Card(cardid);
+            var detail = SkillManager.MyCard.CardAtkDetailDictionary [cardid];
+            card.Atk = detail.Atk;
+            card.BaseAtk = detail.Atk;
+            card.CardDetail = detail.CardDetail;
+            card.MyCardType = detail.CardType;
+            card.MyCardColor = detail.CardColor;
+            card.Type = detail.Type;
+            card.Level = detail.Level;
+            return card;
         }
 
         //测试!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

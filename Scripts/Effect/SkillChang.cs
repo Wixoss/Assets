@@ -46,7 +46,7 @@ namespace Assets.Scripts
 
         public void SigniSet(Card card)
         {
-            for (int i = 0; i < SigniSetActions.Count; i++)
+            for (int i = SigniSetActions.Count-1; i >=0 ; i--)
             {
                 if (SigniSetActions[i].CardChangAction != null)
                 {
@@ -57,7 +57,7 @@ namespace Assets.Scripts
 
         public void SigniOut()
         {
-            for (int i = 0; i < SigniOutActions.Count; i++)
+            for (int i = SigniOutActions.Count-1; i >=0 ; i--)
             {
                 if (SigniOutActions[i].CardChangAction != null)
                 {
@@ -68,7 +68,7 @@ namespace Assets.Scripts
 
         public void MyRoundStart()
         {
-            for (int i = 0; i < MyRoundStartActions.Count; i++)
+            for (int i = MyRoundStartActions.Count-1; i >=0 ; i--)
             {
                 if (MyRoundStartActions[i].CardChangAction != null)
                 {
@@ -79,7 +79,7 @@ namespace Assets.Scripts
 
         public void MyRoundOver()
         {
-            for (int i = 0; i < MyRoundOverActions.Count; i++)
+            for (int i = MyRoundOverActions.Count-1; i >=0 ; i--)
             {
                 if (MyRoundOverActions[i].CardChangAction != null)
                 {
@@ -91,7 +91,7 @@ namespace Assets.Scripts
 
         public void EnerCharge()
         {
-            for (int i = 0; i < EnerChargeActions.Count; i++)
+            for (int i = EnerChargeActions.Count-1; i >=0; i--)
             {
                 if (EnerChargeActions[i].CardChangAction != null)
                 {
@@ -102,7 +102,7 @@ namespace Assets.Scripts
 
         public void LrigSet()
         {
-            for (int i = 0; i < LrigSetActions.Count; i++)
+            for (int i = LrigSetActions.Count-1; i >=0 ; i--)
             {
                 if (LrigSetActions[i].CardChangAction != null)
                 {
@@ -121,13 +121,13 @@ namespace Assets.Scripts
         {
             CardEffectChangDictionary = new Dictionary<string, Action<Card>>
             {
-                {"WD01-001",CardWx01001},
+                {"WD01-001",CardWd01001},
                 {"WD01-009",CardWd01009},
-                {"WD02-001",CardWd01001},
+                {"WD02-001",CardWd02001},
             };
         }
 
-        private void CardWx01001(Card card)
+        private void CardWd01001(Card card)
         {
             var chang = new EffectChang
             {
@@ -274,7 +274,7 @@ namespace Assets.Scripts
             SigniOutActions.Add(chang3);
         }
 
-        private void CardWd01001(Card card)
+        private void CardWd02001(Card card)
         {
             var chang = new EffectChang
             {
@@ -308,6 +308,11 @@ namespace Assets.Scripts
                     }
                 }
             };
+
+            LrigSetActions.Add(chang);
+            card.MyEffectChangLrigSet = chang;
+            SigniSetActions.Add(chang);
+            card.MyEffectChangSigniSet = chang;
 
             MyRoundStartActions.Add(chang);
             card.MyEffectChangMyRoundStart = chang2;

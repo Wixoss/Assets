@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
@@ -15,12 +16,8 @@ namespace Assets.Scripts
         //        public Action<string> StringChangeAction;
 
         private GameManager _gameManager = null;
-
-        private void Awake()
-        {
-            //保证自己不会在load场景的时候被销毁
-            //DontDestroyOnLoad(gameObject);
-        }
+        public static List<string> OtherCards = new List<string>();
+        public static bool Bdone;
 
         public void Rpc(string funcname, RPCMode mode, params object[] objs)
         {
@@ -131,7 +128,7 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            var card = _gameManager.GetCardFromDictionary(cardid);
+            var card = _gameManager.GetCardFromDictionary(cardid);          
             _gameManager.ShowCard.ShowMyCardEffect(card);
         }
 
@@ -307,7 +304,6 @@ namespace Assets.Scripts
             }
 
             var card = _gameManager.GetCardFromDictionary(cardid);
-
             _gameManager.Check.SetOtherCheck(card);
             _gameManager.ShowCard.ShowMyCard(card);
         }
@@ -348,21 +344,23 @@ namespace Assets.Scripts
         [RPC]
         private void SendOtherMyCard(string cardid)
         {
-            if (_gameManager == null)
-            {
-                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            }
-            _gameManager.SkillManager.MyCard.OtherCardid.Add(cardid);
+//            if (_gameManager == null)
+//            {
+//                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+//            }
+//            _gameManager.SkillManager.MyCard.OtherCardid.Add(cardid);
+            OtherCards.Add(cardid);
         }
 
         [RPC]
         private void SendOtherMyCardOk(bool bdone)
         {
-            if (_gameManager == null)
-            {
-                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            }
-            _gameManager.SkillManager.MyCard.BGetOtherCard = bdone;           
+//            if (_gameManager == null)
+//            {
+//                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+//            }
+//            _gameManager.SkillManager.MyCard.BGetOtherCard = bdone; 
+            Bdone = bdone;
         }
 
         [RPC]

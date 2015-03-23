@@ -584,7 +584,7 @@
 		<CardName>背炎之阵</CardName>
 		<CardType>技艺</CardType>
 		<Color>红</Color>
-		<EffectCost>红:3</EffectCost>
+		<EffectCost>红:2</EffectCost>
 		<TypeOnly>花代</TypeOnly>
 		<Timing>主要阶段</Timing>
 		<CardDetail>使用时点【主要阶段】舍弃3张手牌。这样做了的场合，将所有的SIGNI驱逐。（也包含你的SIGNI）</CardDetail>
@@ -1474,6 +1474,7 @@
 		<TypeOnly>花代</TypeOnly>
 		<BDef>0</BDef>
 		<BBrust>1</BBrust>
+        <EffectCost_Chu>红:3</EffectCost_Chu>
 		<CardDetail>【出】红3：将对战对手的1只力量15000以下的SIGNI驱逐。【※】：将对战对手的1只力量7000以下的SIGNI驱逐。</CardDetail>
 	</Signi>
 	<Signi>
