@@ -1075,17 +1075,14 @@ namespace Assets.Scripts
         /// <param name="bOne">单张还是全部</param>
         public void DestoryHandCondiction(System.Func<Card, bool> condiction,bool bOne)
         {
-            for (int i = 0; i < MyHands.Count; i++)
+            for (int i = MyHands.Count-1; i >=0 ; i--)
             {
-                if (condiction != null)
+                if (condiction(MyHands[i].MyCard))
                 {
-                    if (condiction(MyHands[i].MyCard))
+                    DestoryHands(MyHands[i]);
+                    if (bOne)
                     {
-                        DestoryHands(MyHands[i]);
-                        if (bOne)
-                        {
-                            return;
-                        }
+                        return;
                     }
                 }
             }

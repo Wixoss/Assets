@@ -133,10 +133,12 @@ namespace Assets.Scripts
         /// 抽卡
         /// </summary>
         /// <param name="num">需要抽卡的数量</param>
-        public void DropCard(int num)
+        public void DropCard(int num,Action succeed = null)
         {
             StartCoroutine(_createHands.DropCard(num));
             _createHands.ShowTheUseBtn();
+            if (succeed != null)
+                succeed();
         }
 
         public static void WashDeck()
@@ -152,7 +154,7 @@ namespace Assets.Scripts
         public static void DesCard(int num, Action myAction = null)
         {
             _createHands.DisTheUseBtn();
-            int desnum = _createHands.MyHands.Count - num < 0 ? 0 : _createHands.MyHands.Count - num;
+            int desnum = _createHands.MyHands.Count - num;
             _createHands.SetDesBtnOverSix(desnum, () =>
             {
                 if (myAction != null)

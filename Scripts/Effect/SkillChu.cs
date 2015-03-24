@@ -23,6 +23,8 @@ namespace Assets.Scripts
                 {"WD02-011",罗石石榴石},
                 {"WD02-014",罗石紫水晶},
                 {"WD03-009",技艺代号rmn},
+                {"WD03-011",技艺代号smp},
+                {"WD03-014",技艺代号rfr},
             };
         }
 
@@ -86,21 +88,12 @@ namespace Assets.Scripts
 
         private void 技艺代号smp(Card card)
         {
-            GameManager.RpcGetOtherHand();
+            GameManager.RpcShowHandAndDesLevelOne();
+        }
 
-//            GameManager.CardInfo.ShowCardInfo(true);
-//            var cardinfo = GameManager.CardInfo;
-//
-//
-//            cardinfo.SetUp("选择一只等级为1的卡丢弃", GameManager.CreateHands.OtherShowCards, 1, () =>
-//            {
-//                if (cardinfo.SelectHands.Count > 0 && cardinfo.SelectHands[0] != null)
-//                {
-//                    var mycard = cardinfo.SelectHands[0].MyCard;
-//                    GameManager.RpcDesHandById(mycard.CardId, true);
-//                }
-//                cardinfo.ShowCardInfo(false);
-//            });
+        private void 技艺代号rfr(Card card)
+        {
+            SkillManager.DropCard(1,()=>SkillManager.DesCard(1));
         }
     }
 }

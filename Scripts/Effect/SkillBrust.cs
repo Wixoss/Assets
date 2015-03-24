@@ -22,6 +22,7 @@ namespace Assets.Scripts
                 {"WD02-009",罗石火山石},
                 {"WD02-011",DropCard},
                 {"WD03-009",技艺代号rmn},
+                {"WD03-011",DropCard},
             };
         }
 

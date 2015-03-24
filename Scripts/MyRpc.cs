@@ -380,6 +380,64 @@ namespace Assets.Scripts
         }
 
         [RPC]
+        private void GetOtherMyHandsDesLevelOne()
+        {
+            var cards = _gameManager.CreateHands.MyHands;
+            
+            for(int i =0;i<cards.Count;i++)
+            {
+                Rpc("SendOtherMyShowCard",RPCMode.Others,cards[i].MyCard.CardId);
+            }
+
+            Rpc("ShowOtherMyhandsDesLevelOne",RPCMode.Others);
+        }
+
+        [RPC]
+        private void GetOtherHands()
+        {
+            var cards = _gameManager.CreateHands.MyHands;
+            for(int i =0;i<cards.Count;i++)
+            {
+                Rpc("SendOtherMyShowCard",RPCMode.Others,cards[i].MyCard.CardId);
+            }
+            Rpc("ShowOtherMyCards", RPCMode.Others, "对方手卡");
+        }
+
+        [RPC]
+        private void ShowOtherMyhandsDesLevelOne()
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+ 
+            _gameManager.CardInfo.ShowCardInfo(true);
+            _gameManager.CardInfo.SetUp("对方手卡", _gameManager.CreateHands.OtherShowCards, 0, () =>
+            {
+                _gameManager.CardInfo.ShowCardInfo(true);
+
+                var target = new List<Card>();
+                for(int i =0;i<_gameManager.CreateHands.OtherShowCards.Count;i++)
+                {
+                    if(_gameManager.CreateHands.OtherShowCards[i].Level==1)
+                    {
+                        target.Add(_gameManager.CreateHands.OtherShowCards[i]);
+                    }
+                }
+
+                _gameManager.CardInfo.SetUp("选择一张等级一的精灵卡丢弃",target,1,()=>
+                {
+                    if(_gameManager.CardInfo.SelectHands.Count>0)
+                    {
+                        GameManager.RpcDesHandById(_gameManager.CardInfo.SelectHands[0].Cardid,true);
+                    }
+                    _gameManager.CreateHands.OtherShowCards.Clear();
+                    _gameManager.CardInfo.ShowCardInfo(false);
+                });
+            });
+        }
+
+        [RPC]
         private void DesOtherHandByLevel(int level, bool bOne)
         {
             if (_gameManager == null)
@@ -389,6 +447,8 @@ namespace Assets.Scripts
             _gameManager.CreateHands.DestoryHandCondiction(x => x.Level == level, bOne);
         }
 
+        bool bOk = false;
+
         [RPC]
         private void DesHand(int i)
         {
@@ -396,7 +456,32 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            SkillManager.DesCard(i);
+
+            if (_gameManager.CreateHands.MyHands.Count < 1)
+            {
+                _gameManager.SetSigni.BWaiting = false;
+                bOk = true;
+            } 
+            else
+            {
+                SkillManager.DesCard(i,()=>
+                {
+                    _gameManager.SetSigni.BWaiting = false;
+                    bOk = true;
+                });
+                Invoke("OverTimeDesHandRandom",10f);
+            }
+        }
+
+        private void OverTimeDesHandRandom()
+        {
+            if (bOk == false)
+            {
+                var num = _gameManager.CreateHands.MyHands.Count - 1;
+                SkillManager.DesCardRandom();
+                _gameManager.CreateHands.SetDesBtnOverSix(num,()=> bOk = false);
+                _gameManager.CreateHands.DesMyHandsOverSix();
+            }
         }
 
         [RPC]
@@ -417,21 +502,6 @@ namespace Assets.Scripts
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
             _gameManager.CreateHands.DestoryHandCondiction(x => x.CardId == cardid, bOne);
-        }
-
-        [RPC]
-        private void GetOtherHands()
-        {
-            if (_gameManager == null)
-            {
-                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            }
-            //GameManager.RpcOtherShowCards(_gameManager.CreateHands.MyHandCards, "对方手牌");
-            var hands = _gameManager.CreateHands.MyHandCards;
-            for (int i = 0; i < hands.Count; i++)
-            {
-                Rpc("SendOtherMyShowCard", RPCMode.Others, hands[i].CardId);
-            }
         }
 
         [RPC]
@@ -467,11 +537,11 @@ namespace Assets.Scripts
             Debug.Log(_gameManager.SetSigni.BWaiting);
             if (!_gameManager.SetSigni.BWaiting)
             {
-                _gameManager.Reporting.text = "继续攻击阶段";
-                _gameManager.SetSigni.ShowAttackBtn();
                 if (_gameManager.MyGameState == GameManager.GameState.精灵攻击阶段 ||
                     _gameManager.MyGameState == GameManager.GameState.分身攻击阶段)
                 {
+                    _gameManager.Reporting.text = "继续攻击阶段";
+                    _gameManager.SetSigni.ShowAttackBtn();
                     _gameManager.WordInfo.ShowTheEndPhaseBtn(true);
                 }
             }

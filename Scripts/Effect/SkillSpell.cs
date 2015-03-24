@@ -26,6 +26,7 @@ namespace Assets.Scripts
                 {"WD03-006",窥视分析},
                 {"WD03-007",不可行动},
                 {"WD03-008",双重抽卡},
+                {"WD03-015",真可惜},
             };
         }
 
@@ -145,7 +146,8 @@ namespace Assets.Scripts
                 {
                     SkillManager.DesHandByLevel(card, cardinfo.SelectHands[0].Level, false);
                     GameManager.RpcOtherShowCards(new List<Card> { cardinfo.SelectHands[0].MyCard }, "对方宣言的等级");
-                    cardinfo.ShowCardInfo(false);
+                    //cardinfo.ShowCardInfo(false);
+                    GameManager.RpcGetOtherHand();
                 }
             });
         }
@@ -158,6 +160,11 @@ namespace Assets.Scripts
         private void 双重抽卡(Card card)
         {
             SkillManager.DropCard(2);
+        }
+
+        private void 真可惜(Card card)
+        {
+            GameManager.RpcDesHandRandom();
         }
     }
 }

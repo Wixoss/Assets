@@ -443,13 +443,22 @@ namespace Assets.Scripts
         private void Grow()
         {
             //if(Lrig.level = target.level - 1 && Ener>=Lrig.cost)
+            bool bin = false;
             for (int i = 0; i < ShowDeck.LrigDeck.Count; i++)
             {
                 if (ShowDeck.LrigDeck[i].MyCardType == Card.CardType.分身卡 &&
                     ShowDeck.LrigDeck[i].Level >= Lrig.MyLrig.Level)
                 {
-                    Lrig.ShowUpBtn(true);
+                    bin = true;
                 }
+            }
+
+            if (bin)
+            {
+                Lrig.ShowUpBtn(true);
+            } else
+            {
+                RpcGrow();
             }
         }
 
@@ -549,14 +558,6 @@ namespace Assets.Scripts
         }
 
         /// <summary>
-        /// 获取对方手卡
-        /// </summary>
-        public static void RpcGetOtherHand()
-        {
-            MyRpc.Rpc("GetOtherHands", RPCMode.Others);
-        }
-
-        /// <summary>
         /// 窥视分析...
         /// </summary>
         /// <param name="level"></param>
@@ -564,6 +565,14 @@ namespace Assets.Scripts
         public static void RpcDesHandByLevel(int level, bool bOne)
         {
             MyRpc.Rpc("DesOtherHandByLevel", RPCMode.Others, level, bOne);
+        }
+
+        /// <summary>
+        /// 查看对方手牌且把一张等级1的丢弃
+        /// </summary>
+        public static void RpcShowHandAndDesLevelOne()
+        {
+            MyRpc.Rpc("GetOtherMyHandsDesLevelOne", RPCMode.Others);
         }
 
         #endregion
@@ -816,6 +825,14 @@ namespace Assets.Scripts
         public static void RpcCrashOtherLifeCloth(bool bHurt)
         {
             MyRpc.Rpc("CrashOtherCloth", RPCMode.Others, bHurt);
+        }
+
+        /// <summary>
+        /// 获取对方手卡
+        /// </summary>
+        public static void RpcGetOtherHand()
+        {
+            MyRpc.Rpc("GetOtherHands", RPCMode.Others);
         }
 
         /// <summary>
