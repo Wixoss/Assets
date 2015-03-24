@@ -15,12 +15,12 @@ namespace Assets.Scripts
         }
 
         /// <summary>
-        /// 精灵出场时调用
+        /// 精灵出场时调用(双方)
         /// </summary>
         public List<EffectChang> SigniSetActions = new List<EffectChang>();
 
         /// <summary>
-        /// 精灵离场时调用
+        /// 精灵离场时调用(双方)
         /// </summary>
         public List<EffectChang> SigniOutActions = new List<EffectChang>();
 
@@ -35,18 +35,23 @@ namespace Assets.Scripts
         public List<EffectChang> MyRoundOverActions = new List<EffectChang>();
 
         /// <summary>
-        /// 我方充能时调用
+        /// 能量变化时调用(双方)
         /// </summary>
-        public List<EffectChang> EnerChargeActions = new List<EffectChang>();
+        public List<EffectChang> EnerChangeActions = new List<EffectChang>();
 
         /// <summary>
         /// 我发设置分身时
         /// </summary>
         public List<EffectChang> LrigSetActions = new List<EffectChang>();
 
+        /// <summary>
+        /// 手牌变化时调用(双方)
+        /// </summary>
+        public List<EffectChang> HandsChangeActions = new List<EffectChang>();
+
         public void SigniSet(Card card)
         {
-            for (int i = SigniSetActions.Count-1; i >=0 ; i--)
+            for (int i = SigniSetActions.Count - 1; i >= 0; i--)
             {
                 if (SigniSetActions[i].CardChangAction != null)
                 {
@@ -57,7 +62,7 @@ namespace Assets.Scripts
 
         public void SigniOut()
         {
-            for (int i = SigniOutActions.Count-1; i >=0 ; i--)
+            for (int i = SigniOutActions.Count - 1; i >= 0; i--)
             {
                 if (SigniOutActions[i].CardChangAction != null)
                 {
@@ -68,7 +73,7 @@ namespace Assets.Scripts
 
         public void MyRoundStart()
         {
-            for (int i = MyRoundStartActions.Count-1; i >=0 ; i--)
+            for (int i = MyRoundStartActions.Count - 1; i >= 0; i--)
             {
                 if (MyRoundStartActions[i].CardChangAction != null)
                 {
@@ -79,7 +84,7 @@ namespace Assets.Scripts
 
         public void MyRoundOver()
         {
-            for (int i = MyRoundOverActions.Count-1; i >=0 ; i--)
+            for (int i = MyRoundOverActions.Count - 1; i >= 0; i--)
             {
                 if (MyRoundOverActions[i].CardChangAction != null)
                 {
@@ -91,22 +96,33 @@ namespace Assets.Scripts
 
         public void EnerCharge()
         {
-            for (int i = EnerChargeActions.Count-1; i >=0; i--)
+            for (int i = EnerChangeActions.Count - 1; i >= 0; i--)
             {
-                if (EnerChargeActions[i].CardChangAction != null)
+                if (EnerChangeActions[i].CardChangAction != null)
                 {
-                    EnerChargeActions[i].CardChangAction(EnerChargeActions[i].Card);
+                    EnerChangeActions[i].CardChangAction(EnerChangeActions[i].Card);
                 }
             }
         }
 
         public void LrigSet()
         {
-            for (int i = LrigSetActions.Count-1; i >=0 ; i--)
+            for (int i = LrigSetActions.Count - 1; i >= 0; i--)
             {
                 if (LrigSetActions[i].CardChangAction != null)
                 {
                     LrigSetActions[i].CardChangAction(LrigSetActions[i].Card);
+                }
+            }
+        }
+
+        public void HandChange()
+        {
+            for (int i = HandsChangeActions.Count - 1; i >= 0; i--)
+            {
+                if (HandsChangeActions[i].CardChangAction != null)
+                {
+                    HandsChangeActions[i].CardChangAction(HandsChangeActions[i].Card);
                 }
             }
         }
@@ -121,13 +137,14 @@ namespace Assets.Scripts
         {
             CardEffectChangDictionary = new Dictionary<string, Action<Card>>
             {
-                {"WD01-001",CardWd01001},
-                {"WD01-009",CardWd01009},
-                {"WD02-001",CardWd02001},
+                {"WD01-001",满月之巫女玉依姬},
+                {"WD01-009",甲胄皇家铠},
+                {"WD02-001",花代肆},
+                {"WD03-001",代号皮璐璐可t}
             };
         }
 
-        private void CardWd01001(Card card)
+        private void 满月之巫女玉依姬(Card card)
         {
             var chang = new EffectChang
             {
@@ -170,7 +187,6 @@ namespace Assets.Scripts
 
             SigniOutActions.Add(no);
             card.MyEffectChangSigniOut = no;
-            //IfSigniInGround(card, "甲胄 皇家铠", 2000);
         }
 
         /// <summary>
@@ -224,7 +240,7 @@ namespace Assets.Scripts
             card.MyEffectChangSigniOut = no;
         }
 
-        private void CardWd01009(Card card)
+        private void 甲胄皇家铠(Card card)
         {
             var chang = new EffectChang
             {
@@ -272,9 +288,10 @@ namespace Assets.Scripts
             };
 
             SigniOutActions.Add(chang3);
+            card.MyEffectChangSigniOut = chang3;
         }
 
-        private void CardWd02001(Card card)
+        private void 花代肆(Card card)
         {
             var chang = new EffectChang
             {
@@ -335,6 +352,57 @@ namespace Assets.Scripts
             };
 
             SigniOutActions.Add(no);
+            card.MyEffectChangSigniOut = no;
+        }
+
+        private void 代号皮璐璐可t(Card card)
+        {
+            var chang = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    if (card.BChang)
+                    {
+                        SkillManager.AddAtk(card1, 2000);
+                    }
+
+                    if (SkillManager.BSigniInGround("技艺代号 R•M•N") && !card.BChang && SkillManager.GameManager.CreateHands.OtherHands.Count <= 1)
+                    {
+                        SkillManager.AddAtkAll(2000);
+                        card.BChang = true;
+                    }
+
+                    if (card.BChang && SkillManager.GameManager.CreateHands.OtherHands.Count > 1)
+                    {
+                        SkillManager.AddAtkAll(-2000);
+                        card.BChang = false;
+                    }
+                }
+            };
+
+            LrigSetActions.Add(chang);
+            card.MyEffectChangLrigSet = chang;
+            SigniSetActions.Add(chang);
+            card.MyEffectChangSigniSet = chang;
+            HandsChangeActions.Add(chang);
+            card.MyEffectChangHandChange = chang;
+
+            var no = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    if (!SkillManager.BSigniInGround("技艺代号 R•M•N") && card.BChang)
+                    {
+                        SkillManager.AddAtkAll(-2000);
+                        card.BChang = false;
+                    }
+                }
+            };
+
+            SigniOutActions.Add(no);
+            card.MyEffectChangSigniOut = no;
         }
 
     }

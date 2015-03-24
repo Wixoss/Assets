@@ -128,7 +128,7 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            var card = _gameManager.GetCardFromDictionary(cardid);          
+            var card = _gameManager.GetCardFromDictionary(cardid);
             _gameManager.ShowCard.ShowMyCardEffect(card);
         }
 
@@ -344,27 +344,27 @@ namespace Assets.Scripts
         [RPC]
         private void SendOtherMyCard(string cardid)
         {
-//            if (_gameManager == null)
-//            {
-//                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-//            }
-//            _gameManager.SkillManager.MyCard.OtherCardid.Add(cardid);
+            //            if (_gameManager == null)
+            //            {
+            //                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            //            }
+            //            _gameManager.SkillManager.MyCard.OtherCardid.Add(cardid);
             OtherCards.Add(cardid);
         }
 
         [RPC]
         private void SendOtherMyCardOk(bool bdone)
         {
-//            if (_gameManager == null)
-//            {
-//                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-//            }
-//            _gameManager.SkillManager.MyCard.BGetOtherCard = bdone; 
+            //            if (_gameManager == null)
+            //            {
+            //                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            //            }
+            //            _gameManager.SkillManager.MyCard.BGetOtherCard = bdone; 
             Bdone = bdone;
         }
 
         [RPC]
-        private void ShowOtherMyCards()
+        private void ShowOtherMyCards(string info)
         {
             if (_gameManager == null)
             {
@@ -372,11 +372,66 @@ namespace Assets.Scripts
             }
 
             _gameManager.CardInfo.ShowCardInfo(true);
-            _gameManager.CardInfo.SetUp("对面获取的卡牌", _gameManager.CreateHands.OtherShowCards, 0, () =>
+            _gameManager.CardInfo.SetUp(info, _gameManager.CreateHands.OtherShowCards, 0, () =>
             {
                 _gameManager.CreateHands.OtherShowCards.Clear();
                 _gameManager.CardInfo.ShowCardInfo(false);
             });
+        }
+
+        [RPC]
+        private void DesOtherHandByLevel(int level, bool bOne)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.CreateHands.DestoryHandCondiction(x => x.Level == level, bOne);
+        }
+
+        [RPC]
+        private void DesHand(int i)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            SkillManager.DesCard(i);
+        }
+
+        [RPC]
+        private void DesHandRandom()
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            SkillManager.DesCardRandom();
+        }
+
+        [RPC]
+        private void DesOtherHandByCardid(string cardid, bool bOne)
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            _gameManager.CreateHands.DestoryHandCondiction(x => x.CardId == cardid, bOne);
+        }
+
+        [RPC]
+        private void GetOtherHands()
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            //GameManager.RpcOtherShowCards(_gameManager.CreateHands.MyHandCards, "对方手牌");
+            var hands = _gameManager.CreateHands.MyHandCards;
+            for (int i = 0; i < hands.Count; i++)
+            {
+                Rpc("SendOtherMyShowCard", RPCMode.Others, hands[i].CardId);
+            }
         }
 
         [RPC]
@@ -386,7 +441,7 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            _gameManager.SetSigni.OtherSigni [num].Atk += value;
+            _gameManager.SetSigni.OtherSigni[num].Atk += value;
         }
 
         [RPC]

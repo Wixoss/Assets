@@ -116,7 +116,7 @@ namespace Assets.Scripts
                 var card = GameManager.ShowDeck.Lastcard();
                 CreateMyFirstHands(card);
                 yield return new WaitForSeconds(0.2f);
-            }         
+            }
             Reposition();
             GameManager.RpcCreateOtherHands(5);
             //            yield return new WaitForSeconds(5);
@@ -176,6 +176,7 @@ namespace Assets.Scripts
         /// </summary>
         private void EnerChange()
         {
+            
             if (Ener != null)
             {
                 EnerManager.CreateEner(Ener.MyCard);
@@ -191,7 +192,8 @@ namespace Assets.Scripts
             //常效果:我方回合冲能时
             GameManager.SkillManager.EnerCharge();
             //            EnerManager.SetTheEner();
-
+            CancelInvoke("SetZero");
+            CancelInvoke("Reposition");
             Invoke("SetZero", 0.5f);
             Invoke("Reposition", 1);
             GameManager.RpcEnerCharge();
@@ -236,8 +238,15 @@ namespace Assets.Scripts
                     }
                 });
             }
+
+            GameManager.SkillManager.HandChange();
         }
 
+        /// <summary>
+        /// 丢弃手卡,把>num的手卡全丢弃
+        /// </summary>
+        /// <param name="num">剩下手卡数</param>
+        /// <param name="succeed"></param>
         public void SetDesBtnOverSix(int num, System.Action succeed)
         {
             _disNum = num;
@@ -358,6 +367,7 @@ namespace Assets.Scripts
                 DropCard();
                 yield return new WaitForSeconds(0.3f);
             }
+            GameManager.SkillManager.HandChange();
         }
 
         //        public void DestoryHands(Hands hands)
@@ -684,7 +694,7 @@ namespace Assets.Scripts
                 {
                     if (GameManager.Check.GetOtherCard() != null)
                     {
-//                        GameManager.Check.GetOtherCard().EffectSpell();                                            
+                        //                        GameManager.Check.GetOtherCard().EffectSpell();                                            
                         yield return new WaitForSeconds(1f);
                         GameManager.Reporting.text = "主要阶段";
                         GameManager.WordInfo.ShowTheEndPhaseBtn(true);
@@ -803,10 +813,10 @@ namespace Assets.Scripts
 
         public void DisTheUseBtn()
         {
-            //            for (int i = 0; i < MyHands.Count; i++)
-            //            {
-            //                MyHands[i].ShowUseBtn(false);
-            //            }
+            for (int i = 0; i < MyHands.Count; i++)
+            {
+                MyHands[i].ShowCanUseTips(false);
+            }
             UseCardBtn.SetActive(false);
             NotUseCardBtn.SetActive(false);
         }
@@ -1043,19 +1053,46 @@ namespace Assets.Scripts
                 var obj = InsObj(OtherHand, Vector3.zero, Vector3.zero, Vector3.one, OtherParent);
                 OtherHands.Add(obj);
             }
-            //OtherGrid.Reposition();
             Invoke("OtherReposition", 0.5f);
+            GameManager.SkillManager.HandChange();
         }
 
+        /// <summary>
+        /// 随机丢弃手卡
+        /// </summary>
         public void DestoryHandRamdom()
         {
             int rand = Random.Range(0, MyHands.Count);
             DestoryHands(rand);
             ShowTheUseBtn();
+            GameManager.SkillManager.HandChange();
+        }
+
+        /// <summary>
+        /// 丢弃全部与条件相符合的手卡
+        /// </summary>
+        /// <param name="condiction">条件</param>
+        /// <param name="bOne">单张还是全部</param>
+        public void DestoryHandCondiction(System.Func<Card, bool> condiction,bool bOne)
+        {
+            for (int i = 0; i < MyHands.Count; i++)
+            {
+                if (condiction != null)
+                {
+                    if (condiction(MyHands[i].MyCard))
+                    {
+                        DestoryHands(MyHands[i]);
+                        if (bOne)
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         private void DestoryHands(int num)
-        {
+        { 
             if (MyHands.Count - 1 < num)
                 return;
             Trash.AddTrash(MyHands[num].MyCard);
@@ -1063,6 +1100,8 @@ namespace Assets.Scripts
             GameManager.RpcDestoryOtherHands(MyHands.Count - 1);
             MyHandCards.Remove(MyHands[num].MyCard);
             MyHands.Remove(MyHands[num]);
+            CancelInvoke("SetZero");
+            CancelInvoke("Reposition");
             Invoke("SetZero", 0.5f);
             Invoke("Reposition", 1);
         }
@@ -1074,16 +1113,20 @@ namespace Assets.Scripts
             hands.DestoryHands();
             MyHandCards.Remove(hands.MyCard);
             MyHands.Remove(hands);
+            CancelInvoke("SetZero");
+            CancelInvoke("Reposition");
             Invoke("SetZero", 0.5f);
             Invoke("Reposition", 1);
         }
 
         public void DestoryOtherHands(int num)
-        {
+        {  
             var obj = OtherHands[num];
             OtherHands.Remove(obj);
             Destroy(obj);
+            CancelInvoke("OtherReposition");
             Invoke("OtherReposition", 0.5f);
+            GameManager.SkillManager.HandChange();
         }
     }
 }

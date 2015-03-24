@@ -443,8 +443,14 @@ namespace Assets.Scripts
         private void Grow()
         {
             //if(Lrig.level = target.level - 1 && Ener>=Lrig.cost)
-
-            Lrig.ShowUpBtn(true);
+            for (int i = 0; i < ShowDeck.LrigDeck.Count; i++)
+            {
+                if (ShowDeck.LrigDeck[i].MyCardType == Card.CardType.分身卡 &&
+                    ShowDeck.LrigDeck[i].Level >= Lrig.MyLrig.Level)
+                {
+                    Lrig.ShowUpBtn(true);
+                }
+            }
         }
 
         public void RpcGrow()
@@ -493,6 +499,23 @@ namespace Assets.Scripts
         }
 
         /// <summary>
+        /// 对方自己选择舍弃一张手卡
+        /// </summary>
+        /// <param name="num"></param>
+        public static void RpcDesHand(int num)
+        {
+            MyRpc.Rpc("DesHand", RPCMode.Others, num);
+        }
+
+        /// <summary>
+        /// 对方随机舍弃一张手卡
+        /// </summary>
+        public static void RpcDesHandRandom()
+        {
+            MyRpc.Rpc("DesHandRandom", RPCMode.Others);
+        }
+
+        /// <summary>
         /// 告诉对方自己新增了手牌
         /// </summary>
         /// <param name="num"></param>
@@ -505,13 +528,42 @@ namespace Assets.Scripts
         /// 展示手牌给对方
         /// </summary>
         /// <param name="myCards"></param>
-        public static void RpcOtherShowCards(List<Card> myCards)
+        /// <param name="info"></param>
+        public static void RpcOtherShowCards(List<Card> myCards, string info)
         {
             for (int i = 0; i < myCards.Count; i++)
             {
                 MyRpc.Rpc("SendOtherMyShowCard", RPCMode.Others, myCards[i].CardId);
             }
-            MyRpc.Rpc("ShowOtherMyCards", RPCMode.Others);
+            MyRpc.Rpc("ShowOtherMyCards", RPCMode.Others, info);
+        }
+
+        /// <summary>
+        /// 把对方手牌含有cardid的卡舍弃
+        /// </summary>
+        /// <param name="cardid"></param>
+        /// <param name="bOne"></param>
+        public static void RpcDesHandById(string cardid, bool bOne)
+        {
+            MyRpc.Rpc("DesOtherHandByCardid", RPCMode.Others, cardid, bOne);
+        }
+
+        /// <summary>
+        /// 获取对方手卡
+        /// </summary>
+        public static void RpcGetOtherHand()
+        {
+            MyRpc.Rpc("GetOtherHands", RPCMode.Others);
+        }
+
+        /// <summary>
+        /// 窥视分析...
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="bOne"></param>
+        public static void RpcDesHandByLevel(int level, bool bOne)
+        {
+            MyRpc.Rpc("DesOtherHandByLevel", RPCMode.Others, level, bOne);
         }
 
         #endregion
@@ -922,7 +974,7 @@ namespace Assets.Scripts
         public Card GetCardFromDictionary(string cardid)
         {
             var card = new Card(cardid);
-            var detail = SkillManager.MyCard.CardAtkDetailDictionary [cardid];
+            var detail = SkillManager.MyCard.CardAtkDetailDictionary[cardid];
             card.Atk = detail.Atk;
             card.BaseAtk = detail.Atk;
             card.CardDetail = detail.CardDetail;

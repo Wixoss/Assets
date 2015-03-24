@@ -131,6 +131,11 @@ namespace Assets.Scripts
         public SkillChang.EffectChang MyEffectChangLrigSet = new SkillChang.EffectChang();
 
         /// <summary>
+        /// 手牌变化时
+        /// </summary>
+        public SkillChang.EffectChang MyEffectChangHandChange = new SkillChang.EffectChang();
+
+        /// <summary>
         /// 精灵自己离场时调用
         /// </summary>
         public Action<Card> SigniOutAction;
@@ -267,8 +272,8 @@ namespace Assets.Scripts
         /// </summary>
         public Action<Card> EffectChang = null; //常
         public Action<Card> EffectChu = null; //出
-        public Action<Card> EffectQi = card => Debug.Log("EffectQi"); //起
-        public Action<Card> EffectSpell = card => Debug.Log("Spell!");
+        public Action<Card> EffectQi = null;//起
+        public Action<Card> EffectSpell = null;
         public Action<Card> Brust = null;
 
         public Card(string cardid)
@@ -279,17 +284,17 @@ namespace Assets.Scripts
             CardTexture = Resources.Load<Texture2D>(CardId);
         }
 
-//        public void GetAtkByCardId(string cardid)
-//        {
-//            var card = CreateCardByXml.GetCardByCardId(CardId);
-//            foreach (var i in card)
-//            {
-//                if(i.Element("Atk")!=null)
-//                {
-//                    Atk = Convert.ToInt16(i.Element("Atk").Value);
-//                }
-//            }
-//        }
+        //        public void GetAtkByCardId(string cardid)
+        //        {
+        //            var card = CreateCardByXml.GetCardByCardId(CardId);
+        //            foreach (var i in card)
+        //            {
+        //                if(i.Element("Atk")!=null)
+        //                {
+        //                    Atk = Convert.ToInt16(i.Element("Atk").Value);
+        //                }
+        //            }
+        //        }
 
         /// <summary>
         /// 读取xml
@@ -505,15 +510,15 @@ namespace Assets.Scripts
 
         public ShowDeck ShowDeck;
 
-//        public bool BGetOtherCard;
-//        public List<string> OtherCardid = new List<string>();
-       
+        //        public bool BGetOtherCard;
+        //        public List<string> OtherCardid = new List<string>();
+
         public void Setup()
         {
             CreateCardByXml();
             Card mycard;
             for (int i = 0; i < MyLrigid.Count; i++)
-            { 
+            {
                 mycard = new Card(MyLrigid[i]);
                 mycard.SetCardById();
                 if (!CardAtkDetailDictionary.ContainsKey(MyLrigid[i]))

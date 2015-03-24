@@ -118,6 +118,7 @@ namespace Assets.Scripts
             Eners.Add(hand);
             EnerCards.Add(card);
             CountEner(EnerCards);
+            CancelInvoke("ResetTheEner");
             Invoke("ResetTheEner", 0.5f);
             //            }
         }
@@ -151,7 +152,10 @@ namespace Assets.Scripts
             var hand = obj.GetComponent<Hands>();
             hand.MyCard = card;
             OtherEner.Add(hand);
+            CancelInvoke("ResetOtherEner");
             Invoke("ResetOtherEner", 0.5f);
+            //常效果:我方回合冲能时
+            GameManager.SkillManager.EnerCharge();
         }
 
         private void ResetOtherEner()
@@ -171,10 +175,13 @@ namespace Assets.Scripts
                 {
                     OtherEner[i].DestoryHands();
                     OtherEner.Remove(OtherEner[i]);
+                    CancelInvoke("ResetOtherEner");
                     Invoke("ResetOtherEner", 0.5f);
                     return;
                 }
             }
+            //常效果:我方回合冲能时
+            GameManager.SkillManager.EnerCharge();
         }
 
 
@@ -234,6 +241,7 @@ namespace Assets.Scripts
                 DestoryHands(cards[i]);
                 CountEner(EnerCards);
             }
+            CancelInvoke("ResetTheEner");
             Invoke("ResetTheEner", 0.5f);
         }
 

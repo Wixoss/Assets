@@ -43,35 +43,55 @@ namespace Assets.Scripts
             SkillBrust.Setup();
             MyCard.Setup();
         }
-
+        /// <summary>
+        /// 设置精灵时
+        /// </summary>
+        /// <param name="card"></param>
         public void SigniSet(Card card)
         {
             SkillChang.SigniSet(card);
         }
-
+        /// <summary>
+        /// 精灵离场时
+        /// </summary>
         public void SigniOut()
         {
             SkillChang.SigniOut();
         }
-
+        /// <summary>
+        /// 我方回合开始时/对方回合结束时
+        /// </summary>
         public void MyRoundStart()
         {
             SkillChang.MyRoundStart();
         }
-
+        /// <summary>
+        /// 我方回合结束时/对方回合开始时
+        /// </summary>
         public void MyRoundOver()
         {
             SkillChang.MyRoundOver();
         }
-
+        /// <summary>
+        /// 能量变化时(双方)
+        /// </summary>
         public void EnerCharge()
         {
             SkillChang.EnerCharge();
         }
-
+        /// <summary>
+        /// 设置分身时
+        /// </summary>
         public void LrigSet()
         {
             SkillChang.LrigSet();
+        }
+        /// <summary>
+        /// 手卡变化时(双方)
+        /// </summary>
+        public void HandChange()
+        {
+            SkillChang.HandChange();
         }
 
         /// <summary>
@@ -132,7 +152,8 @@ namespace Assets.Scripts
         public static void DesCard(int num, Action myAction = null)
         {
             _createHands.DisTheUseBtn();
-            _createHands.SetDesBtnOverSix(_createHands.MyHands.Count - num, () =>
+            int desnum = _createHands.MyHands.Count - num < 0 ? 0 : _createHands.MyHands.Count - num;
+            _createHands.SetDesBtnOverSix(desnum, () =>
             {
                 if (myAction != null)
                     myAction();
@@ -144,9 +165,26 @@ namespace Assets.Scripts
         /// <summary>
         /// 随机丢弃手牌
         /// </summary>
-        public void DesCardRandom()
+        public static void DesCardRandom()
         {
             _createHands.DestoryHandRamdom();
+        }
+
+        /// <summary>
+        /// 随机丢弃对方手卡
+        /// </summary>
+        public static void DesOtherCardRamdom()
+        {
+            GameManager.RpcDesHandRandom();
+        }
+
+        /// <summary>
+        /// 对方自己选择丢弃手卡
+        /// </summary>
+        /// <param name="num">丢弃数量</param>
+        public static void DesOtherCard(int num)
+        {
+            GameManager.RpcDesHand(num);
         }
 
         /// <summary>
@@ -239,6 +277,19 @@ namespace Assets.Scripts
             GameManager.RpcBackHand(i);
         }
 
+        /// <summary>
+        /// 等级是多少的全部删除
+        /// </summary>
+        /// <param name="sourcecard"></param>
+        /// <param name="level">等级</param>
+        /// <param name="bOne">单张还是全部</param>
+        public static void DesHandByLevel(Card sourcecard, int level, bool bOne)
+        {
+            GameManager.RpcDesHandByLevel(level, bOne);
+            _showCard.ShowMyCardEffect(sourcecard);
+            GameManager.RpcOtherCardBuff(sourcecard.CardId);
+        }
+
         #endregion
 
         #region 记得出场与离场都调用一次
@@ -273,7 +324,7 @@ namespace Assets.Scripts
         /// <param name="condition">If set to <c>true</c> condition.</param>
         public static void AddAtk(Card card, int value)
         {
-//            card.Atk += value;
+            //            card.Atk += value;
             for (int i = 0; i < _setSigni.Signi.Length; i++)
             {
                 if (_setSigni.Signi[i] == card)
@@ -330,41 +381,114 @@ namespace Assets.Scripts
         /// </summary>
         public static void BackHand(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
         {
-            _setSigni.ShowOtherSelections(true);
-            _setSigni.SetSelections(false, null, true, i =>
-             {
-                 GameManager.RpcBackHand(_setSigni.OtherSelection);
-
-                 _showCard.ShowMyCardEffect(sourcecard);
-                 GameManager.RpcOtherCardBuff(sourcecard.CardId);
-
-                 _setSigni.ShowBanishOtherSigni(_setSigni.OtherSelection);
-                 BSelected = true;
-                 if (succeed != null)
-                     succeed();
-             }, false);
+            DebuffOtherSigni(sourcecard, GameManager.RpcBackHand, succeed, condiction);
         }
 
 
         /// <summary>
         /// 选择破坏对方一只精灵
         /// </summary>
-        /// <param name="sourcecard">发动效果的卡</param>
-        /// <param name="succeed">成功后是否继续下一步?</param>
-        /// <param name="condiction">条件</param>
         public static void Baninish(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
+        {
+            DebuffOtherSigni(sourcecard, _setSigni.BanishOtherSigni, succeed, condiction);
+        }
+
+        /// <summary>
+        /// 横置对方精灵
+        /// </summary>
+        public static void HorizionSigni(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
+        {
+            DebuffOtherSigni(sourcecard, GameManager.RpcSetOtherSigniSet, succeed, condiction);
+        }
+
+        /// <summary>
+        /// 冰冻对方精灵
+        /// </summary>
+        public static void FreezedSigni(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
+        {
+            DebuffOtherSigni(sourcecard, i =>
+            {
+                _setSigni.OtherSigni[i].Bfreeze = true;
+                GameManager.RpcOtherDebuff(1, i, true);
+            }, succeed, condiction);
+
+        }
+
+        /// <summary>
+        /// 双击
+        /// </summary>
+        public static void DoubleSigni(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
+        {
+            BuffSigni(sourcecard, i =>
+            {
+                _setSigni.Signi[i].Bdouble = true;
+                GameManager.RpcMyBuff(2, i, true);
+            }, succeed, condiction);
+        }
+
+        /// <summary>
+        /// 枪兵
+        /// </summary>
+        public static void LancerSigni(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
+        {
+            BuffSigni(sourcecard, i =>
+            {
+                _setSigni.Signi[i].Blancer = true;
+                GameManager.RpcMyBuff(1, i, true);
+            }, succeed, condiction);
+        }
+
+
+        /// <summary>
+        /// 选择对方一只精灵给予debuff
+        /// </summary>
+        /// <param name="sourcecard">发动效果的卡</param>
+        /// <param name="debuff">负面效果</param>
+        /// <param name="succeed">成功后下一步</param>
+        /// <param name="condiction">是否需要符合条件</param>
+        private static void DebuffOtherSigni(Card sourcecard, Action<int> debuff, Action succeed = null, Func<Card, bool> condiction = null)
         {
             _setSigni.ShowOtherSelections(true, condiction);
             _setSigni.SetSelections(false, null, true, i =>
             {
-                _setSigni.BanishOtherSigni(i);
+                debuff(i);
+                _showCard.ShowMyCardEffect(sourcecard);
+                GameManager.RpcOtherCardBuff(sourcecard.CardId);
+                BSelected = true;
+                if (succeed != null)
+                    succeed();
+            }, false);
+        }
+
+        /// <summary>
+        /// 选择我方一只精灵给予buff
+        /// </summary>
+        /// <param name="sourcecard">发动效果的卡</param>
+        /// <param name="buff">buff</param>
+        /// <param name="succeed">成功后下一步</param>
+        /// <param name="condiction">是否需要符合条件</param>
+        private static void BuffSigni(Card sourcecard, Action<int> buff, Action succeed = null,
+            Func<Card, bool> condiction = null)
+        {
+            _setSigni.ShowMySelections(true, condiction);
+            _setSigni.SetSelections(true, i =>
+            {
+                buff(i);
                 _showCard.ShowMyCardEffect(sourcecard);
                 GameManager.RpcOtherCardBuff(sourcecard.CardId);
 
                 BSelected = true;
                 if (succeed != null)
                     succeed();
-            }, false);
+
+            }, false, null, false);
+        }
+
+
+        public static void ShowMyCard(Card card)
+        {
+            _showCard.ShowMyCardEffect(card);
+            GameManager.RpcOtherCardBuff(card.CardId);
         }
 
         /// <summary>

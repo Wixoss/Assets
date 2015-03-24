@@ -23,7 +23,7 @@ namespace Assets.Scripts
             MyCardTexture.mainTexture = card.CardTexture;
             MyCard.SetActive(true);
             ShowCardDetail.ShowCardDetailByCard(card);
-            Invoke("DisMyCard", 1.6f);           
+            Invoke("DisMyCard", 1.2f);           
         }
 
         private void DisMyCard()
@@ -39,7 +39,7 @@ namespace Assets.Scripts
             MyCardEffect.renderer.material.mainTexture = card.CardTexture;
             MyCardEffect.SetActive(true);
             ShowCardDetail.ShowCardDetailByCard(card);
-            Invoke("DisMyCardEffect", 1.6f);
+            Invoke("DisMyCardEffect", 1.2f);
         }
 
         private void DisMyCardEffect()

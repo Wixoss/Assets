@@ -326,12 +326,13 @@ namespace Assets.Scripts
         public void RemoveSigniChangAction(Card card)
         {
             var skillchang = GameManager.SkillManager.SkillChang;
-            skillchang.EnerChargeActions.Remove(card.MyEffectChangEnerCharge);
+            skillchang.EnerChangeActions.Remove(card.MyEffectChangEnerCharge);
             skillchang.MyRoundOverActions.Remove(card.MyEffectChangMyRoundOver);
             skillchang.MyRoundStartActions.Remove(card.MyEffectChangMyRoundStart);
             skillchang.SigniOutActions.Remove(card.MyEffectChangSigniOut);
             skillchang.SigniSetActions.Remove(card.MyEffectChangSigniSet);
             skillchang.LrigSetActions.Remove(card.MyEffectChangLrigSet);
+            skillchang.HandsChangeActions.Remove(card.MyEffectChangHandChange);
         }
 
 

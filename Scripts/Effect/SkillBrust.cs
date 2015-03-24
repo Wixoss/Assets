@@ -14,19 +14,20 @@ namespace Assets.Scripts
         {
             CardEffectBrustDictionary = new Dictionary<string, Action<Card>>()
             {
-                {"WD01-009",CardWd01009},
+                {"WD01-009",甲胄皇家铠},
                 {"WD01-011",DropCard},
                 {"WX01-101",EnerChange},
                 {"WX01-102",EnerChange},
                 {"WX01-103",EnerChange},
-                {"WD02-009",CardWd02009},
+                {"WD02-009",罗石火山石},
                 {"WD02-011",DropCard},
+                {"WD03-009",技艺代号rmn},
             };
         }
 
         // 迸发最好都加上一个成功了的回调
 
-        private void CardWd01009(Card card)
+        private void 甲胄皇家铠(Card card)
         {
             SkillManager.BackHand(card);
         }
@@ -43,9 +44,14 @@ namespace Assets.Scripts
             SkillManager.BSelected = true;
         }
 
-        private void CardWd02009(Card card)
+        private void 罗石火山石(Card card)
         {
             SkillManager.Baninish(card, null, i => i.Atk <= 7000);
+        }
+
+        private void 技艺代号rmn(Card card)
+        {
+            SkillManager.DesOtherCard(1);
         }
     }
 }

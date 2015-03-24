@@ -26,10 +26,11 @@ namespace Assets.Scripts
         }
 
         public void SetOtherCheck(Card card)
-        {
+        {  
             _otherCard = card;
             OtherUiTexture.mainTexture = _otherCard.CardTexture;
             OtherUiTexture.gameObject.SetActive(true);
+            CancelInvoke("DisOtherCheck");
             Invoke("DisOtherCheck", 3);
         }
 
