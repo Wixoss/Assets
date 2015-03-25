@@ -26,7 +26,7 @@ namespace Assets.Scripts
         public Card MyLrig;
         public Card OtherLrig;
 
-        public bool Bset;
+        //public bool Bset;
 
         public Card UpgradingLrig;
         public GameObject LrigDeck;
@@ -159,7 +159,7 @@ namespace Assets.Scripts
                 MyLrig.EffectChang(MyLrig);
             }
 
-            Bset = true;
+            MyLrig.Bset = true;
             LrigId = MyLrig.CardId;
             //UiTexture.mainTexture = MyLrig.CardTexture;
             CardHands.MyCard = card;
@@ -402,12 +402,12 @@ namespace Assets.Scripts
 
         public void ShowAttackBtn(bool bshow)
         {
-            if (Bset && !MyLrig.BCantAttack)
+            if (MyLrig.Bset && !MyLrig.BCantAttack)
             {
                 AttackBtn.SetActive(bshow);
                 UIEventListener.Get(AttackBtn).MyOnClick = () =>
                 {
-                    Bset = false;
+                    MyLrig.Bset = false;
                     UiTexture.transform.localEulerAngles = new Vector3(90, 90, 0);
                     AttackBtn.SetActive(false);
                     GameManager.RpcLrigSet(false);
@@ -457,7 +457,7 @@ namespace Assets.Scripts
 
         public void ResetLrig()
         {
-            Bset = true;
+            MyLrig.Bset = true;
             UiTexture.transform.localEulerAngles = new Vector3(90, 0, 0);
             GameManager.RpcLrigSet(true);
             if (MyLrig.BCantAttack)
@@ -505,7 +505,7 @@ namespace Assets.Scripts
         /// </summary>
         public void HorizontalLrig()
         {
-            Bset = false;
+            MyLrig.Bset = false;
             UiTexture.transform.localEulerAngles = new Vector3(90, 90, 0);
             GameManager.RpcLrigSet(false);
         }

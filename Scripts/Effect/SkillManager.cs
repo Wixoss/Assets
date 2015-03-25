@@ -10,16 +10,17 @@ namespace Assets.Scripts
         private static CreateHands _createHands;
         //private static Lrig _lrig;
         private static SetSigni _setSigni;
-        //private static EnerManager _enerManager;
+        private static EnerManager _enerManager;
         //private static LifeCloth _lifeCloth;
         private static Trash _trash;
         //private static Check _check;
         private static CardInfo _cardInfo;
         private static ShowDeck _showDeck;
-        private static ShowCard _showCard;
+        public static ShowCard _showCard;
 
         public GameManager GameManager;
         public SkillChang SkillChang;
+        private static SkillChang _skillChang;
         public SkillChu SkillChu;
         public SkillQi SkillQi;
         public SkillSpell SkillSpell;
@@ -29,12 +30,14 @@ namespace Assets.Scripts
         public void Setup()
         {
 
+            _enerManager = GameManager.EnerManager;
             _createHands = GameManager.CreateHands;
             _setSigni = GameManager.SetSigni;
             _trash = GameManager.Trash;
             _cardInfo = GameManager.CardInfo;
             _showDeck = GameManager.ShowDeck;
             _showCard = GameManager.ShowCard;
+            _skillChang = SkillChang;
 
             SkillChang.Setup();
             SkillChu.Setup();
@@ -52,7 +55,7 @@ namespace Assets.Scripts
             SkillChang.SigniSet(card);
         }
         /// <summary>
-        /// 精灵离场时
+        /// 精灵离场时,在清除卡的常效果前调用
         /// </summary>
         public void SigniOut()
         {
@@ -75,9 +78,9 @@ namespace Assets.Scripts
         /// <summary>
         /// 能量变化时(双方)
         /// </summary>
-        public void EnerCharge()
+        public void EnerChange()
         {
-            SkillChang.EnerCharge();
+            SkillChang.EnerChange();
         }
         /// <summary>
         /// 设置分身时
@@ -92,6 +95,23 @@ namespace Assets.Scripts
         public void HandChange()
         {
             SkillChang.HandChange();
+        }
+
+        /// <summary>
+        /// 攻击力变化时
+        /// </summary>
+        public void AttackChange()
+        {
+            SkillChang.AttackChange();
+        }
+
+        /// <summary>
+        /// 精灵攻击时
+        /// </summary>
+        /// <param name="card">Card.</param>
+        public void SigniAttack(Card card)
+        {
+            SkillChang.SigniAttack(card);
         }
 
         /// <summary>
@@ -141,6 +161,17 @@ namespace Assets.Scripts
                 succeed();
         }
 
+        /// <summary>
+        /// 充能
+        /// </summary>
+        public static void EnerCharge()
+        {
+            _enerManager.EnerCharge();
+        }
+
+        /// <summary>
+        /// 洗刷卡组
+        /// </summary>
         public static void WashDeck()
         {
             _showDeck.WashMainDeck();
@@ -229,7 +260,11 @@ namespace Assets.Scripts
 
         }
 
-
+        /// <summary>
+        /// 选择卡组里符合条件的卡
+        /// </summary>
+        /// <returns>The card by condition.</returns>
+        /// <param name="condition">Condition.</param>
         public static List<Card> FindCardByCondition(Func<Card, bool> condition)
         {
             var cards = _showDeck.MainDeck;
@@ -309,6 +344,7 @@ namespace Assets.Scripts
                 {
                     signis[i].Atk += value;
                     GameManager.RpcOtherCardAtkChange(i, value);
+                    _skillChang.AttackChange();
                 }
             }
         }
@@ -333,6 +369,24 @@ namespace Assets.Scripts
                 {
                     _setSigni.Signi[i].Atk += value;
                     GameManager.RpcOtherCardAtkChange(i, value);
+                    _skillChang.AttackChange();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 为某张卡增加buff buff => {_setSigni.Signi[i].Blancer = true;GameManager.RpcMyBuff(1, i, true);}
+        /// </summary>
+        /// <param name="card">Card.</param>
+        /// <param name="value">Value.</param>
+        /// <param name="buff">Buff.</param>
+        public static void AddBuff(Card card, Action<int> buff)
+        {
+            for (int i = 0; i < _setSigni.Signi.Length; i++)
+            {
+                if (_setSigni.Signi[i] == card)
+                {
+                    buff(i);
                 }
             }
         }
@@ -398,9 +452,20 @@ namespace Assets.Scripts
         /// <summary>
         /// 横置对方精灵
         /// </summary>
-        public static void HorizionSigni(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
+        public static void HorizionOtherSigni(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
         {
             DebuffOtherSigni(sourcecard, GameManager.RpcSetOtherSigniSet, succeed, condiction);
+        }
+
+        /// <summary>
+        /// 横置我方精灵
+        /// </summary>
+        /// <param name="sourcecard">Sourcecard.</param>
+        /// <param name="succeed">Succeed.</param>
+        /// <param name="condiction">Condiction.</param>
+        public static void HorizionMySigni(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
+        {
+            BuffSigni(sourcecard, _setSigni.HorizontalSigni, succeed, condiction);
         }
 
         /// <summary>
@@ -438,6 +503,35 @@ namespace Assets.Scripts
                 _setSigni.Signi[i].Blancer = true;
                 GameManager.RpcMyBuff(1, i, true);
             }, succeed, condiction);
+        }
+
+        /// <summary>
+        /// 选择我方一只精灵增加攻击力,回合结束效果取消
+        /// </summary>
+        /// <param name="sourcecard">Sourcecard.</param>
+        /// <param name="value">Value.</param>
+        /// <param name="succeed">Succeed.</param>
+        /// <param name="condition">Condition.</param>
+        public static void AttackUpSigni(Card sourcecard,int value, Action succeed = null,Func<Card,bool> condition = null)
+        {
+            BuffSigni(sourcecard, i => 
+            {
+                var card = _setSigni.Signi [i];
+                SkillManager.AddAtk(card, value);
+                var over = new SkillChang.EffectChang
+                {
+                    Card = card,
+                    CardChangAction = card1 =>
+                    {
+                        SkillManager.AddAtk(card, -value);
+                        _skillChang.MyRoundOverActions.Remove(card.MyEffectChangMyRoundOver);
+                    }
+                };
+                
+                card.MyEffectChangMyRoundOver = over;
+                _skillChang.MyRoundOverActions.Add(over);
+
+            }, succeed, condition);
         }
 
 

@@ -27,6 +27,10 @@ namespace Assets.Scripts
                 {"WD03-007",不可行动},
                 {"WD03-008",双重抽卡},
                 {"WD03-015",真可惜},
+                {"WD04-006",意气扬扬},
+                {"WD04-007",再三再四},
+                {"WD04-008",付和雷同},
+                {"WD04-018",堕络},
             };
         }
 
@@ -91,7 +95,6 @@ namespace Assets.Scripts
                 cardinfo.ShowCardInfo(false);
                 SkillManager.WashDeck();
             });
-
         }
 
         private void 喷流的知识(Card card)
@@ -154,7 +157,7 @@ namespace Assets.Scripts
 
         private void 不可行动(Card card)
         {
-            SkillManager.HorizionSigni(card, () => SkillManager.HorizionSigni(card));
+            SkillManager.HorizionOtherSigni(card, () => SkillManager.HorizionOtherSigni(card));
         }
 
         private void 双重抽卡(Card card)
@@ -165,6 +168,54 @@ namespace Assets.Scripts
         private void 真可惜(Card card)
         {
             GameManager.RpcDesHandRandom();
+        }
+
+        private void 意气扬扬(Card card)
+        {
+            SkillManager.AddAtkAll(5000);
+            
+            var over = new SkillChang.EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    SkillManager.AddAtkAll(-5000);
+                    SkillManager.SkillChang.MyRoundOverActions.Remove(card1.MyEffectChangMyRoundOver);
+                }
+            };
+            
+            card.MyEffectChangMyRoundOver = over;
+            SkillManager.SkillChang.MyRoundOverActions.Add(over);
+        }
+
+        private void 再三再四(Card card)
+        {
+            var targets = GameManager.EnerManager.EnerCards;
+            var cardinfo = GameManager.CardInfo;
+            cardinfo.ShowCardInfo(true);
+            cardinfo.SetUp("从你的能量区将至多2张卡加入手牌", targets, 2, () =>
+            {
+                var showcards = new List<Card>();
+                for(int i =cardinfo.SelectHands.Count-1;i>=0;i--)
+                {
+                    GameManager.EnerManager.GetCardFromEner(cardinfo.SelectHands[i].MyCard);
+                    showcards.Add(cardinfo.SelectHands[i].MyCard);
+                }
+
+                GameManager.RpcOtherShowCards(showcards, "对方从能量区获得");
+
+                cardinfo.ShowCardInfo(false);
+            });
+        }
+
+        private void 付和雷同(Card card)
+        {
+            SkillManager.Baninish(card, null, i => i.Atk >= 12000);
+        }
+
+        private void 堕络(Card card)
+        {
+            SkillManager.HorizionMySigni(card, () => SkillManager.Baninish(card, null, i => i.Atk <= card.Atk), x => x.Bset);
         }
     }
 }

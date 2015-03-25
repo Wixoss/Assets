@@ -190,7 +190,7 @@ namespace Assets.Scripts
             }
 
             //常效果:我方回合冲能时
-            GameManager.SkillManager.EnerCharge();
+            GameManager.SkillManager.EnerChange();
             //            EnerManager.SetTheEner();
             CancelInvoke("SetZero");
             CancelInvoke("Reposition");

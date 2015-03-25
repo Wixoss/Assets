@@ -25,6 +25,9 @@ namespace Assets.Scripts
                 {"WD03-009",技艺代号rmn},
                 {"WD03-011",技艺代号smp},
                 {"WD03-014",技艺代号rfr},
+                {"WD04-011",幻兽雪怪},
+                {"WD04-012",幻兽树袋熊},
+                {"WD04-014",幻兽大熊猫},
             };
         }
 
@@ -94,6 +97,34 @@ namespace Assets.Scripts
         private void 技艺代号rfr(Card card)
         {
             SkillManager.DropCard(1,()=>SkillManager.DesCard(1));
+        }
+
+        private void 幻兽雪怪(Card card)
+        {
+            SkillManager.AddAtkAll(2000);
+
+            var over = new SkillChang.EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    SkillManager.AddAtkAll(-2000);
+                    SkillManager.SkillChang.MyRoundOverActions.Remove(card1.MyEffectChangMyRoundOver);
+                }
+            };
+
+            card.MyEffectChangMyRoundOver = over;
+            SkillManager.SkillChang.MyRoundOverActions.Add(over);
+        }
+
+        private void 幻兽树袋熊(Card card)
+        {
+            SkillManager.AttackUpSigni(card, 3000);
+        }
+
+        private void 幻兽大熊猫(Card card)
+        {
+            SkillManager.AttackUpSigni(card, 2000);
         }
     }
 }

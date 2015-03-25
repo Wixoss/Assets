@@ -144,7 +144,7 @@ namespace Assets.Scripts
             CreateEner(card);
             GameManager.RpcEnerCharge(card.CardId);
             //常效果:我方回合冲能时
-            GameManager.SkillManager.EnerCharge();
+            GameManager.SkillManager.EnerChange();
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Assets.Scripts
             CancelInvoke("ResetOtherEner");
             Invoke("ResetOtherEner", 0.5f);
             //常效果:我方回合冲能时
-            GameManager.SkillManager.EnerCharge();
+            GameManager.SkillManager.EnerChange();
         }
 
         private void ResetOtherEner()
@@ -191,7 +191,7 @@ namespace Assets.Scripts
                 }
             }
             //常效果:我方回合冲能时
-            GameManager.SkillManager.EnerCharge();
+            GameManager.SkillManager.EnerChange();
         }
 
 

@@ -136,6 +136,16 @@ namespace Assets.Scripts
         public SkillChang.EffectChang MyEffectChangHandChange = new SkillChang.EffectChang();
 
         /// <summary>
+        /// 攻击力变化时
+        /// </summary>
+        public SkillChang.EffectChang MyAttackChange = new SkillChang.EffectChang();
+
+        /// <summary>
+        /// 攻击时
+        /// </summary>
+        public SkillChang.EffectChang MyAtking = new SkillChang.EffectChang();
+
+        /// <summary>
         /// 精灵自己离场时调用
         /// </summary>
         public Action<Card> SigniOutAction;
@@ -185,7 +195,25 @@ namespace Assets.Scripts
         /// <summary>
         /// 是否已经发动了常效果
         /// </summary>
-        public bool BChang;
+        private bool _bchang;
+        public bool BChang 
+        {
+            get{return _bchang;}
+            set
+            {
+                _bchang = value;
+                if(_bchang)
+                {
+                    SkillManager._showCard.ShowMyCardEffect(this);
+                    GameManager.RpcOtherCardBuff(this.CardId);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否竖置
+        /// </summary>
+        public bool Bset;
 
         /// <summary>
         /// 能否防御
@@ -487,6 +515,10 @@ namespace Assets.Scripts
             MyEffectChangMyRoundOver = new SkillChang.EffectChang();
             MyEffectChangEnerCharge = new SkillChang.EffectChang();
             MyEffectChangLrigSet = new SkillChang.EffectChang();
+            MyEffectChangHandChange = new SkillChang.EffectChang();
+            MyAttackChange = new SkillChang.EffectChang();
+            MyAtking = new SkillChang.EffectChang();
+            SigniOutAction = null;
         }
     }
 

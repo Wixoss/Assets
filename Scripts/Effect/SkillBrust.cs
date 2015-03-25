@@ -23,6 +23,11 @@ namespace Assets.Scripts
                 {"WD02-011",DropCard},
                 {"WD03-009",技艺代号rmn},
                 {"WD03-011",DropCard},
+                {"WD04-009",幻兽青龙},
+                {"WD04-010",幻兽朱雀小姐},
+                {"WD04-011",EnerChange},
+                {"WD04-012",DropCard},
+                {"WD04-014",DropCard},
             };
         }
 
@@ -54,5 +59,16 @@ namespace Assets.Scripts
         {
             SkillManager.DesOtherCard(1);
         }
+
+        private void 幻兽青龙(Card card)
+        {
+            SkillManager.Baninish(card, null, i => i.Atk >= 10000);
+        }
+
+        private void 幻兽朱雀小姐(Card card)
+        {
+            SkillManager.Baninish(card, null, i => i.Atk >= 12000);
+        }
+
     }
 }

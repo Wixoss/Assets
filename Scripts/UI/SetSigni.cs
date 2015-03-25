@@ -62,7 +62,7 @@ namespace Assets.Scripts
         /// <summary>
         /// 是否竖置
         /// </summary>
-        public bool[] BSet;
+        //public bool[] BSet;
         /// <summary>
         /// 场上精灵等级总和
         /// </summary>
@@ -98,8 +98,8 @@ namespace Assets.Scripts
                 {
                     Signi[num].EffectChang(Signi[num]);
                 }
-
-                BSet[num] = true;
+                Signi[num].Bset = true;
+                //BSet[num] = true;
                 CardTexture[num].gameObject.SetActive(true);
                 CardTexture[num].transform.localEulerAngles = new Vector3(90, 0, 0);
                 //CardTexture[num].mainTexture = _sendingCard.CardTexture;
@@ -156,6 +156,9 @@ namespace Assets.Scripts
             return bEnety;
         }
 
+        /// <summary>
+        /// 重新计算场上精灵的总等级
+        /// </summary>
         public void CountSigniLevel()
         {
             SigniLevelCount = 0;
@@ -187,7 +190,8 @@ namespace Assets.Scripts
         public void HorizontalSigni(int num)
         {
             CardTexture[num].transform.localEulerAngles = new Vector3(90, 90, 0);
-            BSet[num] = false;
+            //BSet[num] = false;
+            Signi[num].Bset = false;
             AttackBtn[num].SetActive(false);
             GameManager.RpcSet(num, false);
         }
@@ -297,9 +301,11 @@ namespace Assets.Scripts
 
         public void TrashSigni(int num)
         {
+            //常效果:精灵离场时调用
+            GameManager.SkillManager.SigniOut();
+
             if (Signi[num] != null)
             {
-
                 if (Signi[num].SigniOutAction != null)
                 {
                     Signi[num].SigniOutAction(Signi[num]);
@@ -315,8 +321,6 @@ namespace Assets.Scripts
             }
             CountSigniLevel();
             GameManager.CreateHands.ShowTheUseBtn();
-            //常效果:精灵离场时调用
-            GameManager.SkillManager.SigniOut();
         }
 
         /// <summary>
@@ -333,6 +337,8 @@ namespace Assets.Scripts
             skillchang.SigniSetActions.Remove(card.MyEffectChangSigniSet);
             skillchang.LrigSetActions.Remove(card.MyEffectChangLrigSet);
             skillchang.HandsChangeActions.Remove(card.MyEffectChangHandChange);
+            skillchang.AttackChangeActions.Remove(card.MyAttackChange);
+            skillchang.SigniAtkAcitons.Remove(card.MyAtking);
         }
 
 
@@ -360,7 +366,7 @@ namespace Assets.Scripts
             }
 
             //常效果:我方充能时
-            GameManager.SkillManager.EnerCharge();
+            GameManager.SkillManager.EnerChange();
         }
 
         public void ShowAttackBtn()
@@ -373,7 +379,7 @@ namespace Assets.Scripts
 
             for (int i = 0; i < Signi.Length; i++)
             {
-                if (Signi[i] != null && BSet[i] && !Signi[i].BCantAttack)
+                if (Signi[i] != null && Signi[i].Bset && !Signi[i].BCantAttack)
                 {
                     AttackBtn[i].SetActive(true);
                     int i1 = i;
@@ -406,6 +412,8 @@ namespace Assets.Scripts
         {
             if (OtherSigni[num] == null)
             {
+                GameManager.SkillManager.SigniAttack(Signi[num]);
+
                 GameManager.LifeCloth.CrashOtherCloth(true);
                 GameManager.RpcCrashOtherLifeCloth(true);
 
@@ -433,7 +441,7 @@ namespace Assets.Scripts
 
             AttackBtn[num].SetActive(false);
             CardTexture[num].transform.localEulerAngles = new Vector3(90, 90, 0);
-            BSet[num] = false;
+            Signi[num].Bset = false;
             GameManager.RpcSet(num, false);
         }
 
@@ -443,7 +451,7 @@ namespace Assets.Scripts
             {
                 if (Signi[i] != null && !Signi[i].Bfreeze)
                 {
-                    BSet[i] = true;
+                    Signi[i].Bset = true;
                     CardTexture[i].transform.localEulerAngles = new Vector3(90, 0, 0);
                     GameManager.RpcSet(i, true);
                 }
@@ -481,12 +489,15 @@ namespace Assets.Scripts
         /// <param name="num">位置</param>
         public void BackToHand(int num)
         {
+            //常效果:精灵离场时调用
+            GameManager.SkillManager.SigniOut();
+
             Card card = Signi[num];
+            RemoveSigniChangAction(Signi[num]);
             Signi[num] = null;
             CardTexture[num].gameObject.SetActive(false);
             card.ResetCardConfig();
             GameManager.CreateHands.CreateHandByCard(card);
-            GameManager.SkillManager.SigniOut();
             CountSigniLevel();
         }
 
@@ -668,6 +679,9 @@ namespace Assets.Scripts
         /// <param name="num">第几只</param>
         public void BanishMySigni(int num)
         {
+            //常效果:精灵离场时调用,在清除卡的常效果前调用
+            GameManager.SkillManager.SigniOut();
+
             if (Signi[num] != null)
             {
                 if (Signi[num].SigniOutAction != null)
@@ -684,8 +698,6 @@ namespace Assets.Scripts
                 CardTexture[num].gameObject.SetActive(false);
             }
             CountSigniLevel();
-            //常效果:精灵离场时调用
-            GameManager.SkillManager.SigniOut();
         }
 
 
