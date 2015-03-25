@@ -140,7 +140,8 @@ namespace Assets.Scripts
                 {"WD01-001",满月之巫女玉依姬},
                 {"WD01-009",甲胄皇家铠},
                 {"WD02-001",花代肆},
-                {"WD03-001",代号皮璐璐可t}
+                {"WD03-001",代号皮璐璐可t},
+                {"WD04-001",四之娘绿姬},
             };
         }
 
@@ -394,6 +395,56 @@ namespace Assets.Scripts
                 CardChangAction = card1 =>
                 {
                     if (!SkillManager.BSigniInGround("技艺代号 R•M•N") && card.BChang)
+                    {
+                        SkillManager.AddAtkAll(-2000);
+                        card.BChang = false;
+                    }
+                }
+            };
+
+            SigniOutActions.Add(no);
+            card.MyEffectChangSigniOut = no;
+        }
+
+        private void 四之娘绿姬(Card card)
+        {
+            var chang = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    if (card.BChang)
+                    {
+                        SkillManager.AddAtk(card1, 2000);
+                    }
+
+                    if (SkillManager.BSigniInGround("幻兽 青龙") && !card.BChang && SkillManager.GameManager.EnerManager.EnerCards.Count <= 7)
+                    {
+                        SkillManager.AddAtkAll(2000);
+                        card.BChang = true;
+                    }
+
+                    if (card.BChang && SkillManager.GameManager.EnerManager.EnerCards.Count > 7)
+                    {
+                        SkillManager.AddAtkAll(-2000);
+                        card.BChang = false;
+                    }
+                }
+            };
+
+            LrigSetActions.Add(chang);
+            card.MyEffectChangLrigSet = chang;
+            SigniSetActions.Add(chang);
+            card.MyEffectChangSigniSet = chang;
+            EnerChangeActions.Add(chang);
+            card.MyEffectChangEnerCharge = chang;
+
+            var no = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    if (!SkillManager.BSigniInGround("幻兽 青龙") && card.BChang)
                     {
                         SkillManager.AddAtkAll(-2000);
                         card.BChang = false;

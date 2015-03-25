@@ -37,7 +37,7 @@ namespace Assets.Scripts
             if (card.MyCardType != Card.CardType.技艺卡)
             {
                 TrashCards.Add(card);
-            } 
+            }
             else
             {
                 LrigTrash.Add(card);
@@ -54,7 +54,7 @@ namespace Assets.Scripts
             if (card.MyCardType != Card.CardType.技艺卡)
             {
                 OtherTrashCards.Add(card);
-            } 
+            }
             else
             {
                 OtherLrigTrash.Add(card);
@@ -90,9 +90,9 @@ namespace Assets.Scripts
         {
             var to = new List<Card>();
             int count = from.Count;
-            for (int i =0; i<count; i++)
+            for (int i = 0; i < count; i++)
             {
-                var card = from [Random.Range(0, from.Count)];
+                var card = from[Random.Range(0, from.Count)];
                 to.Add(card);
                 from.Remove(card);
             }
@@ -102,17 +102,18 @@ namespace Assets.Scripts
 
         public void GetCardFromTrash(Card card)
         {
+            GameManager.CreateHands.CreateHandByCard(card);
             if (card.MyCardType == Card.CardType.技艺卡)
             {
                 LrigTrash.Remove(card);
-            } 
+            }
             else
             {
                 TrashCards.Remove(card);
             }
         }
 
-        public void OtherGetCardFromTrash(bool bRewrite,Card card)
+        public void OtherGetCardFromTrash(bool bRewrite, Card card)
         {
             if (bRewrite)
             {
@@ -124,7 +125,7 @@ namespace Assets.Scripts
             if (card.MyCardType == Card.CardType.技艺卡)
             {
                 OtherLrigTrash.Remove(card);
-            } 
+            }
             else
             {
                 OtherTrashCards.Remove(card);

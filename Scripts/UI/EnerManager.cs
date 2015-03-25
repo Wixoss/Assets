@@ -124,10 +124,20 @@ namespace Assets.Scripts
         }
 
         /// <summary>
+        /// 从能量区中获取卡牌到手卡
+        /// </summary>
+        /// <param name="card"></param>
+        public void GetCardFromEner(Card card)
+        {
+            GameManager.CreateHands.CreateHandByCard(card);
+            EnerCards.Remove(card);
+        }
+
+        /// <summary>
         /// 把卡组顶一张卡放置到能量区
         /// </summary>
         public void EnerCharge()
-        { 
+        {
             var card = GameManager.ShowDeck.Lastcard();
             if (card == null)
                 return;
