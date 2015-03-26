@@ -320,6 +320,7 @@ namespace Assets.Scripts
 
                 Signi[num].ResetCardConfig();
                 Trash.AddTrash(Signi[num]);
+                GameManager.RpcOtherTrash(Signi[num].CardId,num);
                 CreateHands.DisEffectBtn();
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);
