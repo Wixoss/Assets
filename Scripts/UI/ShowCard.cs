@@ -32,6 +32,8 @@ namespace Assets.Scripts
             ResetMyCard();
         }
 
+		private int _usingNum = 0;
+
         public void ShowMyCardEffect(Card card)
         {
             DisMyCard();
@@ -41,7 +43,7 @@ namespace Assets.Scripts
             ShowCardDetail.ShowCardDetailByCard(card);
             Invoke("DisMyCardEffect", 1.2f);
         }
-
+		
         private void DisMyCardEffect()
         {
             MyCardEffect.SetActive(false);

@@ -54,8 +54,8 @@ public class SelectFenShen : MonoBehaviour
                 Debug.LogError("end"+_EndPage);
                 Debug.LogError("======"+i);
                 ShowCards[j].GetComponent<UITexture>().mainTexture =Resources.Load(DataSource.LrigCards[i])as Texture2D;
-                ShowCardItems[j]._Detial = DataSource.GetDetialById(DataSource.LrigCards[i]);
-                ShowCardItems[j]._Cardname = DataSource.GetNameById(DataSource.LrigCards[i]);
+//                ShowCardItems[j]._Detial = DataSource.GetDetialById(DataSource.LrigCards[i]);
+//                ShowCardItems[j]._Cardname = DataSource.GetNameById(DataSource.LrigCards[i]);
                 ShowCardItems[j]._CardId = DataSource.LrigCards[i];
             }
             else
@@ -83,8 +83,8 @@ public class SelectFenShen : MonoBehaviour
                 Debug.LogError("end" + _EndPage);
                 Debug.LogError("======" + i);
                 ShowCards[j].GetComponent<UITexture>().mainTexture = Resources.Load(DataSource.ArtCards[i]) as Texture2D;
-                ShowCardItems[j]._Detial = DataSource.GetDetialById(DataSource.LrigCards[i]);
-                ShowCardItems[j]._Cardname = DataSource.GetNameById(DataSource.LrigCards[i]);
+//                ShowCardItems[j]._Detial = DataSource.GetDetialById(DataSource.LrigCards[i]);
+//                ShowCardItems[j]._Cardname = DataSource.GetNameById(DataSource.LrigCards[i]);
                 ShowCardItems[j]._CardId = DataSource.LrigCards[i];
             }
             else

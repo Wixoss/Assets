@@ -21,37 +21,37 @@ public class SelectCardMainView : MonoBehaviour
     //读取xml的卡牌并且赋值
     public void setcard()
     {       
-        var root = CreateCardByXml.LoadFromXml();
-        List<XElement> L_xElements = root.Elements("Lrig").ToList();
-        Debug.Log("-------------" + L_xElements.LongCount());
-        for (int i = 0; i < L_xElements.LongCount(); i++)
-        {
-            var xElement = L_xElements[i].Element("CardId");
-            if (xElement != null)
-                DataSource.LrigCards.Add(xElement.Value);
-                Debug.Log("=======" + DataSource.LrigCards[i]);
-        }
-        List<XElement> A_xElements = root.Elements("Art").ToList();
-        for (int i = 0; i < A_xElements.LongCount(); i++)
-        {
-            var xElement = A_xElements[i].Element("CardId");
-            if (xElement != null)
-                DataSource.ArtCards.Add(xElement.Value); 
-        }
-        List<XElement> Si_xElements = root.Elements("Signi").ToList();
-        for (int i = 0; i < Si_xElements.LongCount(); i++)
-        {
-            var xElement = Si_xElements[i].Element("CardId");
-            if (xElement != null)
-                DataSource.SigniCards.Add(xElement.Value);
-        }
-        List<XElement> Sp_xElements = root.Elements("Spell").ToList();
-        for (int i = 0; i < Sp_xElements.LongCount(); i++)
-        {
-            var xElement = Sp_xElements[i].Element("CardId");
-            if (xElement != null)
-                DataSource.SpellCards.Add(xElement.Value);
-        }
+//        var root = CreateCardByXml.LoadFromXml();
+//        List<XElement> L_xElements = root.Elements("Lrig").ToList();
+//        Debug.Log("-------------" + L_xElements.LongCount());
+//        for (int i = 0; i < L_xElements.LongCount(); i++)
+//        {
+//            var xElement = L_xElements[i].Element("CardId");
+//            if (xElement != null)
+//                DataSource.LrigCards.Add(xElement.Value);
+//                Debug.Log("=======" + DataSource.LrigCards[i]);
+//        }
+//        List<XElement> A_xElements = root.Elements("Art").ToList();
+//        for (int i = 0; i < A_xElements.LongCount(); i++)
+//        {
+//            var xElement = A_xElements[i].Element("CardId");
+//            if (xElement != null)
+//                DataSource.ArtCards.Add(xElement.Value); 
+//        }
+//        List<XElement> Si_xElements = root.Elements("Signi").ToList();
+//        for (int i = 0; i < Si_xElements.LongCount(); i++)
+//        {
+//            var xElement = Si_xElements[i].Element("CardId");
+//            if (xElement != null)
+//                DataSource.SigniCards.Add(xElement.Value);
+//        }
+//        List<XElement> Sp_xElements = root.Elements("Spell").ToList();
+//        for (int i = 0; i < Sp_xElements.LongCount(); i++)
+//        {
+//            var xElement = Sp_xElements[i].Element("CardId");
+//            if (xElement != null)
+//                DataSource.SpellCards.Add(xElement.Value);
+//        }
     }
 	//打开界面
     public void OpenView(GameObject go)

@@ -78,12 +78,12 @@ namespace Assets.Scripts
         /// <summary>
         /// 起动效果所需要的费用
         /// </summary>
-        public List<Ener> EffectCost_Qi = new List<Ener>();
+        public List<Ener> EffectCostQi = new List<Ener>();
 
         /// <summary>
         /// 出场效果所需要的费用
         /// </summary>
-        public List<Ener> EffectCost_Chu = new List<Ener>();
+        public List<Ener> EffectCostChu = new List<Ener>();
 
         /// <summary>
         /// 成长所需要的费用
@@ -196,16 +196,16 @@ namespace Assets.Scripts
         /// 是否已经发动了常效果
         /// </summary>
         private bool _bchang;
-        public bool BChang 
+        public bool BChang
         {
-            get{return _bchang;}
+            get { return _bchang; }
             set
             {
                 _bchang = value;
-                if(_bchang)
+                if (_bchang)
                 {
                     SkillManager._showCard.ShowMyCardEffect(this);
-                    GameManager.RpcOtherCardBuff(this.CardId);
+                    GameManager.RpcOtherCardBuff(CardId);
                 }
             }
         }
@@ -327,76 +327,78 @@ namespace Assets.Scripts
         /// <summary>
         /// 读取xml
         /// </summary>
-        /// <param name="cardid"></param>
         public void SetCardById()
         {
-            var card = CreateCardByXml.GetCardByCardId(CardId);
-
-            foreach (var i in card)
-            {
-                CardName = i.Element("CardName").Value;
-                MyCardColor = GetCardColorByString(i.Element("Color").Value);
-                MyCardType = GetCardTypeByString(i.Element("CardType").Value);
-                MyEner.MyEnerType = GetEnerTypeByString(i.Element("Color").Value);
-
-                if (i.Element("Level") != null)
-                {
-                    Level = Convert.ToInt16(i.Element("Level").Value);
-                }
-                if (i.Element("BBrust") != null)
-                {
-                    HasBrust = Convert.ToInt16(i.Element("BBrust").Value) != 0;
-                }
-                if (i.Element("CardDetail") != null)
-                {
-                    CardDetail = i.Element("CardDetail").Value;
-                }
-                if (i.Element("EffectCost") != null)
-                {
-                    Cost = GetCostByString(i.Element("EffectCost").Value);
-                }
-                if (i.Element("EffectCost_Qi") != null)
-                {
-                    EffectCost_Qi = GetCostByString(i.Element("EffectCost_Qi").Value);
-                }
-                if (i.Element("EffectCost_Chu") != null)
-                {
-                    EffectCost_Chu = GetCostByString(i.Element("EffectCost_Chu").Value);
-                }
-                if (i.Element("GrowCost") != null)
-                {
-                    GrowCost = GetCostByString(i.Element("GrowCost").Value);
-                }
-                if (i.Element("Type") != null)
-                {
-                    Type = i.Element("Type").Value;
-                }
-                if (i.Element("Limit") != null)
-                {
-                    Limit = Convert.ToInt16(i.Element("Limit").Value);
-                }
-                if (i.Element("Timing") != null)
-                {
-                    MyTiming = GetTimingByString(i.Element("Timing").Value);
-                }
-                if (i.Element("TypeOnly") != null)
-                {
-                    TypeOnly = i.Element("TypeOnly").Value;
-                }
-                if (i.Element("BDef") != null)
-                {
-                    BCanGuard = Convert.ToInt16(i.Element("BDef").Value) != 0;
-                }
-                if (i.Element("Atk") != null)
-                {
-                    BaseAtk = Convert.ToInt16(i.Element("Atk").Value);
-                    Atk = BaseAtk;
-                }
-            }
-            MyEner.Num = 1;
+            //            if (Application.platform != RuntimePlatform.IPhonePlayer && Application.platform != RuntimePlatform.Android)
+            //            {
+            //                var card = CreateCardByXml.GetCardByCardId(CardId);
+            //
+            //                foreach (var i in card)
+            //                {
+            //                    CardName = i.Element("CardName").Value;
+            //                    MyCardColor = GetCardColorByString(i.Element("Color").Value);
+            //                    MyCardType = GetCardTypeByString(i.Element("CardType").Value);
+            //                    MyEner.MyEnerType = GetEnerTypeByString(i.Element("Color").Value);
+            //
+            //                    if (i.Element("Level") != null)
+            //                    {
+            //                        Level = Convert.ToInt16(i.Element("Level").Value);
+            //                    }
+            //                    if (i.Element("BBrust") != null)
+            //                    {
+            //                        HasBrust = Convert.ToInt16(i.Element("BBrust").Value) != 0;
+            //                    }
+            //                    if (i.Element("CardDetail") != null)
+            //                    {
+            //                        CardDetail = i.Element("CardDetail").Value;
+            //                    }
+            //                    if (i.Element("EffectCost") != null)
+            //                    {
+            //                        Cost = GetCostByString(i.Element("EffectCost").Value);
+            //                    }
+            //                    if (i.Element("EffectCost_Qi") != null)
+            //                    {
+            //                        EffectCostQi = GetCostByString(i.Element("EffectCost_Qi").Value);
+            //                    }
+            //                    if (i.Element("EffectCost_Chu") != null)
+            //                    {
+            //                        EffectCostChu = GetCostByString(i.Element("EffectCost_Chu").Value);
+            //                    }
+            //                    if (i.Element("GrowCost") != null)
+            //                    {
+            //                        GrowCost = GetCostByString(i.Element("GrowCost").Value);
+            //                    }
+            //                    if (i.Element("Type") != null)
+            //                    {
+            //                        Type = i.Element("Type").Value;
+            //                    }
+            //                    if (i.Element("Limit") != null)
+            //                    {
+            //                        Limit = Convert.ToInt16(i.Element("Limit").Value);
+            //                    }
+            //                    if (i.Element("Timing") != null)
+            //                    {
+            //                        MyTiming = GetTimingByString(i.Element("Timing").Value);
+            //                    }
+            //                    if (i.Element("TypeOnly") != null)
+            //                    {
+            //                        TypeOnly = i.Element("TypeOnly").Value;
+            //                    }
+            //                    if (i.Element("BDef") != null)
+            //                    {
+            //                        BCanGuard = Convert.ToInt16(i.Element("BDef").Value) != 0;
+            //                    }
+            //                    if (i.Element("Atk") != null)
+            //                    {
+            //                        BaseAtk = Convert.ToInt16(i.Element("Atk").Value);
+            //                        Atk = BaseAtk;
+            //                    }
+            //                }
+            //            }
+            //            MyEner.Num = 1;
         }
 
-        private CardColor GetCardColorByString(string color)
+        public CardColor GetCardColorByString(string color)
         {
             switch (color)
             {
@@ -419,7 +421,7 @@ namespace Assets.Scripts
             }
         }
 
-        private CardType GetCardTypeByString(string type)
+        public CardType GetCardTypeByString(string type)
         {
             switch (type)
             {
@@ -436,7 +438,7 @@ namespace Assets.Scripts
             }
         }
 
-        private Ener.EnerType GetEnerTypeByString(string type)
+        public Ener.EnerType GetEnerTypeByString(string type)
         {
             switch (type)
             {
@@ -459,7 +461,7 @@ namespace Assets.Scripts
             }
         }
 
-        private List<Ener> GetCostByString(string cost)
+        public List<Ener> GetCostByString(string cost)
         {
             var myEners = new List<Ener>();
             var ener = cost.Split(',');
@@ -476,7 +478,7 @@ namespace Assets.Scripts
             return myEners;
         }
 
-        private List<GameManager.Timing> GetTimingByString(string timing)
+        public List<GameManager.Timing> GetTimingByString(string timing)
         {
             var time = timing.Split(',');
             List<GameManager.Timing> myTimings = new List<GameManager.Timing>();
@@ -527,6 +529,7 @@ namespace Assets.Scripts
         //public List<Texture2D> CardTextures = new List<Texture2D>();
         public List<string> MyCardid;
         public List<string> MyLrigid;
+        public CreateCardByXml CreateCardByXml;
 
         public struct AtkDetail
         {
@@ -542,17 +545,17 @@ namespace Assets.Scripts
 
         public ShowDeck ShowDeck;
 
-        //        public bool BGetOtherCard;
-        //        public List<string> OtherCardid = new List<string>();
-
         public void Setup()
         {
-            CreateCardByXml();
+            CreateCardByXml.GetXml();
+            MyFakeDeck();
             Card mycard;
             for (int i = 0; i < MyLrigid.Count; i++)
             {
+                //mycard = new Card(MyLrigid[i]);
                 mycard = new Card(MyLrigid[i]);
-                mycard.SetCardById();
+                CreateCardByXml.GetCardDetailFromXml(mycard, 0, 2);
+
                 if (!CardAtkDetailDictionary.ContainsKey(MyLrigid[i]))
                 {
                     var detal = new AtkDetail
@@ -574,7 +577,8 @@ namespace Assets.Scripts
             for (int i = 0; i < MyCardid.Count; i++)
             {
                 mycard = new Card(MyCardid[i]);
-                mycard.SetCardById();
+                CreateCardByXml.GetCardDetailFromXml(mycard, 2, 4);
+
                 if (!CardAtkDetailDictionary.ContainsKey(MyCardid[i]))
                 {
                     var detal = new AtkDetail
@@ -613,7 +617,8 @@ namespace Assets.Scripts
                             if (!CardAtkDetailDictionary.ContainsKey(MyRpc.OtherCards[i]))
                             {
                                 var card = new Card(MyRpc.OtherCards[i]);
-                                card.SetCardById();
+                                CreateCardByXml.GetCardDetailFromXml(card, 0, 4);
+                                //card.SetCardById();
                                 var detal = new AtkDetail
                                 {
                                     Atk = card.Atk,
@@ -651,109 +656,89 @@ namespace Assets.Scripts
         /// <summary>
         /// 假Deck数据
         /// </summary>
-        public void CreateCardByXml()
+        public void MyFakeDeck()
         {
-            MyLrigid = new List<string>()
-            {
-                "WD03-001",
-                "WD03-002",
-                "WD03-003",
-                "WD03-004",
-                "WD03-005",
-                "WD03-006",
-                "WD03-007",
-                "WD03-008",
-            };
-
-            MyCardid = new List<string>()
-            {
-                "WD03-009",
-                "WD03-009",
-                "WD03-009",
-                "WD03-009",
-                
-                "WD03-010",
-                "WD03-010",
-                "WD03-010",
-                "WD03-010",
-                
-                "WD03-011",
-                "WD03-011",
-                "WD03-011",
-                "WD03-011",
-                
-                "WD03-012",
-                "WD03-012",
-                "WD03-012",
-                "WD03-012",
-                
-                "WD03-013",
-                "WD03-013",
-                "WD03-013",
-                "WD03-013",
-                
-                "WD03-014",
-                "WD03-014",
-                "WD03-014",
-                "WD03-014",
-                
-                "WD03-015",
-                "WD03-015",
-                "WD03-015",
-                "WD03-015",
-
-//                "WX01-101",
-//                "WX01-101",
-//                "WX01-101",
-//                "WX01-101",
-//                
-//                "WX01-102",
-//                "WX01-102",
-//                "WX01-102",
-//                "WX01-102",
-//                
-//                "WX01-103",
-//                "WX01-103",
-//                "WX01-103",
-//                "WX01-103",
-//
-//                "WX01-101",
-//                "WX01-101",
-//                "WX01-101",
-//                "WX01-101",
-//                
-//                "WX01-102",
-//                "WX01-102",
-//                "WX01-102",
-//                "WX01-102",
-//                
-//                "WX01-051",
-//                "WX01-051",
-//                "WX01-051",
-//                "WX01-051",
-//                                
-//                "WX01-100",
-//                "WX01-100",
-//                "WX01-100",
-//                "WX01-100",
-
-                //------------
-                
-                "WX01-101",
-                "WX01-101",
-                "WX01-101",
-                "WX01-101",
-
-                "WX01-102",
-                "WX01-102",
-                "WX01-102",
-                "WX01-102",
-
-                "WX01-103",
-                "WX01-103",
-                "WX01-103",
-                "WX01-103",
-            };
+            MyLrigid = DataSource.LrigDeckCardId;
+            MyCardid = DataSource.MainDeckCardId;
+            //            MyLrigid = new List<string>
+            //            {
+            //                "WD04-001",
+            //                "WD04-002",
+            //                "WD04-003",
+            //                "WD04-004",
+            //                "WD04-005",
+            //                "WD04-006",
+            //                "WD04-007",
+            //                "WD04-008",
+            //            };
+            //
+            //            MyCardid = new List<string>
+            //            {
+            //                "WD04-009",
+            //                "WD04-009",
+            //                "WD04-009",
+            //                "WD04-009",
+            //                
+            //                "WD04-010",
+            //                "WD04-010",
+            //                "WD04-010",
+            //                "WD04-010",
+            //                
+            //                "WD04-011",
+            //                "WD04-011",
+            //                "WD04-011",
+            //                "WD04-011",
+            //                
+            //                "WD04-012",
+            //                "WD04-012",
+            //                "WD04-012",
+            //                "WD04-012",
+            //                
+            //                "WD04-013",
+            //                "WD04-013",
+            //                "WD04-013",
+            //                "WD04-013",
+            //                
+            //                "WD04-014",
+            //                "WD04-014",
+            //                "WD04-014",
+            //                "WD04-014",
+            //                
+            //                "WD04-015",
+            //                "WD04-015",
+            //                "WD04-015",
+            //                "WD04-015",
+            //                
+            ////                "WX01-101",
+            ////                "WX01-101",
+            ////                "WX01-101",
+            ////                "WX01-101",
+            ////
+            ////                "WX01-102",
+            ////                "WX01-102",
+            ////                "WX01-102",
+            ////                "WX01-102",
+            ////
+            ////                "WX01-103",
+            ////                "WX01-103",
+            ////                "WX01-103",
+            ////                "WX01-103",
+            //
+            //                "WD04-016",
+            //                "WD04-016",
+            //                "WD04-016",
+            //                "WD04-016",
+            //
+            //                "WD04-017",
+            //                "WD04-017",
+            //                "WD04-017",
+            //                "WD04-017",
+            //
+            //                "WD04-018",
+            //                "WD04-018",
+            //                "WD04-018",
+            //                "WD04-018",
+            //            };
         }
     }
 }

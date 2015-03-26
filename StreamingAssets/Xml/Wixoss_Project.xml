@@ -1733,7 +1733,7 @@
 		<TypeOnly>小玉</TypeOnly>
 		<BDef>0</BDef>
 		<BBrust>0</BBrust>
-		<CardDetail>【常】：只要你的场上有等级4的&lt;小玉&gt;，这只SIGNI的力量变为10000。</CardDetail>
+		<CardDetail>【常】：只要你的场上有等级4的小玉，这只SIGNI的力量变为10000。</CardDetail>
 	</Signi>
 	<Signi>
 		<CardId>PR-018</CardId>

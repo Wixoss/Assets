@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ROOT>
+	<Lrig CardId="WX01-001" CardName="太阳之巫女 玉依姬" CardType="分身" Type="小玉" Level="4" Color="白" GrowCost="白:3" Limit="11" EffectCost_Qi="白:1" CardDetail="【起】白1+从手牌舍弃1张白色SIGNI卡：将对战对手的1只SIGNI返回手牌。"/>
+	<Lrig CardId="WX01-002" CardName="晓之巫女 玉依姬" CardType="分身" Type="小玉" Level="4" Color="白" GrowCost="白:2,红:2" Limit="10" EffectCost_Qi="白:2,红:1" CardDetail="【常】：只要你的场上有白色SIGNI和红色SIGNI，你所有的SIGNI的力量+3000。【出】：将对战对手的1只力量10000以下的SIGNI放置到废弃区。【起】白2+红1+横置：将对战对手的1只SIGNI放置到废弃区。"/>
+	<Lrig CardId="WX01-003" CardName="百火缭乱 花代•肆" CardType="分身" Type="花代" Level="4" Color="红" GrowCost="红:3" Limit="11" EffectCost_Qi="红:1" CardDetail="【起】红1+从手牌舍弃1张红色SIGNI卡：将对战对手的1只力量10000以下的SIGNI驱逐。"/>
+	<Lrig CardId="WX01-004" CardName="轰炎 花代•贰改" CardType="分身" Type="花代" Level="2" Color="红" GrowCost="红:2" Limit="6" EffectCost_Qi="红:3" CardDetail="【常】：跳过你的成长阶段。【常】：你的回合期间，你所有的SIGNI的力量+5000。【起】红3：这个回合中，对战对手不能用等级2以下的SIGNI来【防御】。"/>
+	<Lrig CardId="WX01-005" CardName="代号 皮璐璐可•Ω" CardType="分身" Type="皮璐璐可" Level="4" Color="蓝" GrowCost="蓝:3" Limit="11" CardDetail="【起】从手牌舍弃1张蓝色SIGNI卡：不查看对战对手的手牌而选择1张，并将它舍弃。"/>
+	<Lrig CardId="WX01-006" CardName="四式战帝女 绿姬" CardType="分身" Type="绿子" Level="4" Color="绿" GrowCost="绿:3" Limit="11" CardDetail="【起】从手牌舍弃1张绿色SIGNI卡：直到回合结束时为止，你的1只SIGNI的力量+10000。"/>
+	<Lrig CardId="WX01-007" CardName="月蚀之巫女 玉依姬" CardType="分身" Type="小玉" Level="3" Color="白" GrowCost="白:2" Limit="7" EffectCost_Chu="白:1" CardDetail="【出】白1：从你的卡组里探寻1张等级2以下的SIGNI卡，将其公开并加入手牌。之后，将卡组洗切。"/>
+	<Lrig CardId="WX01-008" CardName="流星之巫女 玉依姬" CardType="分身" Type="小玉" Level="2" Color="白" GrowCost="白:1" Limit="4" CardDetail="【常】：你所有的白色SIGNI的力量+1000。"/>
+	<Lrig CardId="WX01-009" CardName="新星之巫女 玉依姬" CardType="分身" Type="小玉" Level="1" Color="白" Limit="1" CardDetail="【出】舍弃1张手牌：抽1张卡。"/>
+	<Lrig CardId="WX01-011" CardName="炽炎舞 花代•叁" CardType="分身" Type="花代" Level="3" Color="红" GrowCost="红:2" Limit="7" EffectCost_Chu="红:1" CardDetail="【出】红1：将对战对手的1只力量7000以下的SIGNI驱逐。"/>
+	<Lrig CardId="WX01-012" CardName="刚炎 花代•贰" CardType="分身" Type="花代" Level="2" Color="红" GrowCost="红:1" Limit="4" CardDetail="【常】：你所有的红色SIGNI的力量+1000。"/>
+	<Lrig CardId="WX01-013" CardName="焰 花代•壹" CardType="分身" Type="花代" Level="1" Color="红" Limit="1" CardDetail="【出】舍弃1张手牌：抽1张卡。"/>
+	<Lrig CardId="WX01-015" CardName="代号 皮璐璐可•Γ" CardType="分身" Type="皮璐璐可" Level="3" Color="蓝" GrowCost="蓝:2" Limit="7" EffectCost_Chu="蓝:1" CardDetail="【出】蓝1：对战对手舍弃1张手牌。"/>
+	<Lrig CardId="WX01-016" CardName="代号 皮璐璐可•Β" CardType="分身" Type="皮璐璐可" Level="2" Color="蓝" GrowCost="蓝:1" Limit="4" CardDetail="【常】：你所有的蓝色SIGNI的力量+1000。"/>
+	<Lrig CardId="WX01-017" CardName="代号 皮璐璐可•Α" CardType="分身" Type="皮璐璐可" Level="1" Color="蓝" Limit="1" CardDetail="【出】舍弃1张手牌：抽1张卡。"/>
+	<Lrig CardId="WX01-019" CardName="四型皇艳娘 绿姬" CardType="分身" Type="绿子" Level="4" Color="绿" GrowCost="绿:3" Limit="11" CardDetail="【常】：你所有的SIGNI的力量+1000。"/>
+	<Lrig CardId="WX01-020" CardName="三型雌雌娘 绿姬" CardType="分身" Type="绿子" Level="3" Color="绿" GrowCost="绿:2" Limit="7" CardDetail="【出】：将你卡组顶的1张卡放置到能量区。"/>
+	<Lrig CardId="WX01-021" CardName="二型斗婚娘 绿姬" CardType="分身" Type="绿子" Level="2" Color="绿" GrowCost="绿:1" Limit="4" CardDetail="【常】：你所有的绿色SIGNI的力量+1000。"/>
+	<Lrig CardId="WX01-022" CardName="一型舞斗娘 绿姬" CardType="分身" Type="绿子" Level="1" Color="绿" Limit="1" CardDetail="【出】舍弃1张手牌：抽1张卡。"/>
+	<Lrig CardId="WD01-001" CardName="满月之巫女 玉依姬" CardType="分身" Type="小玉" Level="4" Color="白" GrowCost="白:3" Limit="11" CardDetail="【常】：只要你的场上有《甲胄 皇家铠》，你所有的SIGNI的力量+2000。"/>
+	<Lrig CardId="WD01-002" CardName="弦月之巫女 玉依姬" CardType="分身" Type="小玉" Level="3" Color="白" GrowCost="白:2" Limit="8"/>
+	<Lrig CardId="WD01-003" CardName="半月之巫女 玉依姬" CardType="分身" Type="小玉" Level="2" Color="白" GrowCost="白:1" Limit="5"/>
+	<Lrig CardId="WD01-004" CardName="三日月之巫女 玉依姬" CardType="分身" Type="小玉" Level="1" Color="白" Limit="2"/>
+	<Lrig CardId="WD01-005" CardName="新月之巫女 玉依姬" CardType="分身" Type="小玉" Level="0" Color="白" Limit="0"/>
+	<Lrig CardId="WD02-001" CardName="花代•肆" CardType="分身" Type="花代" Level="4" Color="红" GrowCost="红:3" Limit="11" CardDetail="【常】：只要你的场上有《罗石 火山石》，你的回合期间，你所有的SIGNI的力量+2000。"/>
+	<Lrig CardId="WD02-002" CardName="花代•叁" CardType="分身" Type="花代" Level="3" Color="红" GrowCost="红:2" Limit="8"/>
+	<Lrig CardId="WD02-003" CardName="花代•贰" CardType="分身" Type="花代" Level="2" Color="红" GrowCost="红:1" Limit="5"/>
+	<Lrig CardId="WD02-004" CardName="花代•壹" CardType="分身" Type="花代" Level="1" Color="红" Limit="2"/>
+	<Lrig CardId="WD02-005" CardName="花代•零" CardType="分身" Type="花代" Level="0" Color="红" Limit="0"/>
+	<Lrig CardId="WD03-001" CardName="代号•皮璐璐可•T" CardType="分身" Type="皮璐璐可" Level="4" Color="蓝" GrowCost="蓝:3" Limit="11" CardDetail="【常】：只要你的场上有《技艺代号 R•M•N》，对战对手的手牌在1张以下的期间，你所有的SIGNI的力量+2000。"/>
+	<Lrig CardId="WD03-002" CardName="代号•皮璐璐可•G" CardType="分身" Type="皮璐璐可" Level="3" Color="蓝" GrowCost="蓝:2" Limit="8"/>
+	<Lrig CardId="WD03-003" CardName="代号•皮璐璐可•M" CardType="分身" Type="皮璐璐可" Level="2" Color="蓝" GrowCost="蓝:1" Limit="5"/>
+	<Lrig CardId="WD03-004" CardName="代号•皮璐璐可•K" CardType="分身" Type="皮璐璐可" Level="1" Color="蓝" Limit="2"/>
+	<Lrig CardId="WD03-005" CardName="代号•皮璐璐可" CardType="分身" Type="皮璐璐可" Level="0" Color="蓝" Limit="0"/>
+	<Lrig CardId="WD04-001" CardName="四之娘 绿姬" CardType="分身" Type="绿子" Level="4" Color="绿" GrowCost="绿:3" Limit="11" CardDetail="【常】只要你的场上有《幻兽 青龙》，你的能量区的卡片有7张以上期间，你所有的SIGNI的力量+2000。"/>
+	<Lrig CardId="WD04-002" CardName="三之娘 绿姬" CardType="分身" Type="绿子" Level="3" Color="绿" GrowCost="绿:2" Limit="8"/>
+	<Lrig CardId="WD04-003" CardName="二之娘 绿姬" CardType="分身" Type="绿子" Level="2" Color="绿" GrowCost="绿:1" Limit="5"/>
+	<Lrig CardId="WD04-004" CardName="一之娘 绿姬" CardType="分身" Type="绿子" Level="1" Color="绿" Limit="2"/>
+	<Lrig CardId="WD04-005" CardName="斗娘 绿姬" CardType="分身" Type="绿子" Level="0" Color="绿" Limit="0"/>
+	<Lrig CardId="PR-001" CardName="新月之巫女 玉依姬" CardType="分身" Type="小玉" Level="0" Color="白" Limit="0"/>
+	<Lrig CardId="PR-002" CardName="花代•零" CardType="分身" Type="花代" Level="0" Color="红" Limit="0"/>
+	<Lrig CardId="PR-003" CardName="代号•皮璐璐可" CardType="分身" Type="皮璐璐可" Level="0" Color="蓝" Limit="0"/>
+	<Lrig CardId="PR-004" CardName="斗娘 绿姬" CardType="分身" Type="绿子" Level="0" Color="绿" Limit="0"/>
+	<Lrig CardId="PR-009" CardName="新月之巫女 玉依姬" CardType="分身" Type="小玉" Level="0" Color="白" Limit="0"/>
+	<Lrig CardId="PR-010" CardName="花代•零" CardType="分身" Type="花代" Level="0" Color="红" Limit="0"/>
+	<Lrig CardId="PR-011" CardName="代号•皮璐璐可" CardType="分身" Type="皮璐璐可" Level="0" Color="蓝" Limit="0"/>
+	<Lrig CardId="PR-012" CardName="斗娘 绿姬" CardType="分身" Type="绿子" Level="0" Color="绿" Limit="0"/>
+	<Art CardId="WX01-010" CardName="杰诺之门" CardType="技艺" Color="白" EffectCost="白:1" Timing="主要阶段" CardDetail="使用时点【主要阶段】从你的卡组里探寻1张白色SIGNI卡，将其公开并加入手牌。之后，将卡组洗切。"/>
+	<Art CardId="WX01-014" CardName="烈霸一络" CardType="技艺" Color="红" EffectCost="红:3" Timing="主要阶段,攻击阶段" CardDetail="使用时点【主要阶段】【攻击阶段】将对战对手的1只力量10000以下的SIGNI驱逐。"/>
+	<Art CardId="WX01-018" CardName="魔法反制" CardType="技艺" Color="蓝" EffectCost="蓝:1,无:1" Timing="魔法切入" CardDetail="使用时点【魔法切入】将1次魔法效果消除。"/>
+	<Art CardId="WX01-023" CardName="大器晚成" CardType="技艺" Color="绿" EffectCost="绿:5,无:7" Timing="主要阶段" CardDetail="使用时点【主要阶段】将对战对手的能量区的所有卡和对战对手的所有SIGNI放置到废弃区"/>
+	<Art CardId="WX01-024" CardName="奇奇怪怪" CardType="技艺" Color="绿" TypeOnly="绿子" Timing="主要阶段,攻击阶段,魔法切入" CardDetail="使用时点【主要阶段】【攻击阶段】【魔法切入】直到回合结束时为止，1只SIGNI的力量+5000。"/>
+	<Art CardId="WX01-025" CardName="营救" CardType="技艺" Color="无" EffectCost="无:1" Timing="主要阶段" CardDetail="使用时点【主要阶段】从你的废弃区将1张与你的LRIG同色的SIGNI卡加入手牌。"/>
+	<Art CardId="WX01-026" CardName="充能" CardType="技艺" Color="无" Timing="主要阶段" CardDetail="使用时点【主要阶段】将你卡组顶的1张卡放置到能量区。"/>
+	<Art CardId="WD01-006" CardName="洛可可界线" CardType="技艺" Color="白" EffectCost="白:3,无:2" TypeOnly="小玉" Timing="主要阶段" CardDetail="使用时点【主要阶段】将对战对手的至多2只SIGNI返回手牌。"/>
+	<Art CardId="WD01-007" CardName="艾本之书" CardType="技艺" Color="白" EffectCost="白:3" Timing="主要阶段" CardDetail="使用时点【主要阶段】从你的卡组里探寻至多2只白色SIGNI，将其公开并加入手牌。之后，将卡组洗切。"/>
+	<Art CardId="WD01-008" CardName="巴洛克防御" CardType="技艺" Color="白" EffectCost="白:2" Timing="攻击阶段" CardDetail="使用时点【攻击阶段】直到回合结束时为止，对战对手的1只LRIG或者1只SIGNI获得「不能攻击」的状态。"/>
+	<Art CardId="WD02-006" CardName="飞火夏虫" CardType="技艺" Color="红" EffectCost="红:3" Timing="主要阶段" CardDetail="使用时点【主要阶段】将对战对手的1只力量15000以下的SIGNI驱逐。"/>
+	<Art CardId="WD02-007" CardName="背炎之阵" CardType="技艺" Color="红" EffectCost="红:2" TypeOnly="花代" Timing="主要阶段" CardDetail="使用时点【主要阶段】舍弃3张手牌。这样做了的场合，将所有的SIGNI驱逐。（也包含你的SIGNI）"/>
+	<Art CardId="WD02-008" CardName="烧石炎" CardType="技艺" Color="红" EffectCost="红:1,无:1" Timing="主要阶段" CardDetail="使用时点【主要阶段】将对战对手的1只力量7000以下的SIGNI驱逐。"/>
+	<Art CardId="WD03-006" CardName="窥视分析" CardType="技艺" Color="蓝" EffectCost="蓝:3" TypeOnly="皮璐璐可" Timing="主要阶段" CardDetail="使用时点【主要阶段】宣言1个数字。之后，查看对战对手的手牌，将与宣言的数字相同等级的所有SIGNI舍弃"/>
+	<Art CardId="WD03-007" CardName="不可行动" CardType="技艺" Color="蓝" EffectCost="蓝:3" Timing="攻击阶段" CardDetail="使用时点【攻击阶段】将对战对手的至多2只SIGNI横置。"/>
+	<Art CardId="WD03-008" CardName="双重抽卡" CardType="技艺" Color="蓝" EffectCost="蓝:1,无:1" Timing="主要阶段" CardDetail="使用时点【主要阶段】抽2张卡。"/>
+	<Art CardId="WD04-006" CardName="意气扬扬" CardType="技艺" Color="绿" EffectCost="绿:1" TypeOnly="绿子" Timing="主要阶段" CardDetail="使用时点【主要阶段】直到回合结束时为止，你所有的SIGNI的力量+5000。"/>
+	<Art CardId="WD04-007" CardName="再三再四" CardType="技艺" Color="绿" EffectCost="绿:1" Timing="主要阶段" CardDetail="使用时点【主要阶段】从你的能量区将至多2张卡加入手牌。"/>
+	<Art CardId="WD04-008" CardName="付和雷同" CardType="技艺" Color="绿" EffectCost="绿:3" Timing="主要阶段,攻击阶段" CardDetail="使用时点【主要阶段】【攻击阶段】将对战对手的1只力量12000以上的SIGNI驱逐。"/>
+	<Signi CardId="WX01-027" CardName="原枪 源能枪" CardType="精灵" Type="精武：武装" Level="4" Color="白" Atk="12000" TypeOnly="小玉" BDef="0" BBrust="1" EffectCost_Qi="白:2" EffectCost_Chu="白:1" CardDetail="【常】：你的能量区中的所有卡片持有【万花色】的能力。【出】白1：将你的1只SIGNI竖置。【起】白2：这个回合中，对战对手的SIGNI被驱逐的场合，不放置到能量区、作为替代、将其放置到废弃区。【※】：从你的卡组里探寻1张白色的卡片，将其公开并加入手牌。之后，将卡组洗切。"/>
+	<Signi CardId="WX01-029" CardName="罗辉石 金刚珠玉" CardType="精灵" Type="精罗：宝石" Level="4" Color="红" Atk="12000" TypeOnly="花代" BDef="0" BBrust="1" EffectCost_Qi="红:2" EffectCost_Chu="红:1" CardDetail="【常】：你的红色SIGNI攻击时，直到回合结束时为止，它的力量+2000。【出】红1：将对战对手的1只力量7000以下的SIGNI驱逐。【起】红2：直到回合结束时为止，这只SIGNI获得双重击溃的能力。"/>
+	<Signi CardId="WX01-031" CardName="核心代号 V•A•C" CardType="精灵" Type="精械：电机" Level="4" Color="蓝" Atk="12000" TypeOnly="皮璐璐可" BDef="0" BBrust="1" EffectCost_Qi="蓝:2" EffectCost_Chu="蓝:1" CardDetail="【常】：你使用的蓝色魔法的无色费用减1。【出】蓝1：对战对手舍弃1张手牌。【起】蓝2：从你的废弃区将1张魔法卡加入手牌。【※】：对战对手舍弃1张手牌。"/>
+	<Signi CardId="WX01-033" CardName="幻兽神 御先狐" CardType="精灵" Type="精生：地兽" Level="4" Color="绿" Atk="12000" TypeOnly="绿子" BDef="0" BBrust="1" EffectCost_Qi="绿:2" EffectCost_Chu="绿:1" CardDetail="【常】：你使用绿色魔法时，将卡组顶的1张卡放置到能量区。【出】绿1：从你的能量区将1张卡加入手牌。【起】绿2：从你的废弃区将所有的绿色卡加入卡组。之后，将卡组洗切。【※】：【能量填充2】"/>
+	<Signi CardId="WX01-035" CardName="祝福女神 雅典娜" CardType="精灵" Type="精像：天使" Level="4" Color="白" Atk="10000" TypeOnly="小玉" BDef="0" BBrust="0" EffectCost_Qi="白:1" CardDetail="【起】白1横置：将对战对手的1只SIGNI返回手牌。"/>
+	<Signi CardId="WX01-036" CardName="巨弓 抛射弓" CardType="精灵" Type="精武：武装" Level="3" Color="白" Atk="8000" TypeOnly="小玉" BDef="0" BBrust="1" CardDetail="【出】：查看你的卡组顶的1张卡。那是等级2以下的SIGNI，并且你的场上没有其他SIGNI的场合，你可以让那张卡出场。"/>
+	<Signi CardId="WX01-037" CardName="无法忘却的幻想 瓦尔基里" CardType="精灵" Type="精像：天使" Level="3" Color="白" Atk="7000" TypeOnly="小玉" BDef="0" BBrust="0" CardDetail="【起】横置：从你的卡组里探寻1张《无法忘却的幻想 瓦尔基里》以外的等级3以下的SIGNI卡，将其公开并加入手牌。之后，将卡组洗切。"/>
+	<Signi CardId="WX01-039" CardName="弩炮 加农炮" CardType="精灵" Type="精武：武器" Level="4" Color="红" Atk="10000" TypeOnly="花代" BDef="0" BBrust="0" EffectCost_Qi="红:1" CardDetail="【起】红1+横置：将对战对手的1只力量10000以下的SIGNI驱逐。"/>
+	<Signi CardId="WX01-040" CardName="罗石 山铜" CardType="精灵" Type="精罗：矿石" Level="3" Color="红" Atk="8000" TypeOnly="花代" BDef="0" BBrust="1" CardDetail="【出】：将对战对手的1只力量3000以下的SIGNI驱除。【※】：将对战对手的1只力量5000以下的SIGNI驱除。"/>
+	<Signi CardId="WX01-041" CardName="轰炮 法典炮" CardType="精灵" Type="精武：武器" Level="3" Color="红" Atk="7000" TypeOnly="花代" BDef="0" BBrust="0" CardDetail="【起】横置：将对战对手的1只力量7000以下的SIGNI驱除。"/>
+	<Signi CardId="WX01-043" CardName="幻水 雅莱娅尔" CardType="精灵" Type="精生：水兽" Level="4" Color="蓝" Atk="10000" TypeOnly="皮璐璐可" BDef="0" BBrust="0" EffectCost_Qi="蓝:1" CardDetail="【起】蓝1+横置：抽2张卡。"/>
+	<Signi CardId="WX01-044" CardName="技艺代号 P•Z•L" CardType="精灵" Type="精械：电机" Level="3" Color="蓝" Atk="8000" TypeOnly="皮璐璐可" BDef="0" BBrust="1" CardDetail="【出】：将对战对手的1只等级3以下的SIGNI冻结。（那些卡在下一个竖置阶段中不能竖置）【※】：你舍弃1张手牌。之后，对战对手也舍弃1张手牌。"/>
+	<Signi CardId="WX01-045" CardName="幻水 夏克兰丝" CardType="精灵" Type="精生：水兽" Level="3" Color="蓝" Atk="7000" TypeOnly="皮璐璐可" BDef="0" BBrust="0" CardDetail="【起】横置：抽1张卡。"/>
+	<Signi CardId="WX01-047" CardName="罗植 曼荼罗花" CardType="精灵" Type="精罗：植物" Level="4" Color="绿" Atk="10000" TypeOnly="绿子" BDef="0" BBrust="0" CardDetail="【起】横置：从你的能量区将1张卡加入手牌。"/>
+	<Signi CardId="WX01-048" CardName="幻兽 雪怪" CardType="精灵" Type="精生：地兽" Level="3" Color="绿" Atk="8000" TypeOnly="绿子" BDef="0" BBrust="1" CardDetail="【出】：直到回合结束时为止，你所有的SIGNI的力量+2000。【※】：【能量填充1】"/>
+	<Signi CardId="WX01-049" CardName="罗植 植生羊" CardType="精灵" Type="精罗：植物" Level="3" Color="绿" Atk="7000" TypeOnly="绿子" BDef="0" BBrust="0" CardDetail="【起】横置：将你卡组顶的1张卡放置到能量区。"/>
+	<Signi CardId="WX01-051" CardName="侍从 Q" CardType="精灵" Type="精元" Level="4" Color="万花" Atk="12000" BDef="1" BBrust="1" CardDetail="【防御】（从手牌舍弃这张卡，将LRIG的1次攻击无效化）【常】：【万花色】（支付费用时，这张卡视为持有所有颜色。）【※】：【能量填充1】"/>
+	<Signi CardId="WX01-053" CardName="极剑 噬神剑" CardType="精灵" Type="精武：武装" Level="4" Color="白" Atk="15000" BDef="0" BBrust="0"/>
+	<Signi CardId="WX01-054" CardName="极盾 埃癸斯盾" CardType="精灵" Type="精武：武装" Level="4" Color="白" Atk="12000" BDef="0" BBrust="0" CardDetail="【常】：对战对手的回合期间，这只SIGNI的力量变为18000。"/>
+	<Signi CardId="WX01-055" CardName="大盾 镇暴盾" CardType="精灵" Type="精武：武装" Level="3" Color="白" Atk="8000" BDef="0" BBrust="0" CardDetail="【常】：对战对手的回合期间，这只SIGNI的力量变为12000。"/>
+	<Signi CardId="WX01-056" CardName="中盾 方盾" CardType="精灵" Type="精武：武装" Level="2" Color="白" Atk="5000" BDef="0" BBrust="0" CardDetail="【常】：对战对手的回合期间，这只SIGNI的力量变为8000。"/>
+	<Signi CardId="WX01-057" CardName="出弓 炽天弓" CardType="精灵" Type="精武：武装" Level="2" Color="白" Atk="5001" TypeOnly="小玉" BDef="0" BBrust="1" CardDetail="【出】：查看你卡组顶的1张卡。那张卡是等级2以下的SIGNI，并且你的场上没有其他SIGNI的场合，你可以让那张卡出场。【※】：抽1张卡。"/>
+	<Signi CardId="WX01-058" CardName="重新开始的对话 米迦勒" CardType="精灵" Type="精像：天使" Level="2" Color="白" Atk="3000" BDef="0" BBrust="0" CardDetail="【起】舍弃1张手牌+横置：从卡组里探寻1张等级3以下的白色SIGNI卡，将其公开并加入手牌。之后，将卡组洗切。"/>
+	<Signi CardId="WX01-059" CardName="出弓 普弓" CardType="精灵" Type="精武：武装" Level="1" Color="白" Atk="2000" TypeOnly="小玉" BDef="0" BBrust="1" CardDetail="【出】：查看你卡组顶的1张卡。那张卡是等级1以下的SIGNI，并且你的场上没有其他SIGNI的场合，你可以让那张卡出场。【※】：抽1张卡。"/>
+	<Signi CardId="WX01-060" CardName="小盾 圆盾" CardType="精灵" Type=" 精武：武装" Level="1" Color="白" Atk="2000" BDef="0" BBrust="0" CardDetail="【常】：对战对手的回合期间，这只SIGNI的力量变为5000。"/>
+	<Signi CardId="WX01-061" CardName="探求的思想 汉尼尔" CardType="精灵" Type="精像：天使" Level="1" Color="白" Atk="1000" BDef="0" BBrust="0" CardDetail="【起】舍弃1张手牌+横置：从卡组里探寻1张等级2以下的白色SIGNI卡，将其公开并加入手牌。之后，将卡组洗切。"/>
+	<Signi CardId="WX01-064" CardName="罗石 金属" CardType="精灵" Type="精罗：矿石" Level="4" Color="红" Atk="15000" BDef="0" BBrust="0"/>
+	<Signi CardId="WX01-065" CardName="罗石 绿宝石" CardType="精灵" Type="精罗：宝石" Level="4" Color="红" Atk="12000" BDef="0" BBrust="0" CardDetail="【常】：你的回合期间，这只SIGNI的力量变为18000。"/>
+	<Signi CardId="WX01-066" CardName="罗石 红宝石" CardType="精灵" Type="精罗：宝石" Level="3" Color="红" Atk="8000" BDef="0" BBrust="0" CardDetail="【常】：你的回合期间，这只SIGNI的力量变为12000。"/>
+	<Signi CardId="WX01-067" CardName="罗石 磷矿石" CardType="精灵" Type="精罗：矿石" Level="2" Color="红" Atk="10000" TypeOnly="花代" BDef="0" BBrust="1" CardDetail="【出】：舍弃你的1张手牌。【※】：抽1张卡。"/>
+	<Signi CardId="WX01-068" CardName="罗石 琥珀" CardType="精灵" Type="精罗：矿石" Level="2" Color="红" Atk="8000" BDef="0" BBrust="0" CardDetail="【常】：你的回合期间，这只SIGNI的力量变为8000。"/>
+	<Signi CardId="WX01-069" CardName="爆炮 远射炮" CardType="精灵" Type="精武：武器" Level="2" Color="红" Atk="5000" BDef="0" BBrust="0" CardDetail="【起】舍弃1张手牌+横置：将对战对手的1只力量5000以下的SIGNI驱逐。"/>
+	<Signi CardId="WX01-070" CardName="罗石 海人草" CardType="精灵" Type="精罗：矿石" Level="1" Color="红" Atk="7000" TypeOnly="花代" BDef="0" BBrust="1" CardDetail="【出】：舍弃你的1张手牌。【※】：抽1张卡。"/>
+	<Signi CardId="WX01-071" CardName="罗石 蓝宝石" CardType="精灵" Type="精罗：宝石" Level="1" Color="红" Atk="2000" BDef="0" BBrust="0" CardDetail="【常】：你的回合期间，这只SIGNI的力量变为5000。"/>
+	<Signi CardId="WX01-072" CardName="小炮 德拉古诺夫枪" CardType="精灵" Type="精武：武器" Level="1" Color="红" Atk="1000" BDef="0" BBrust="0" CardDetail="【起】舍弃1张手牌+横置：将对战对手的1只力量2000以下的SIGNI驱逐。"/>
+	<Signi CardId="WX01-075" CardName="技艺代号 A•S•M" CardType="精灵" Type="精械：电机" Level="4" Color="蓝" Atk="15000" BDef="0" BBrust="0"/>
+	<Signi CardId="WX01-076" CardName="技艺代号 I•D•O•L" CardType="精灵" Type="精械：电机" Level="4" Color="蓝" Atk="12000" BDef="0" BBrust="0" CardDetail="【常】：只要你的手牌比对战对手多3张以上，这只SIGNI的力量变为18000。"/>
+	<Signi CardId="WX01-077" CardName="技艺代号 A•D•B" CardType="精灵" Type="精械：电机" Level="3" Color="蓝" Atk="8000" BDef="0" BBrust="0" CardDetail="【常】：只要你的手牌比对战对手多2张以上，这只SIGNI的力量变为12000。"/>
+	<Signi CardId="WX01-078" CardName="技艺代号 S•T•G" CardType="精灵" Type="精械：电机" Level="2" Color="蓝" Atk="5000" BDef="0" BBrust="0" CardDetail="【常】：只要你的手牌比对战对手多2张以上，这只SIGNI的力量变为8000。"/>
+	<Signi CardId="WX01-079" CardName="技艺代号 W•T•C" CardType="精灵" Type="精械：电机" Level="2" Color="蓝" Atk="5000" TypeOnly="皮璐璐可" BDef="0" BBrust="1" CardDetail="【出】：将对战对手的1只等级2以下的SIGNI冻结。（那些卡在下一个竖置阶段中不能竖置）【※】：抽1张卡。"/>
+	<Signi CardId="WX01-080" CardName="幻水 夏可檀" CardType="精灵" Type="精生：水兽" Level="2" Color="蓝" Atk="3000" BDef="0" BBrust="0" CardDetail="【起】舍弃1张手牌•横置：抽2张卡。之后，舍弃1张手牌。"/>
+	<Signi CardId="WX01-081" CardName="技艺代号 T•V" CardType="精灵" Type="精械：电机" Level="1" Color="蓝" Atk="2000" TypeOnly="皮璐璐可" BDef="0" BBrust="1" CardDetail="【出】：将对战对手的1只等级1的SIGNI冻结。（那些卡在下一个竖置阶段中不能竖置）【※】：抽1张卡。"/>
+	<Signi CardId="WX01-082" CardName="技艺代号 F•A•N" CardType="精灵" Type="精械：电机" Level="1" Color="蓝" Atk="2000" BDef="0" BBrust="0" CardDetail="【常】：只要你的手牌比对战对手多，这只SIGNI的力量变为5000。"/>
+	<Signi CardId="WX01-083" CardName="幻水 克玛诺明" CardType="精灵" Type="精生：水兽" Level="1" Color="蓝" Atk="1000" BDef="0" BBrust="0" CardDetail="【起】舍弃1张手牌+横置：抽1张卡。"/>
+	<Signi CardId="WX01-086" CardName="幻兽 飞鹰" CardType="精灵" Type="精生：空兽" Level="4" Color="绿" Atk="15000" BDef="0" BBrust="0"/>
+	<Signi CardId="WX01-087" CardName="幻兽 猫妖精" CardType="精灵" Type="精生：地兽" Level="4" Color="绿" Atk="12000" BDef="0" BBrust="0" CardDetail="【常】：只要你的能量区的卡比对战对手多5张以上，这只SIGNI的力量变为18000。"/>
+	<Signi CardId="WX01-088" CardName="幻兽 猫头鹰" CardType="精灵" Type="精生：空兽" Level="3" Color="绿" Atk="10000" BDef="0" BBrust="0"/>
+	<Signi CardId="WX01-089" CardName="幻兽 黑猫" CardType="精灵" Type="精生：地兽" Level="3" Color="绿" Atk="8000" BDef="0" BBrust="0" CardDetail="【常】：只要你的能量区的卡比对战对手多4张以上，这只SIGNI的力量变为12000。"/>
+	<Signi CardId="WX01-090" CardName="幻兽 麻雀" CardType="精灵" Type="精生：空兽" Level="2" Color="绿" Atk="7000" BDef="0" BBrust="0"/>
+	<Signi CardId="WX01-091" CardName="幻兽 树袋熊" CardType="精灵" Type="精生：地兽" Level="2" Color="绿" Atk="5000" TypeOnly="绿子" BDef="0" BBrust="1" CardDetail="【出】：直到回合结束时为止，你的1只SIGNI的力量+3000。【※】：抽1张卡。"/>
+	<Signi CardId="WX01-092" CardName="幻兽 白猫" CardType="精灵" Type="精生：地兽" Level="2" Color="绿" Atk="5000" BDef="0" BBrust="0" CardDetail="【常】：只要你的能量区的卡比对战对手多3张以上，这只SIGNI的力量变为8000。"/>
+	<Signi CardId="WX01-093" CardName="罗植 蒲公英" CardType="精灵" Type="精罗：植物" Level="2" Color="绿" Atk="3000" BDef="0" BBrust="0" CardDetail="【起】舍弃1张手牌+横置：将你卡组顶的1张卡放置到能量区。"/>
+	<Signi CardId="WX01-094" CardName="幻兽 燕子" CardType="精灵" Type="精生：空兽" Level="1" Color="绿" Atk="3000" BDef="0" BBrust="0"/>
+	<Signi CardId="WX01-095" CardName="幻兽 大熊猫" CardType="精灵" Type="精生：地兽" Level="1" Color="绿" Atk="2000" TypeOnly="绿子" BDef="0" BBrust="1" CardDetail="【出】：直到回合结束时为止，你的1只SIGNI的力量+2000。【※】：抽1张卡。"/>
+	<Signi CardId="WX01-096" CardName="幻兽 三色猫" CardType="精灵" Type="精生：地兽" Level="1" Color="绿" Atk="2000" BDef="0" BBrust="0" CardDetail="【常】：只要你的能量区的卡比对战对手多2张以上，这只SIGNI的力量变为5000。"/>
+	<Signi CardId="WX01-097" CardName="罗植 鼠尾草" CardType="精灵" Type="精罗：植物" Level="1" Color="绿" Atk="1000" BDef="0" BBrust="0" CardDetail="【起】舍弃1张手牌+横置：将你卡组顶的1张卡放置到能量区。"/>
+	<Signi CardId="WX01-100" CardName="侍从 T" CardType="精灵" Type="精元" Level="3" Color="万花" Atk="8000" BDef="1" BBrust="1" CardDetail="【防御】（从手牌舍弃这张卡，将LRIG的1次攻击无效化）【常】：【万花色】（支付费用时，这张卡视为持有所有颜色。）【※】：【能量填充1】"/>
+	<Signi CardId="WX01-101" CardName="侍从 D" CardType="精灵" Type="精元" Level="2" Color="万花" Atk="5000" BDef="1" BBrust="1" CardDetail="【防御】（从手牌舍弃这张卡，将LRIG的1次攻击无效化）【常】：【万花色】（支付费用时，这张卡视为持有所有颜色。）【※】：【能量填充1】"/>
+	<Signi CardId="WX01-102" CardName="侍从 O" CardType="精灵" Type="精元" Level="1" Color="万花" Atk="2000" BDef="1" BBrust="1" CardDetail="【防御】（从手牌舍弃这张卡，将LRIG的1次攻击无效化）【常】：【万花色】（支付费用时，这张卡视为持有所有颜色）【※】：【能量填充1】"/>
+	<Signi CardId="WD01-009" CardName="甲胄 皇家铠" CardType="精灵" Type="精武：武装" Level="4" Color="白" Atk="12000" TypeOnly="小玉" BDef="0" BBrust="1" CardDetail="【常】：对战对手的回合期间，你所有的SIGNI的力量+1000。【※】：将对战对手的1只SIGNI返回手牌。"/>
+	<Signi CardId="WD01-010" CardName="大剑 石中剑" CardType="精灵" Type="精武：武装" Level="3" Color="白" Atk="10000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD01-011" CardName="笼手 铁拳" CardType="精灵" Type="精武：武装" Level="3" Color="白" Atk="7000" TypeOnly="小玉" BDef="0" BBrust="1" EffectCost_Chu="白:1" CardDetail="【出】白1：从你的卡组里探寻1张《甲胄 皇家铠》，将其公开并加入手牌。之后，将卡组洗切。【※】：抽1张卡。"/>
+	<Signi CardId="WD01-012 " CardName="中剑 焰形剑" CardType="精灵" Type="精武：武装" Level="2" Color="白" Atk="7000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD01-013 " CardName="小剑 库克力弯刀" CardType="精灵" Type="精武：武装" Level="1" Color="白" Atk="3000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD01-014 " CardName="小弓 箭矢" CardType="精灵" Type="精武：武装" Level="1" Color="白" Atk="1000" TypeOnly="小玉" BDef="0" BBrust="0" CardDetail="【出】：从你的卡组顶查看3张卡。之后，将其按你喜欢的顺序放回。"/>
+	<Signi CardId="WD02-009" CardName="罗石 火山石" CardType="精灵" Type="精罗：矿石" Level="4" Color="红" Atk="12000" TypeOnly="花代" BDef="0" BBrust="1" EffectCost_Chu="红:3" CardDetail="【出】红3：将对战对手的1只力量15000以下的SIGNI驱逐。【※】：将对战对手的1只力量7000以下的SIGNI驱逐。"/>
+	<Signi CardId="WD02-010" CardName="罗石 白银" CardType="精灵" Type="精罗：矿石" Level="3" Color="红" Atk="10000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD02-011" CardName="罗石 石榴石" CardType="精灵" Type="精罗：矿石" Level="3" Color="红" Atk="7000" TypeOnly="花代" BDef="0" BBrust="1" CardDetail="【出】：直到回合结束时为止，这只SIGNI的力量变为15000。【※】：抽1张卡。"/>
+	<Signi CardId="WD02-012" CardName="罗石 铜" CardType="精灵" Type="精罗：矿石" Level="2" Color="红" Atk="7000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD02-013" CardName="罗石 铁" CardType="精灵" Type="精罗：矿石" Level="1" Color="红" Atk="3000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD02-014" CardName="罗石 紫水晶" CardType="精灵" Type="精罗：矿石" Level="1" Color="红" Atk="1000" TypeOnly="花代" BDef="0" BBrust="0" CardDetail="【出】：你可以将对战对手的1只力量1000以下的SIGNI驱逐。"/>
+	<Signi CardId="WD03-009" CardName="技艺代号 R•M•N" CardType="精灵" Type="精械：电机" Level="4" Color="蓝" Atk="12000" TypeOnly="皮璐璐可" BDef="0" BBrust="1" EffectCost_Chu="蓝:1" CardDetail="【出】蓝1：不查看对战对手的手牌而选择1张，并将它舍弃。【※】：对战对手舍弃1张手牌。"/>
+	<Signi CardId="WD03-010" CardName="技艺代号 D•R•S" CardType="精灵" Type="精械：电机" Level="3" Color="蓝" Atk="10000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD03-011" CardName="技艺代号 S•M•P" CardType="精灵" Type="精械：电机" Level="3" Color="蓝" Atk="7000" TypeOnly="皮璐璐可" BDef="0" BBrust="1" CardDetail="【出】：查看对战对手的手牌，从中选择1张等级1的手牌，并将它舍弃。【※】：抽1张卡。"/>
+	<Signi CardId="WD03-012" CardName="技艺代号 J•V" CardType="精灵" Type="精械：电机" Level="2" Color="蓝" Atk="7000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD03-013" CardName="技艺代号 S•C" CardType="精灵" Type="精械：电机" Level="1" Color="蓝" Atk="3000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD03-014" CardName="技艺代号 R•F•R" CardType="精灵" Type="精械：电机" Level="1" Color="蓝" Atk="1000" BDef="0" BBrust="0" CardDetail="【出】：抽1张卡。之后，舍弃1张手牌。"/>
+	<Signi CardId="WD04-009" CardName="幻兽 青龙" CardType="精灵" Type="精生：地兽" Level="4" Color="绿" Atk="12000" TypeOnly="绿子" BDef="0" BBrust="1" CardDetail="【常】：只要你场上的3只SIGNI的力量分别在15000以上，这只SIGNI获得【枪兵】和「这只SIGNI攻击时，将对手的1只SIGNI驱逐。」的能力。【※】：将对战对手的一只力量10000以上的SIGNI驱逐"/>
+	<Signi CardId="WD04-010" CardName="幻兽 朱雀小姐" CardType="精灵" Type="精生：地兽" Level="3" Color="绿" Atk="8000" TypeOnly="绿子" BDef="0" BBrust="1" CardDetail="【常】：只要这只SIGNI的力量在10000以上，这只SIGNI获得【枪兵】的能力。（这只SIGNI通过战斗将对战对手的SIGNI驱逐时，将对战对手的1张生命护甲击溃）【※】：将对战对手的1只力量12000以上的SIGNI驱逐。"/>
+	<Signi CardId="WD04-011" CardName="幻兽 雪怪" CardType="精灵" Type="精生：地兽" Level="3" Color="绿" Atk="8000" TypeOnly="绿子" BDef="0" BBrust="1" CardDetail="【出】：直到回合结束时为止，你所有的SIGNI的力量+2000。【※】：【能量填充1】"/>
+	<Signi CardId="WD04-012" CardName="幻兽 树袋熊" CardType="精灵" Type="精生：地兽" Level="2" Color="绿" Atk="5000" TypeOnly="绿子" BDef="0" BBrust="1" CardDetail="【出】：直到回合结束时为止，你的1只SIGNI的力量+3000。【※】：抽1张卡。"/>
+	<Signi CardId="WD04-013" CardName="幻兽 小玄武" CardType="精灵" Type="精生：地兽" Level="2" Color="绿" Atk="3000" TypeOnly="绿子" BDef="0" BBrust="0" CardDetail="【常】：这只SIGNI攻击时，这只SIGNI的力量在5000以上的场合，将你卡组顶的1张卡放置到能量区"/>
+	<Signi CardId="WD04-014" CardName="幻兽 大熊猫" CardType="精灵" Type="精生：地兽" Level="1" Color="绿" Atk="2000" TypeOnly="绿子" BDef="0" BBrust="1" CardDetail="【出】：直到回合结束时为止，你的1只SIGNI的力量+2000。【※】：抽1张卡。"/>
+	<Signi CardId="WD04-015" CardName="幻兽 白虎" CardType="精灵" Type="精生：地兽" Level="1" Color="绿" Atk="1000" TypeOnly="绿子" BDef="0" BBrust="0" CardDetail="【常】：这只SIGNI攻击时，这只SIGNI的力量在3000以上的场合，将你卡组顶的1张卡放置到能量区。"/>
+	<Signi CardId="WD04-016" CardName="侍从 Q2" CardType="精灵" Type="精元" Level="4" Color="万花" Atk="10000" BDef="1" BBrust="0" CardDetail="【防御】（从手牌舍弃这张卡，将LRIG的1次攻击无效化）【常】：【万花色】（支付费用时，这张卡视为持有所有颜色。）"/>
+	<Signi CardId="WD04-017" CardName="侍从 O2" CardType="精灵" Type="精元" Level="1" Color="万花" Atk="1000" BDef="1" BBrust="0" CardDetail="【防御】（从手牌舍弃这张卡，将LRIG的1次攻击无效化）【常】：【万花色】（支付费用时，这张卡视为持有所有颜色。）"/>
+	<Signi CardId="PR-017" CardName="中枪 古罗马长矛" CardType="精灵" Type="精武：武装" Level="2" Color="白" Atk="5000" TypeOnly="小玉" BDef="0" BBrust="0" CardDetail="【常】：只要你的场上有等级4的&lt;小玉&gt;，这只SIGNI的力量变为10000。"/>
+	<Signi CardId="PR-018" CardName="罗石 秘银" CardType="精灵" Type="精罗：宝石" Level="3" Color="红" Atk="15000" TypeOnly="花代" BDef="0" BBrust="1" CardDetail="【出】：舍弃1张手牌。【常】：你的回合期间，这只SIGNI的力量变为18000。【※】：抽1张卡"/>
+	<Spell CardId="WX01-028" CardName="弧光圣气" CardType="魔法" Color="白" EffectCost="白:5" TypeOnly="小玉" BBrust="1" CardDetail="直到回合结束时为止，你的LRIG获得「这只LRIG攻击时，你可以将1只SIGNI放置到废弃区。这样做了的场合，你可以将这只LRIG竖置，再进行1次攻击」的能力。【※】：将对战对手的LRIG和所有的SIGNI横置。"/>
+	<Spell CardId="WX01-030" CardName="赎罪之对火" CardType="魔法" Color="红" EffectCost="红:3" TypeOnly="花代" BBrust="1" CardDetail="将对战对手的1只力量12000以下的SIGNI驱逐。直到回合结束时为止，你的LRIG获得双重击溃的能力。【※】：将你的1张生命护甲放置到废弃区。这样做了的场合，将对战对手的1张生命护甲击溃。"/>
+	<Spell CardId="WX01-032" CardName="抢夺" CardType="魔法" Color="蓝" EffectCost="蓝:2,无:1" TypeOnly="皮璐璐可" BBrust="1" CardDetail="对战对手舍弃2张手牌。之后，对战对手的手牌为0的场合，你抽1张卡。【※】：不查看对战对手的手牌而选择1张，并将它舍弃。"/>
+	<Spell CardId="WX01-034" CardName="修复" CardType="魔法" Color="绿" EffectCost="绿:3" TypeOnly="绿子" BBrust="1" CardDetail="将你卡组顶的1张卡加入生命护甲。之后，你的能量区的卡片有10张以上的场合，再将你卡组顶的1张卡加入生命护甲。【※】：将你卡组顶的1张卡加入生命护甲。"/>
+	<Spell CardId="WX01-038" CardName="获得但他林" CardType="魔法" Color="白" EffectCost="白:1,红:1" TypeOnly="小玉" BBrust="0" CardDetail="从你的卡组里探寻1张白色SIGNI卡和1张红色SIGNI卡，将其公开并加入手牌。之后，将卡组洗切。"/>
+	<Spell CardId="WX01-042" CardName="断罪之轹断" CardType="魔法" Color="红" EffectCost="红:3" TypeOnly="花代" BBrust="0" CardDetail="将对战对手的1张生命护甲击溃。"/>
+	<Spell CardId="WX01-046" CardName="情况糟糕" CardType="魔法" Color="蓝" EffectCost="蓝:1" TypeOnly="皮璐璐可" BBrust="0" CardDetail="这张卡只能在对战对手的手牌为0张的场合使用。将对战对手的1只SIGNI驱逐。"/>
+	<Spell CardId="WX01-050" CardName="大化" CardType="魔法" Color="绿" EffectCost="绿:1" TypeOnly="绿子" BBrust="0" CardDetail="直到回合结束时为止，你所有的SIGNI的力量+5000。"/>
+	<Spell CardId="WX01-052" CardName="包括的知识" CardType="魔法" Color="无" EffectCost="无:2" BBrust="1" CardDetail="抽2张卡。【※】：【能量填充1】"/>
+	<Spell CardId="WX01-062" CardName="将之开启" CardType="魔法" Color="白" EffectCost="白:1" BBrust="0" CardDetail="从你的卡组顶查看5张卡。从中将你喜欢的张数放置到废弃区，剩下的卡按你喜欢的顺序返回卡组顶。"/>
+	<Spell CardId="WX01-063" CardName="做好准备" CardType="魔法" Color="白" EffectCost="白:2" BBrust="1" CardDetail="将你所有的SIGNI竖置。【※】：从你的卡组里探寻1张SIGNI卡，将其公开并加入手牌。之后，将卡组洗切。"/>
+	<Spell CardId="WX01-073" CardName="落星炎球" CardType="魔法" Color="红" EffectCost="红:3" BBrust="1" CardDetail="将对战对手的1只力量15000以下的SIGNI驱逐。【※】：将对战对手的1只力量10000以下的SIGNI驱除。"/>
+	<Spell CardId="WX01-074" CardName="棱晶火柱" CardType="魔法" Color="红" EffectCost="白:1,红:1" BBrust="0" CardDetail="将对战对手的1只力量10000以下的SIGNI驱逐。"/>
+	<Spell CardId="WX01-084" CardName="事不过三" CardType="魔法" Color="蓝" EffectCost="蓝:1" BBrust="0" CardDetail="抽3张卡。之后，舍弃1张手牌。"/>
+	<Spell CardId="WX01-085" CardName="冰封" CardType="魔法" Color="蓝" EffectCost="蓝:1" BBrust="1" CardDetail="将对战对手所有的SIGNI横置并冻结。（那些卡在下一个竖置阶段中不能竖置）【※】：将对战对手的至多2只SIGNI横置并冻结。（那些卡在下一个竖置阶段中不能竖置）"/>
+	<Spell CardId="WX01-098" CardName="芽生" CardType="魔法" Color="绿" EffectCost="绿:1" BBrust="0" CardDetail="从你的卡组顶将2张卡放置到能量区。"/>
+	<Spell CardId="WX01-099" CardName="逆出" CardType="魔法" Color="绿" EffectCost="绿:1" BBrust="1" CardDetail="从你的能量区让1张SIGNI卡出场。【※】：从你的能量区将1张卡加入手牌。"/>
+	<Spell CardId="WX01-103" CardName="喷流的知识" CardType="魔法" Color="无" BBrust="1" CardDetail="抽1张卡。【※】：【能量填充1】"/>
+	<Spell CardId="WD01-015" CardName="获得圣经" CardType="魔法" Color="白" EffectCost="白:1" BBrust="0" CardDetail="从你的卡组里探寻至多1只SIGNI，将其公开并加入手牌。之后，将卡组洗切。"/>
+	<Spell CardId="WD02-015" CardName="轰音火柱" CardType="魔法" Color="红" EffectCost="红:1" BBrust="0" CardDetail="将对战对手的1只力量5000以下的SIGNI驱逐。"/>
+	<Spell CardId="WD03-015" CardName="真可惜" CardType="魔法" Color="蓝" EffectCost="蓝:1" BBrust="0" CardDetail="不查看对战对手的手牌而选择1张，并将它舍弃。"/>
+	<Spell CardId="WD04-018" CardName="堕络" CardType="魔法" Color="绿" EffectCost="绿:1" BBrust="0" CardDetail="将你的1只竖置状态的SIGNI横置。这样做了的场合，将对战对手的1只力量在这只SIGNI的力量以下的SIGNI驱逐。"/>
+	<Spell CardId="PR-019" CardName="珍宝" CardType="魔法" Color="蓝" EffectCost="蓝:1" TypeOnly="皮璐璐可" BBrust="1" CardDetail="舍弃你喜欢的张数的手牌。之后，抽卡，抽卡数量为舍弃张数+1。【※】：舍弃2张卡。之后，抽3张卡。"/>
+	<Spell CardId="PR-020" CardName="增援" CardType="魔法" Color="绿" EffectCost="绿:1" TypeOnly="绿子" BBrust="0" CardDetail="从以下2项中选择1项。「从你的卡组里探寻1张力量10000以上的SIGNI卡，将其公开并加入加入手牌。之后将卡组洗切。」「从你的卡组顶将2张卡放置到能量区」"/>
+</ROOT>

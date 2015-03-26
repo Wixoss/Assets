@@ -122,7 +122,7 @@ namespace Assets.Scripts
             yield return new WaitForSeconds(2f);
             if (card.EffectChu != null)
             {
-                if (card.EffectCost_Chu.Count < 1)
+                if (card.EffectCostChu.Count < 1)
                 {
                     card.EffectChu(card);
                     GameManager.ShowCard.ShowMyCardEffect(card);
@@ -131,7 +131,7 @@ namespace Assets.Scripts
                 else
                 {
                     GameManager.CardInfo.ShowCardInfo(true);
-                    GameManager.Lrig.SetTheCost(0, card.EffectCost_Chu.Count - 1, card, () =>
+                    GameManager.Lrig.SetTheCost(0, card.EffectCostChu.Count - 1, card, () =>
                     {
                         card.EffectChu(card);
                         GameManager.ShowCard.ShowMyCardEffect(card);
@@ -206,14 +206,14 @@ namespace Assets.Scripts
             {
                 CreateHands.ShowEffectButton(Signi[num], () =>
                 {
-                    if (Signi[num].EffectCost_Qi.Count < 1)
+                    if (Signi[num].EffectCostQi.Count < 1)
                     {
                         Signi[num].EffectQi(Signi[num]);
                     }
                     else
                     {
                         GameManager.CardInfo.ShowCardInfo(true);
-                        Lrig.SetTheCost(0, Signi[num].EffectCost_Qi.Count - 1, Signi[num], () =>
+                        Lrig.SetTheCost(0, Signi[num].EffectCostQi.Count - 1, Signi[num], () =>
                         {
                             GameManager.CardInfo.ShowCardInfo(true);
                             Signi[num].EffectQi(Signi[num]);
@@ -427,6 +427,8 @@ namespace Assets.Scripts
             }
             else
             {
+				GameManager.SkillManager.SigniAttack(Signi[num]);
+
                 if (OtherSigni[num].Atk <= Signi[num].Atk)
                 {
                     BanishOtherSigni(num);

@@ -173,7 +173,7 @@ namespace Assets.Scripts
         private void 意气扬扬(Card card)
         {
             SkillManager.AddAtkAll(5000);
-            
+
             var over = new SkillChang.EffectChang
             {
                 Card = card,
@@ -183,7 +183,7 @@ namespace Assets.Scripts
                     SkillManager.SkillChang.MyRoundOverActions.Remove(card1.MyEffectChangMyRoundOver);
                 }
             };
-            
+
             card.MyEffectChangMyRoundOver = over;
             SkillManager.SkillChang.MyRoundOverActions.Add(over);
         }
@@ -196,7 +196,7 @@ namespace Assets.Scripts
             cardinfo.SetUp("从你的能量区将至多2张卡加入手牌", targets, 2, () =>
             {
                 var showcards = new List<Card>();
-                for(int i =cardinfo.SelectHands.Count-1;i>=0;i--)
+                for (int i = cardinfo.SelectHands.Count - 1; i >= 0; i--)
                 {
                     GameManager.EnerManager.GetCardFromEner(cardinfo.SelectHands[i].MyCard);
                     showcards.Add(cardinfo.SelectHands[i].MyCard);
@@ -215,7 +215,7 @@ namespace Assets.Scripts
 
         private void 堕络(Card card)
         {
-            SkillManager.HorizionMySigni(card, () => SkillManager.Baninish(card, null, i => i.Atk <= card.Atk), x => x.Bset);
+            SkillManager.HorizionMySigni(card, () => SkillManager.Baninish(card, null, i => i.Atk <= SkillManager.TargetSigni.Atk), x => x.Bset);
         }
     }
 }

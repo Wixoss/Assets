@@ -34,6 +34,8 @@ namespace Assets.Scripts
         public string Deckname;
         private Color _defultColor;
 
+        public List<string> DeckCards;
+
         private void OnEnable()
         {
             CreateTheFakeDeck();

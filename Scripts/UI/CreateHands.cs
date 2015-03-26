@@ -840,10 +840,10 @@ namespace Assets.Scripts
                     myEners = card.GrowCost;
                     break;
                 case 3:
-                    myEners = card.EffectCost_Chu;
+                    myEners = card.EffectCostChu;
                     break;
                 case 4:
-                    myEners = card.EffectCost_Qi;
+                    myEners = card.EffectCostQi;
                     break;
             }
 

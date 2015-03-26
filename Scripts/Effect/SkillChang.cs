@@ -141,7 +141,7 @@ namespace Assets.Scripts
         {
             for (int i = AttackChangeActions.Count - 1; i >= 0; i--)
             {
-                if(AttackChangeActions[i].CardChangAction!=null)
+                if (AttackChangeActions[i].CardChangAction != null)
                 {
                     AttackChangeActions[i].CardChangAction(AttackChangeActions[i].Card);
                 }
@@ -150,9 +150,9 @@ namespace Assets.Scripts
 
         public void SigniAttack(Card card)
         {
-            for (int i = SigniAtkAcitons.Count-1; i >= 0; i--)
+            for (int i = SigniAtkAcitons.Count - 1; i >= 0; i--)
             {
-                if(SigniAtkAcitons[i].CardChangAction!=null)
+                if (SigniAtkAcitons[i].CardChangAction != null)
                 {
                     SigniAtkAcitons[i].CardChangAction(card);
                 }
@@ -228,32 +228,32 @@ namespace Assets.Scripts
 
         private void 甲胄皇家铠(Card card)
         {
-//            var chang = new EffectChang
-//            {
-//                Card = card,
-//                CardChangAction = card1 =>
-//                {
-//                    if (!card.BChang)
-//                    {
-//                        SkillManager.AddAtkAll(1000);
-//                        card.BChang = true;
-//                    }
-//                }
-//            };
-//
-//            var chang2 = new EffectChang
-//            {
-//                Card = card,
-//                CardChangAction = card1 =>
-//                {
-//                    if (card.BChang)
-//                    {
-//                        SkillManager.AddAtkAll(-1000);
-//                        card.BChang = false;
-//                    }
-//                }
-//            };
-            var chang = WhenCondictionAtkUp(card, 1000, ()=>!GameManager.BLocalRound, SkillManager.AddAtkAll);
+            //            var chang = new EffectChang
+            //            {
+            //                Card = card,
+            //                CardChangAction = card1 =>
+            //                {
+            //                    if (!card.BChang)
+            //                    {
+            //                        SkillManager.AddAtkAll(1000);
+            //                        card.BChang = true;
+            //                    }
+            //                }
+            //            };
+            //
+            //            var chang2 = new EffectChang
+            //            {
+            //                Card = card,
+            //                CardChangAction = card1 =>
+            //                {
+            //                    if (card.BChang)
+            //                    {
+            //                        SkillManager.AddAtkAll(-1000);
+            //                        card.BChang = false;
+            //                    }
+            //                }
+            //            };
+            var chang = WhenCondictionAtkUp(card, 1000, () => !GameManager.BLocalRound, SkillManager.AddAtkAll);
 
             MyRoundStartActions.Add(chang);
             card.MyEffectChangMyRoundStart = chang;
@@ -280,38 +280,38 @@ namespace Assets.Scripts
 
         private void 花代肆(Card card)
         {
-//            var chang = new EffectChang
-//            {
-//                Card = card,
-//                CardChangAction = card1 =>
-//                {
-//                    //如果条件发动后，每有一只怪出场，那只怪＋2000
-//                    if (card.BChang)
-//                    {
-//                        SkillManager.AddAtk(card1, 2000);
-//                    }
-//
-//                    //场上没有 皇家铠 且效果没发动
-//                    if (SkillManager.BSigniInGround("罗石 火山石") && !card.BChang)
-//                    {
-//                        SkillManager.AddAtkAll(2000);
-//                        card.BChang = true;
-//                    }
-//                }
-//            };
-//
-//            var chang2 = new EffectChang
-//            {
-//                Card = card,
-//                CardChangAction = card1 =>
-//                {
-//                    if (card.BChang)
-//                    {
-//                        SkillManager.AddAtkAll(-2000);
-//                        card.BChang = false;
-//                    }
-//                }
-//            };
+            //            var chang = new EffectChang
+            //            {
+            //                Card = card,
+            //                CardChangAction = card1 =>
+            //                {
+            //                    //如果条件发动后，每有一只怪出场，那只怪＋2000
+            //                    if (card.BChang)
+            //                    {
+            //                        SkillManager.AddAtk(card1, 2000);
+            //                    }
+            //
+            //                    //场上没有 皇家铠 且效果没发动
+            //                    if (SkillManager.BSigniInGround("罗石 火山石") && !card.BChang)
+            //                    {
+            //                        SkillManager.AddAtkAll(2000);
+            //                        card.BChang = true;
+            //                    }
+            //                }
+            //            };
+            //
+            //            var chang2 = new EffectChang
+            //            {
+            //                Card = card,
+            //                CardChangAction = card1 =>
+            //                {
+            //                    if (card.BChang)
+            //                    {
+            //                        SkillManager.AddAtkAll(-2000);
+            //                        card.BChang = false;
+            //                    }
+            //                }
+            //            };
 
             var chang = WhenSigniInGround(card, 2000, "罗石 火山石", () => GameManager.BLocalRound);
 
@@ -346,31 +346,31 @@ namespace Assets.Scripts
 
         private void 代号皮璐璐可t(Card card)
         {
-//            var chang = new EffectChang
-//            {
-//                Card = card,
-//                CardChangAction = card1 =>
-//                {
-//                    if (card.BChang)
-//                    {
-//                        SkillManager.AddAtk(card1, 2000);
-//                    }
-//
-//                    if (SkillManager.BSigniInGround("技艺代号 R•M•N") && !card.BChang && SkillManager.GameManager.CreateHands.OtherHands.Count <= 1)
-//                    {
-//                        SkillManager.AddAtkAll(2000);
-//                        card.BChang = true;
-//                    }
-//
-//                    if (card.BChang && SkillManager.GameManager.CreateHands.OtherHands.Count > 1)
-//                    {
-//                        SkillManager.AddAtkAll(-2000);
-//                        card.BChang = false;
-//                    }
-//                }
-//            };
+            //            var chang = new EffectChang
+            //            {
+            //                Card = card,
+            //                CardChangAction = card1 =>
+            //                {
+            //                    if (card.BChang)
+            //                    {
+            //                        SkillManager.AddAtk(card1, 2000);
+            //                    }
+            //
+            //                    if (SkillManager.BSigniInGround("技艺代号 R•M•N") && !card.BChang && SkillManager.GameManager.CreateHands.OtherHands.Count <= 1)
+            //                    {
+            //                        SkillManager.AddAtkAll(2000);
+            //                        card.BChang = true;
+            //                    }
+            //
+            //                    if (card.BChang && SkillManager.GameManager.CreateHands.OtherHands.Count > 1)
+            //                    {
+            //                        SkillManager.AddAtkAll(-2000);
+            //                        card.BChang = false;
+            //                    }
+            //                }
+            //            };
 
-            var chang = WhenSigniInGround(card, 2000, "技艺代号 R•M•N", ()=>SkillManager.GameManager.CreateHands.OtherHands.Count <= 1);
+            var chang = WhenSigniInGround(card, 2000, "技艺代号 R•M•N", () => SkillManager.GameManager.CreateHands.OtherHands.Count <= 1);
 
             LrigSetActions.Add(chang);
             card.MyEffectChangLrigSet = chang;
@@ -398,31 +398,7 @@ namespace Assets.Scripts
 
         private void 四之娘绿姬(Card card)
         {
-//            var chang = new EffectChang
-//            {
-//                Card = card,
-//                CardChangAction = card1 =>
-//                {
-//                    if (card.BChang)
-//                    {
-//                        SkillManager.AddAtk(card1, 2000);
-//                    }
-//
-//                    if (SkillManager.BSigniInGround("幻兽 青龙") && !card.BChang && SkillManager.GameManager.EnerManager.EnerCards.Count <= 7)
-//                    {
-//                        SkillManager.AddAtkAll(2000);
-//                        card.BChang = true;
-//                    }
-//
-//                    if (card.BChang && SkillManager.GameManager.EnerManager.EnerCards.Count > 7)
-//                    {
-//                        SkillManager.AddAtkAll(-2000);
-//                        card.BChang = false;
-//                    }
-//                }
-//            };
-
-            var chang = WhenSigniInGround(card, 2000, "幻兽 青龙", ()=>SkillManager.GameManager.EnerManager.EnerCards.Count >= 7);
+            var chang = WhenSigniInGround(card, 2000, "幻兽 青龙", () => SkillManager.GameManager.EnerManager.EnerCards.Count >= 7);
 
             LrigSetActions.Add(chang);
             card.MyEffectChangLrigSet = chang;
@@ -455,41 +431,39 @@ namespace Assets.Scripts
                 Card = card,
                 CardChangAction = card1 =>
                 {
-                    if(card1!=card)
-                       return;
+                    if (card1 != card)
+                        return;
 
                     bool bok = true;
                     var target = SkillManager.GameManager.SetSigni.Signi;
 
-                    if(target.Length < 3) 
+                    if (target.Length < 3)
                     {
-                        bok = false;
+                        return;
                     }
 
-                    for(int j = target.Length - 1; j>=0; j--)
+                    for (int j = target.Length - 1; j >= 0; j--)
                     {
-                        if(target[j]!=null && target[j].Atk <= 15000)
+                        if (target[j] != null && target[j].Atk < 15000)
                         {
                             bok = false;
                         }
                     }
 
-                    if(bok && !card.BChang)
+                    if (bok && !card.BChang)
                     {
                         card.BChang = true;
-                        SkillManager.AddBuff(card, i => 
+                        SkillManager.AddBuff(card, i =>
                         {
                             SkillManager.GameManager.SetSigni.Signi[i].Blancer = true;
                             GameManager.RpcMyBuff(1, i, true);
                         });
-
-                        SkillManager.Baninish(card);
                     }
 
-                    if(!bok && card.BChang)
+                    if (!bok && card.BChang)
                     {
                         card.BChang = false;
-                        SkillManager.AddBuff(card, i => 
+                        SkillManager.AddBuff(card, i =>
                         {
                             SkillManager.GameManager.SetSigni.Signi[i].Blancer = false;
                             GameManager.RpcMyBuff(1, i, false);
@@ -498,8 +472,25 @@ namespace Assets.Scripts
                 },
             };
 
-            SigniAtkAcitons.Add(chang);
-            card.MyAtking = chang;
+            var attack = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    if (card1 != card)
+                        return;
+                    if (card.BChang)
+                    {
+                        SkillManager.Baninish(card);
+                    }
+                }
+            };
+
+            AttackChangeActions.Add(chang);
+            card.MyAttackChange = chang;
+
+            SigniAtkAcitons.Add(attack);
+            card.MyAtking = attack;
         }
 
         private void 幻兽朱雀小姐(Card card)
@@ -509,13 +500,13 @@ namespace Assets.Scripts
                 Card = card,
                 CardChangAction = card1 =>
                 {
-                    if(card1!=card)
+                    if (card1 != card)
                         return;
 
-                    if(card.Atk>=10000)
+                    if (card.Atk >= 10000)
                     {
                         card.BChang = true;
-                        SkillManager.AddBuff(card, i => 
+                        SkillManager.AddBuff(card, i =>
                         {
                             SkillManager.GameManager.SetSigni.Signi[i].Blancer = true;
                             GameManager.RpcMyBuff(1, i, true);
@@ -523,10 +514,10 @@ namespace Assets.Scripts
                     }
                     else
                     {
-                        if(card.BChang)
+                        if (card.BChang)
                         {
                             card.BChang = false;
-                            SkillManager.AddBuff(card, i => 
+                            SkillManager.AddBuff(card, i =>
                             {
                                 SkillManager.GameManager.SetSigni.Signi[i].Blancer = false;
                                 GameManager.RpcMyBuff(1, i, false);
@@ -536,8 +527,8 @@ namespace Assets.Scripts
                 },
             };
 
-            SigniAtkAcitons.Add(chang);
-            card.MyAtking = chang;
+            AttackChangeActions.Add(chang);
+            card.MyAttackChange = chang;
         }
 
         private void 幻兽小玄武(Card card)
@@ -547,23 +538,38 @@ namespace Assets.Scripts
                 Card = card,
                 CardChangAction = card1 =>
                 {
-                    if(card1!=card)
-                        return;
-
-                    if(card.Atk>=5000 && !card.BChang)
+                    if (card.Atk >= 5000 && !card.BChang)
                     {
                         card.BChang = true;
-                        SkillManager.EnerCharge();
                     }
-                    else
+                    
+                    if (card.Atk < 5000 && card.BChang)
                     {
                         card.BChang = false;
                     }
                 }
             };
 
-            SigniAtkAcitons.Add(chang);
-            card.MyAtking = chang;
+            var attack = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    if (card1 != card)
+                        return;
+                    if (card.BChang)
+                    {
+                        Debug.Log("充能");
+                        SkillManager.EnerCharge();
+                    }
+                }
+            };
+
+            AttackChangeActions.Add(chang);
+            card.MyAttackChange = chang;
+
+            SigniAtkAcitons.Add(attack);
+            card.MyAtking = attack;
         }
 
         private void 幻兽白虎(Card card)
@@ -573,23 +579,37 @@ namespace Assets.Scripts
                 Card = card,
                 CardChangAction = card1 =>
                 {
-                    if(card1!=card)
-                    return;
-                    
-                    if(card.Atk>=3000 && !card.BChang)
+                    if (card.Atk >= 3000 && !card.BChang)
                     {
                         card.BChang = true;
-                        SkillManager.EnerCharge();
                     }
-                    else
+                    if (card.Atk < 3000 && card.BChang)
                     {
                         card.BChang = false;
                     }
                 }
             };
 
-            SigniAtkAcitons.Add(chang);
-            card.MyAtking = chang;
+            var attack = new EffectChang
+            {
+                Card = card,
+                CardChangAction = card1 =>
+                {
+                    if (card1 != card)
+                        return;
+                    if (card.BChang)
+                    {
+                        Debug.Log("充能");
+                        SkillManager.EnerCharge();
+                    }
+                },
+            };
+
+            AttackChangeActions.Add(chang);
+            card.MyAttackChange = chang;
+
+            SigniAtkAcitons.Add(attack);
+            card.MyAtking = attack;
         }
 
 
@@ -601,9 +621,9 @@ namespace Assets.Scripts
         /// <returns>The signi in ground.</returns>
         /// <param name="target">发动这效果的卡</param>
         /// <param name="signiname">增加的攻击力</param>
-        /// <param name="Atkvalue">＊＊（精灵名字）</param>
+        /// <param name="atkvalue">＊＊（精灵名字）</param>
         /// <param name="condiction">条件</param>
-        private EffectChang WhenSigniInGround(Card target,int Atkvalue,string signiname,Func<bool> condiction)
+        private EffectChang WhenSigniInGround(Card target, int atkvalue, string signiname, Func<bool> condiction)
         {
             var chang = new EffectChang
             {
@@ -612,17 +632,17 @@ namespace Assets.Scripts
                 {
                     if (target.BChang)
                     {
-                        SkillManager.AddAtk(card1, Atkvalue);
+                        SkillManager.AddAtk(card1, atkvalue);
                     }
 
                     if (SkillManager.BSigniInGround(signiname) && !target.BChang && condiction())
                     {
-                        SkillManager.AddAtkAll(Atkvalue);
+                        SkillManager.AddAtkAll(atkvalue);
                         target.BChang = true;
-                    }  
+                    }
                     if (target.BChang && !condiction())
                     {
-                        SkillManager.AddAtkAll(-Atkvalue);
+                        SkillManager.AddAtkAll(-atkvalue);
                         target.BChang = false;
                     }
                 }
@@ -635,10 +655,10 @@ namespace Assets.Scripts
         /// </summary>
         /// <returns>The condiction.</returns>
         /// <param name="target">发动这效果的卡</param>
-        /// <param name="Atkvalue">增加的攻击力</param>
+        /// <param name="atkvalue">增加的攻击力</param>
         /// <param name="condiction">条件</param>
         /// <param name="atkadd">群体加还是单体加</param>
-        private EffectChang WhenCondictionAtkUp(Card target,int Atkvalue,Func<bool> condiction,Action<int> atkadd)
+        private EffectChang WhenCondictionAtkUp(Card target, int atkvalue, Func<bool> condiction, Action<int> atkadd)
         {
             var chang = new EffectChang
             {
@@ -647,12 +667,12 @@ namespace Assets.Scripts
                 {
                     if (!target.BChang && condiction())
                     {
-                        atkadd(Atkvalue);
+                        atkadd(atkvalue);
                         target.BChang = true;
                     }
                     if (target.BChang && !condiction())
                     {
-                        atkadd(-Atkvalue);
+                        atkadd(-atkvalue);
                         target.BChang = false;
                     }
                 }

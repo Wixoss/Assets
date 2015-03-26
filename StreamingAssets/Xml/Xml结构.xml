@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ROOT>
+     <Lrig  CardId="" CardName="" CardType="" Type="" Level="" Color="" GrowCost="" Limit="" Effect_Chang="" EffectCost_Chang="" Effect_Chu="" EffectCost_Chu="" Effect_Qi="" EffectCost_Qi="" Timing="" CardDetail=""/>
+     <Lrig  CardId="" CardName="" CardType="" Type="" Level="" Color="" GrowCost="" Limit="" Effect_Chang="" EffectCost_Chang="" Effect_Chu="" EffectCost_Chu="" Effect_Qi="" EffectCost_Qi="" Timing="" CardDetail=""/>
+     <Art  CardId="" CardName="" CardType="" Color="" EffectCost="" Effect="" TypeOnly="" Timing="" CardDetail=""/>
+     <Art  CardId="" CardName="" CardType="" Color="" EffectCost="" Effect="" TypeOnly="" Timing="" CardDetail=""/>
+     <Signi  CardId="" CardName="" CardType="" Type="" Level="" Color="" Atk="" TypeOnly="" BDef="" BBrust="" Brust="" Effect_Qi="" EffectCost_Qi="" Effect_Chang="" Effect_Chu="" EffectCost_Chu="" CardDetail=""/>
+     <Signi  CardId="" CardName="" CardType="" Type="" Level="" Color="" Atk="" TypeOnly="" BDef="" BBrust="" Brust="" Effect_Qi="" EffectCost_Qi="" Effect_Chang="" Effect_Chu="" EffectCost_Chu="" CardDetail=""/>
+     <Spell  CardId="" CardName="" CardType="" Color="" Condition="" EffectCost="" Effect="" TypeOnly="" BBrust="" Brust="" CardDetail=""/>
+     <Spell  CardId="" CardName="" CardType="" Color="" Condition="" EffectCost="" Effect="" TypeOnly="" BBrust="" Brust="" CardDetail=""/>
+</ROOT>

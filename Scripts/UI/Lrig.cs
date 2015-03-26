@@ -264,10 +264,10 @@ namespace Assets.Scripts
                     mycosttype = targetCard.GrowCost;
                     break;
                 case 3:
-                    mycosttype = targetCard.EffectCost_Chu;
+                    mycosttype = targetCard.EffectCostChu;
                     break;
                 case 4:
-                    mycosttype = targetCard.EffectCost_Qi;
+                    mycosttype = targetCard.EffectCostQi;
                     break;
             }
 
@@ -374,10 +374,10 @@ namespace Assets.Scripts
                     benough = all >= target.GrowCost[num].Num;
                     break;
                 case 3:
-                    benough = all >= target.EffectCost_Chu[num].Num;
+                    benough = all >= target.EffectCostChu[num].Num;
                     break;
                 case 4:
-                    benough = all >= target.EffectCost_Qi[num].Num;
+                    benough = all >= target.EffectCostQi[num].Num;
                     break;
             }
             return benough;

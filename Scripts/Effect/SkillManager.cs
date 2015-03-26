@@ -153,7 +153,7 @@ namespace Assets.Scripts
         /// 抽卡
         /// </summary>
         /// <param name="num">需要抽卡的数量</param>
-        public void DropCard(int num,Action succeed = null)
+        public void DropCard(int num, Action succeed = null)
         {
             StartCoroutine(_createHands.DropCard(num));
             _createHands.ShowTheUseBtn();
@@ -446,7 +446,7 @@ namespace Assets.Scripts
         /// </summary>
         public static void Baninish(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
         {
-            DebuffOtherSigni(sourcecard, _setSigni.BanishOtherSigni, succeed, condiction);
+            DebuffOtherSigni(sourcecard, i => _setSigni.BanishOtherSigni(i), succeed, condiction);
         }
 
         /// <summary>
@@ -458,6 +458,11 @@ namespace Assets.Scripts
         }
 
         /// <summary>
+        /// 所选择的目标(专为后续效果而服务)
+        /// </summary>
+        public static Card TargetSigni;
+
+        /// <summary>
         /// 横置我方精灵
         /// </summary>
         /// <param name="sourcecard">Sourcecard.</param>
@@ -465,7 +470,11 @@ namespace Assets.Scripts
         /// <param name="condiction">Condiction.</param>
         public static void HorizionMySigni(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
         {
-            BuffSigni(sourcecard, _setSigni.HorizontalSigni, succeed, condiction);
+            BuffSigni(sourcecard, i =>
+            {
+                _setSigni.HorizontalSigni(i);
+                TargetSigni = _setSigni.Signi[i];
+            }, succeed, condiction);
         }
 
         /// <summary>
@@ -512,22 +521,22 @@ namespace Assets.Scripts
         /// <param name="value">Value.</param>
         /// <param name="succeed">Succeed.</param>
         /// <param name="condition">Condition.</param>
-        public static void AttackUpSigni(Card sourcecard,int value, Action succeed = null,Func<Card,bool> condition = null)
+        public static void AttackUpSigni(Card sourcecard, int value, Action succeed = null, Func<Card, bool> condition = null)
         {
-            BuffSigni(sourcecard, i => 
+            BuffSigni(sourcecard, i =>
             {
-                var card = _setSigni.Signi [i];
-                SkillManager.AddAtk(card, value);
+                var card = _setSigni.Signi[i];
+                AddAtk(card, value);
                 var over = new SkillChang.EffectChang
                 {
                     Card = card,
                     CardChangAction = card1 =>
                     {
-                        SkillManager.AddAtk(card, -value);
+                        AddAtk(card, -value);
                         _skillChang.MyRoundOverActions.Remove(card.MyEffectChangMyRoundOver);
                     }
                 };
-                
+
                 card.MyEffectChangMyRoundOver = over;
                 _skillChang.MyRoundOverActions.Add(over);
 
