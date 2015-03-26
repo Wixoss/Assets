@@ -131,6 +131,8 @@ namespace Assets.Scripts
         {
             GameManager.CreateHands.CreateHandByCard(card);
             EnerCards.Remove(card);
+            DestoryEner(new List<Card>{card});  
+            GameManager.RpcDeleteOtherEner(card.CardId);
         }
 
         /// <summary>

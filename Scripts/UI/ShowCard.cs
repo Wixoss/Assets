@@ -32,7 +32,7 @@ namespace Assets.Scripts
             ResetMyCard();
         }
 
-		private int _usingNum = 0;
+		//private int _usingNum = 0;
 
         public void ShowMyCardEffect(Card card)
         {

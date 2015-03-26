@@ -16,8 +16,6 @@ namespace Assets.Scripts
         //        public Action<string> StringChangeAction;
 
         private GameManager _gameManager = null;
-        public static List<string> OtherCards = new List<string>();
-        public static bool Bdone;
 
         public void Rpc(string funcname, RPCMode mode, params object[] objs)
         {
@@ -344,23 +342,22 @@ namespace Assets.Scripts
         [RPC]
         private void SendOtherMyCard(string cardid)
         {
-            //            if (_gameManager == null)
-            //            {
-            //                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            //            }
+//          if (_gameManager == null)
+//          {
+//             _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+//          }
             //            _gameManager.SkillManager.MyCard.OtherCardid.Add(cardid);
-            OtherCards.Add(cardid);
+            GameManager.OtherCards.Add(cardid);
         }
 
         [RPC]
         private void SendOtherMyCardOk(bool bdone)
         {
-            //            if (_gameManager == null)
-            //            {
-            //                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            //            }
-            //            _gameManager.SkillManager.MyCard.BGetOtherCard = bdone; 
-            Bdone = bdone;
+//            if (_gameManager == null)
+//            {
+//                _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+//            }
+            GameManager.Bdone = bdone;
         }
 
         [RPC]
@@ -511,7 +508,10 @@ namespace Assets.Scripts
             {
                 _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             }
-            _gameManager.SetSigni.OtherSigni[num].Atk += value;
+            if (_gameManager.SetSigni.OtherSigni [num] != null)
+            {
+                _gameManager.SetSigni.OtherSigni[num].Atk += value;
+            }
         }
 
         [RPC]

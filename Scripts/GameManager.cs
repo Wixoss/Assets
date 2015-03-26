@@ -15,6 +15,9 @@ namespace Assets.Scripts
         public GameObject TwoDui;
         public GameObject ThreeDui;
 
+        public static List<string> OtherCards = new List<string>();
+        public static bool Bdone;
+        
         #region 主要关联
         public CreateHands CreateHands;
         public LifeCloth LifeCloth;
@@ -145,7 +148,6 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            SetEnableOrDisable(ThreeDui, TwoDui);
             MyRpc = GameObject.Find("RPC").GetComponent<MyRpc>();
             SkillManager.Setup();
         }
@@ -538,11 +540,12 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="myCards"></param>
         /// <param name="info"></param>
-        public static void RpcOtherShowCards(List<Card> myCards, string info)
+        public IEnumerator RpcOtherShowCards(List<Card> myCards, string info)
         {
             for (int i = 0; i < myCards.Count; i++)
             {
                 MyRpc.Rpc("SendOtherMyShowCard", RPCMode.Others, myCards[i].CardId);
+                yield return new WaitForSeconds(0.2f);
             }
             MyRpc.Rpc("ShowOtherMyCards", RPCMode.Others, info);
         }
@@ -958,9 +961,6 @@ namespace Assets.Scripts
 
         public void End()
         {
-            //常效果:我方回合结束时
-            SkillManager.MyRoundOver();
-
             //if(hands.count>6)丢牌
             CreateHands.Reflash();
             Reporting.text = "回合结束,控制权转移";
@@ -968,6 +968,8 @@ namespace Assets.Scripts
             BLocalRound = !BLocalRound;
             Rounds++;
             MyRpc.Rpc("RoundChange", RPCMode.Others, BLocalRound, Rounds);
+            //常效果:我方回合结束时
+            SkillManager.MyRoundOver();
         }
 
         #endregion
@@ -982,7 +984,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="obj1">隐藏</param>
         /// <param name="obj2">开启</param>
-        private void SetEnableOrDisable(GameObject obj1, GameObject obj2)
+        public static void SetEnableOrDisable(GameObject obj1, GameObject obj2)
         {
             obj1.SetActive(false);
             obj2.SetActive(true);
@@ -1000,6 +1002,14 @@ namespace Assets.Scripts
             card.Type = detail.Type;
             card.Level = detail.Level;
             return card;
+        }
+
+        /// <summary>
+        /// 断开连接时调用
+        /// </summary>
+        private void OnDisconnectedFromServer(NetworkDisconnection info)
+        {
+            GameOver.ShowGameResoult("你的对手掉线了...");
         }
 
         //测试!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

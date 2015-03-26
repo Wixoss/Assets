@@ -253,7 +253,7 @@ namespace Assets.Scripts
             //                    }
             //                }
             //            };
-            var chang = WhenCondictionAtkUp(card, 1000, () => !GameManager.BLocalRound, SkillManager.AddAtkAll);
+            var chang = WhenCondictionAtkUp(card, 1000, () => {return !GameManager.BLocalRound;}, SkillManager.AddAtkAll);
 
             MyRoundStartActions.Add(chang);
             card.MyEffectChangMyRoundStart = chang;
@@ -503,7 +503,7 @@ namespace Assets.Scripts
                     if (card1 != card)
                         return;
 
-                    if (card.Atk >= 10000)
+                    if (card.Atk >= 10000 && !card.BChang)
                     {
                         card.BChang = true;
                         SkillManager.AddBuff(card, i =>
@@ -514,7 +514,7 @@ namespace Assets.Scripts
                     }
                     else
                     {
-                        if (card.BChang)
+                        if (card.BChang && card.Atk < 10000)
                         {
                             card.BChang = false;
                             SkillManager.AddBuff(card, i =>
@@ -559,7 +559,6 @@ namespace Assets.Scripts
                         return;
                     if (card.BChang)
                     {
-                        Debug.Log("充能");
                         SkillManager.EnerCharge();
                     }
                 }
@@ -599,7 +598,6 @@ namespace Assets.Scripts
                         return;
                     if (card.BChang)
                     {
-                        Debug.Log("充能");
                         SkillManager.EnerCharge();
                     }
                 },

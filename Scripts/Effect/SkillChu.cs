@@ -44,7 +44,7 @@ namespace Assets.Scripts
                 {
                     var mycard = cardinfo.SelectHands[0].MyCard;
                     GameManager.CreateHands.CreateHandFromDeck(mycard);
-                    GameManager.RpcOtherShowCards(new List<Card> { mycard }, "对方获得");
+                    StartCoroutine(GameManager.RpcOtherShowCards(new List<Card> { mycard }, "对方获得"));
                 }
                 cardinfo.ShowCardInfo(false);
                 SkillManager.WashDeck();

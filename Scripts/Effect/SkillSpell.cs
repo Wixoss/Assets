@@ -54,7 +54,7 @@ namespace Assets.Scripts
                     GameManager.CreateHands.CreateHandFromDeck(mycard);
                     mycards.Add(mycard);
                 }
-                GameManager.RpcOtherShowCards(mycards, "对方获得");
+                StartCoroutine(GameManager.RpcOtherShowCards(mycards, "对方获得"));
                 cardinfo.ShowCardInfo(false);
                 SkillManager.WashDeck();
             });
@@ -90,7 +90,7 @@ namespace Assets.Scripts
                 {
                     var mycard = cardinfo.SelectHands[0].MyCard;
                     GameManager.CreateHands.CreateHandFromDeck(mycard);
-                    GameManager.RpcOtherShowCards(new List<Card> { mycard }, "对方获得");
+                    StartCoroutine(GameManager.RpcOtherShowCards(new List<Card> { mycard }, "对方获得"));
                 }
                 cardinfo.ShowCardInfo(false);
                 SkillManager.WashDeck();
@@ -148,7 +148,7 @@ namespace Assets.Scripts
                 if (cardinfo.SelectHands.Count > 0)
                 {
                     SkillManager.DesHandByLevel(card, cardinfo.SelectHands[0].Level, false);
-                    GameManager.RpcOtherShowCards(new List<Card> { cardinfo.SelectHands[0].MyCard }, "对方宣言的等级");
+                    StartCoroutine(GameManager.RpcOtherShowCards(new List<Card> { cardinfo.SelectHands[0].MyCard }, "对方宣言的等级"));
                     //cardinfo.ShowCardInfo(false);
                     GameManager.RpcGetOtherHand();
                 }
@@ -202,7 +202,7 @@ namespace Assets.Scripts
                     showcards.Add(cardinfo.SelectHands[i].MyCard);
                 }
 
-                GameManager.RpcOtherShowCards(showcards, "对方从能量区获得");
+                StartCoroutine(GameManager.RpcOtherShowCards(showcards, "对方从能量区获得"));
 
                 cardinfo.ShowCardInfo(false);
             });

@@ -44,7 +44,7 @@ namespace Assets.Scripts
             SkillQi.Setup();
             SkillSpell.Setup();
             SkillBrust.Setup();
-            MyCard.Setup();
+            StartCoroutine(MyCard.Setup());
         }
         /// <summary>
         /// 设置精灵时
@@ -437,7 +437,7 @@ namespace Assets.Scripts
         /// </summary>
         public static void BackHand(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
         {
-            DebuffOtherSigni(sourcecard, GameManager.RpcBackHand, succeed, condiction);
+            DebuffOtherSigni(sourcecard, _setSigni.BackOtherSigniHand, succeed, condiction);
         }
 
 
@@ -446,7 +446,7 @@ namespace Assets.Scripts
         /// </summary>
         public static void Baninish(Card sourcecard, Action succeed = null, Func<Card, bool> condiction = null)
         {
-            DebuffOtherSigni(sourcecard, i => _setSigni.BanishOtherSigni(i), succeed, condiction);
+            DebuffOtherSigni(sourcecard, _setSigni.BanishOtherSigni, succeed, condiction);
         }
 
         /// <summary>

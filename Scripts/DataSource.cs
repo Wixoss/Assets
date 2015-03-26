@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts
 {
-    public class DataSource
+    public static class DataSource
     {
         public static Player ClientPlayer;
         public static Player ServerPlayer;

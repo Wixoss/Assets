@@ -530,7 +530,10 @@ namespace Assets.Scripts
         public List<string> MyCardid;
         public List<string> MyLrigid;
         public CreateCardByXml CreateCardByXml;
-
+        public UISlider UISlider;
+        public UILabel ScrollLaber;
+        public GameObject JyanKen;
+       
         public struct AtkDetail
         {
             public int Atk;
@@ -545,7 +548,7 @@ namespace Assets.Scripts
 
         public ShowDeck ShowDeck;
 
-        public void Setup()
+        public IEnumerator Setup()
         {
             CreateCardByXml.GetXml();
             MyFakeDeck();
@@ -568,12 +571,15 @@ namespace Assets.Scripts
                         Level = mycard.Level,
                     };
                     CardAtkDetailDictionary.Add(MyLrigid[i], detal);
+                    yield return new WaitForSeconds(0.2f);
                     GameManager.RpcOtherMyCardid(MyLrigid[i]);
                 }
                 ShowDeck.LrigDeck.Add(mycard);
                 ShowDeck.SkillManager.GetEffectByCard(mycard);
+                UISlider.value = (float)i / MyLrigid.Count;
+                ScrollLaber.text = "正在读取分身卡牌效果... " + i + "/"+MyLrigid.Count;
             }
-
+            
             for (int i = 0; i < MyCardid.Count; i++)
             {
                 mycard = new Card(MyCardid[i]);
@@ -591,34 +597,36 @@ namespace Assets.Scripts
                         Level = mycard.Level,
                     };
                     CardAtkDetailDictionary.Add(MyCardid[i], detal);
+                    yield return new WaitForSeconds(0.2f);
                     GameManager.RpcOtherMyCardid(MyCardid[i]);
                 }
                 ShowDeck.MainDeck.Add(mycard);
                 ShowDeck.SkillManager.GetEffectByCard(mycard);
+                UISlider.value = (float)i / MyLrigid.Count;
+                ScrollLaber.text = "正在读取主卡组卡牌效果... " + i + "/"+MyCardid.Count;
             }
 
             GameManager.RpcOtherMyCardidOk(true);
-
             ShowDeck.WashMainDeck();
             StartCoroutine(WaitToOtherSendCard());
         }
-
 
         private IEnumerator WaitToOtherSendCard()
         {
             while (true)
             {
-                if (MyRpc.Bdone)
+                if (GameManager.Bdone)
                 {
-                    if (MyRpc.OtherCards.Count > 0)
+                    if (GameManager.OtherCards.Count > 0)
                     {
-                        for (int i = 0; i < MyRpc.OtherCards.Count; i++)
+                        for (int i = 0; i < GameManager.OtherCards.Count; i++)
                         {
-                            if (!CardAtkDetailDictionary.ContainsKey(MyRpc.OtherCards[i]))
+                            if (!CardAtkDetailDictionary.ContainsKey(GameManager.OtherCards[i]))
                             {
-                                var card = new Card(MyRpc.OtherCards[i]);
+                                UISlider.value = (float)i / GameManager.OtherCards.Count;
+                                ScrollLaber.text = "正在获取对方卡组信息...  " + i + "/"+GameManager.OtherCards.Count;
+                                var card = new Card(GameManager.OtherCards[i]);
                                 CreateCardByXml.GetCardDetailFromXml(card, 0, 4);
-                                //card.SetCardById();
                                 var detal = new AtkDetail
                                 {
                                     Atk = card.Atk,
@@ -628,17 +636,22 @@ namespace Assets.Scripts
                                     Type = card.Type,
                                     Level = card.Level,
                                 };
-                                CardAtkDetailDictionary.Add(MyRpc.OtherCards[i], detal);
+                                CardAtkDetailDictionary.Add(GameManager.OtherCards[i], detal);
                             }
                         }
                     }
-                    MyRpc.Bdone = false;
+                    GameManager.Bdone = false;
+                    GameManager.SetEnableOrDisable(UISlider.gameObject, JyanKen);
                     yield break;
                 }
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
             }
         }
 
+//        private void OnGUI()
+//        {
+//            GUI.Label(new Rect(50, 50, 100, 200), ShowDeck.GameManager.Bdone + "  " + ShowDeck.GameManager.OtherCards.Count);
+//        }
 
         public List<Card> RandomCards(List<Card> old)
         {

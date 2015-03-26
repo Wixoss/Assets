@@ -164,7 +164,7 @@ namespace Assets.Scripts
         /// </summary>
         private void OnDisconnectedFromServer(NetworkDisconnection info)
         {
-
+            Application.LoadLevelAsync(0);
         }
 
 		/// <summary>

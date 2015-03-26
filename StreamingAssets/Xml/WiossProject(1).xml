@@ -128,9 +128,9 @@
 	<Signi CardId="WD01-009" CardName="甲胄 皇家铠" CardType="精灵" Type="精武：武装" Level="4" Color="白" Atk="12000" TypeOnly="小玉" BDef="0" BBrust="1" CardDetail="【常】：对战对手的回合期间，你所有的SIGNI的力量+1000。【※】：将对战对手的1只SIGNI返回手牌。"/>
 	<Signi CardId="WD01-010" CardName="大剑 石中剑" CardType="精灵" Type="精武：武装" Level="3" Color="白" Atk="10000" BDef="0" BBrust="0"/>
 	<Signi CardId="WD01-011" CardName="笼手 铁拳" CardType="精灵" Type="精武：武装" Level="3" Color="白" Atk="7000" TypeOnly="小玉" BDef="0" BBrust="1" EffectCost_Chu="白:1" CardDetail="【出】白1：从你的卡组里探寻1张《甲胄 皇家铠》，将其公开并加入手牌。之后，将卡组洗切。【※】：抽1张卡。"/>
-	<Signi CardId="WD01-012 " CardName="中剑 焰形剑" CardType="精灵" Type="精武：武装" Level="2" Color="白" Atk="7000" BDef="0" BBrust="0"/>
-	<Signi CardId="WD01-013 " CardName="小剑 库克力弯刀" CardType="精灵" Type="精武：武装" Level="1" Color="白" Atk="3000" BDef="0" BBrust="0"/>
-	<Signi CardId="WD01-014 " CardName="小弓 箭矢" CardType="精灵" Type="精武：武装" Level="1" Color="白" Atk="1000" TypeOnly="小玉" BDef="0" BBrust="0" CardDetail="【出】：从你的卡组顶查看3张卡。之后，将其按你喜欢的顺序放回。"/>
+	<Signi CardId="WD01-012" CardName="中剑 焰形剑" CardType="精灵" Type="精武：武装" Level="2" Color="白" Atk="7000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD01-013" CardName="小剑 库克力弯刀" CardType="精灵" Type="精武：武装" Level="1" Color="白" Atk="3000" BDef="0" BBrust="0"/>
+	<Signi CardId="WD01-014" CardName="小弓 箭矢" CardType="精灵" Type="精武：武装" Level="1" Color="白" Atk="1000" TypeOnly="小玉" BDef="0" BBrust="0" CardDetail="【出】：从你的卡组顶查看3张卡。之后，将其按你喜欢的顺序放回。"/>
 	<Signi CardId="WD02-009" CardName="罗石 火山石" CardType="精灵" Type="精罗：矿石" Level="4" Color="红" Atk="12000" TypeOnly="花代" BDef="0" BBrust="1" EffectCost_Chu="红:3" CardDetail="【出】红3：将对战对手的1只力量15000以下的SIGNI驱逐。【※】：将对战对手的1只力量7000以下的SIGNI驱逐。"/>
 	<Signi CardId="WD02-010" CardName="罗石 白银" CardType="精灵" Type="精罗：矿石" Level="3" Color="红" Atk="10000" BDef="0" BBrust="0"/>
 	<Signi CardId="WD02-011" CardName="罗石 石榴石" CardType="精灵" Type="精罗：矿石" Level="3" Color="红" Atk="7000" TypeOnly="花代" BDef="0" BBrust="1" CardDetail="【出】：直到回合结束时为止，这只SIGNI的力量变为15000。【※】：抽1张卡。"/>

@@ -219,6 +219,12 @@ namespace Assets.Scripts
                             Signi[num].EffectQi(Signi[num]);
                         }, 4);
                     }
+                },()=> 
+                {
+                    if(Signi[num].EffectQi == null)
+                        return false;
+                    else
+                        return true;
                 });
                 ShowTrashBtn(num, !TrashBtn[num].activeSelf);
                 if (!TrashBtn[num].activeSelf)
@@ -709,6 +715,16 @@ namespace Assets.Scripts
             {
                 //EnerManager.CreateOtherEner(OtherSigni[num].MyCard.CardId);
                 GameManager.RpcBanish(num);
+                OtherSigni[num] = null;
+                OtherCardTexture[num].gameObject.SetActive(false);
+            }
+        }
+
+        public void BackOtherSigniHand(int num)
+        {
+            if (OtherSigni [num] != null)
+            {
+                GameManager.RpcBackHand(num);
                 OtherSigni[num] = null;
                 OtherCardTexture[num].gameObject.SetActive(false);
             }

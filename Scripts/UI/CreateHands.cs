@@ -76,7 +76,7 @@ namespace Assets.Scripts
 
         private Card _effectionCard;
 
-        public void ShowEffectButton(Card card, System.Action myaction, System.Action failed = null)
+        public void ShowEffectButton(Card card, System.Action myaction, System.Func<bool> condiction = null,System.Action failed = null)
         {
             UIEventListener.Get(UseEffectBtn).MyOnClick = () =>
             {
@@ -92,7 +92,15 @@ namespace Assets.Scripts
                 NotUseEffectBtn.SetActive(false);
             };
 
-            UseEffectBtn.SetActive(true);
+            if (condiction == null)
+            {
+                UseEffectBtn.SetActive(true);
+            } 
+            else
+            {
+                UseEffectBtn.SetActive(condiction());
+            }
+
             NotUseEffectBtn.SetActive(true);
         }
 
@@ -579,6 +587,7 @@ namespace Assets.Scripts
                             UseCard();
                             UseCardBtn.SetActive(true);
                             NotUseCardBtn.SetActive(true);
+                            DisEffectBtn();
                         });
                     }
                     else
@@ -604,6 +613,7 @@ namespace Assets.Scripts
                             UseCard();
                             UseCardBtn.SetActive(true);
                             NotUseCardBtn.SetActive(true);
+                            DisEffectBtn();
                         });
                     }
                     else
