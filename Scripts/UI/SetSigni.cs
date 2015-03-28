@@ -368,7 +368,6 @@ namespace Assets.Scripts
             {
                 BanishMySigni(num);
                 //GameManager.RpcBanish(num);
-                GameManager.RpcBanishOther(num);
                 GameManager.RpcEnerCharge();
             }
 
@@ -702,6 +701,7 @@ namespace Assets.Scripts
 
                 Signi[num].ResetCardConfig();
                 EnerManager.CreateEner(Signi[num]);
+                GameManager.RpcBanishOther(num);
                 GameManager.RpcEnerCharge(Signi[num].CardId);
                 Signi[num] = null;
                 CardTexture[num].gameObject.SetActive(false);

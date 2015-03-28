@@ -355,16 +355,16 @@ namespace Assets.Scripts
             MyHands.Add(hands);
             MyHandCards.Add(card);
             Reposition();
+            if (GameManager.MyGameState == GameManager.GameState.主要阶段 || GameManager.MyGameState == GameManager.GameState.分身攻击阶段)
+            {
+                ShowTheUseBtn();
+            }
             GameManager.RpcCreateOtherHands(1);
         }
 
         public void CreateHandFromDeck(Card card)
         {
-            CreateHandByCard(card);
-            if (GameManager.MyGameState == GameManager.GameState.主要阶段 || GameManager.MyGameState == GameManager.GameState.分身攻击阶段)
-            {
-                ShowTheUseBtn();
-            }
+            CreateHandByCard(card); 
             GameManager.ShowDeck.MainDeck.Remove(card);
         }
 
