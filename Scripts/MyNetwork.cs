@@ -67,6 +67,7 @@ namespace Assets.Scripts
 
         public string GetLocalIp()
         {
+            //Dns.GetHostAddresses(Dns.GetHostName())[0]
             string userip = "";
             var adapters = System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces();
             foreach (var adapter in adapters)

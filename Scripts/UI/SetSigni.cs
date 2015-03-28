@@ -432,19 +432,19 @@ namespace Assets.Scripts
                 }
             }
             else
-            {
-				GameManager.SkillManager.SigniAttack(Signi[num]);
-
+            {				
                 if (OtherSigni[num].Atk <= Signi[num].Atk)
                 {
                     BanishOtherSigni(num);
 
-                    if (Signi[num].Blancer)
+                    if (Signi[num].Blancer && GameManager.LifeCloth.OtherLifeObjs.Count > 0)
                     {
                         GameManager.LifeCloth.CrashOtherCloth(true);
                         GameManager.RpcCrashOtherLifeCloth(true);
                     }
                 }
+
+                GameManager.SkillManager.SigniAttack(Signi[num]);
             }
 
             AttackBtn[num].SetActive(false);
@@ -573,6 +573,21 @@ namespace Assets.Scripts
                 {
                     OtherSelections[i].SetActive(false);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 在结束主要阶段的时候隐藏所有按钮
+        /// </summary>
+        public void DisAllSelection()
+        {
+            for (int i = 0; i < OtherSelections.Length; i++)
+            {
+                OtherSelections[i].SetActive(false);
+            }
+            for (int i = 0; i < MySelections.Length; i++)
+            {
+                MySelections[i].SetActive(false);
             }
         }
 

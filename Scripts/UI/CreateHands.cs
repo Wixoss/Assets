@@ -372,6 +372,8 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < num; i++)
             {
+                if(GameManager.ShowDeck.MainDeck.Count<=0)
+                    yield break;
                 DropCard();
                 yield return new WaitForSeconds(0.3f);
             }

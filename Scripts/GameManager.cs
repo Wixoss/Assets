@@ -588,6 +588,7 @@ namespace Assets.Scripts
             WordInfo.SetTheEndPhase(() =>
             {
                 CreateHands.DisTheUseBtn();
+                SetSigni.DisAllSelection();
                 if (Rounds == 1)
                 {
                     MyGameState = GameState.结束阶段;
