@@ -67,6 +67,9 @@ namespace Assets.Scripts
 
         public string GetLocalIp()
         {
+#if UNITY_ANDROID
+			return System.Net.Dns.GetHostAddresses(System.Net.Dns.GetHostName())[0].ToString();
+#endif
             //Dns.GetHostAddresses(Dns.GetHostName())[0]
             string userip = "";
             var adapters = System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces();

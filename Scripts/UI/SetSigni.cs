@@ -252,8 +252,17 @@ namespace Assets.Scripts
         private void ShowTrashBtn(int num, bool bshow)
         {
             TrashBtn[num].SetActive(bshow);
+			if (bshow) 
+			{
+				StartCoroutine (DisTrashBtn (num));
+			}
         }
 
+		private System.Collections.IEnumerator DisTrashBtn(int num)
+		{
+			yield return new WaitForSeconds (2);
+			TrashBtn [num].SetActive (false);
+		}
 
         public void ShowChargeBtn()
         {
@@ -306,10 +315,7 @@ namespace Assets.Scripts
 
 
         public void TrashSigni(int num)
-        {
-            //常效果:精灵离场时调用
-            GameManager.SkillManager.SigniOut();
-
+        {      
             if (Signi[num] != null)
             {
                 if (Signi[num].SigniOutAction != null)
@@ -328,6 +334,8 @@ namespace Assets.Scripts
             }
             CountSigniLevel();
             GameManager.CreateHands.ShowTheUseBtn();
+			//常效果:精灵离场时调用
+			GameManager.SkillManager.SigniOut();
         }
 
         /// <summary>
@@ -496,10 +504,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="num">位置</param>
         public void BackToHand(int num)
-        {
-            //常效果:精灵离场时调用
-            GameManager.SkillManager.SigniOut();
-
+        {           
             Card card = Signi[num];
             RemoveSigniChangAction(Signi[num]);
             Signi[num] = null;
@@ -507,6 +512,8 @@ namespace Assets.Scripts
             card.ResetCardConfig();
             GameManager.CreateHands.CreateHandByCard(card);
             CountSigniLevel();
+			//常效果:精灵离场时调用
+			GameManager.SkillManager.SigniOut();
         }
 
         /// <summary>
@@ -701,10 +708,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="num">第几只</param>
         public void BanishMySigni(int num)
-        {
-            //常效果:精灵离场时调用,在清除卡的常效果前调用
-            GameManager.SkillManager.SigniOut();
-
+        {           
             if (Signi[num] != null)
             {
                 if (Signi[num].SigniOutAction != null)
@@ -722,6 +726,8 @@ namespace Assets.Scripts
                 CardTexture[num].gameObject.SetActive(false);
             }
             CountSigniLevel();
+			//常效果:精灵离场时调用,在清除卡的常效果前调用
+			GameManager.SkillManager.SigniOut();
         }
 
 
