@@ -33,7 +33,7 @@ namespace Assets.Scripts
             DataSource.ClientDeckName = deckname;
             DataSource.ClientPlayer.BReady = true;
             var info = GameObject.Find("Info").GetComponent<UILabel>();
-            info.text += "\n" + "对方已经准备好了,选择的卡组为: " + deckname;
+            info.text += "\n" + "对方已经准备好了";
         }
 
         [RPC]
@@ -42,7 +42,7 @@ namespace Assets.Scripts
             DataSource.ServerDeckName = deckname;
             DataSource.ServerPlayer.BReady = true;
             var info = GameObject.Find("Info").GetComponent<UILabel>();
-            info.text += "\n" + "对方已经准备好了,选择的卡组为: " + deckname;
+            info.text += "\n" + "对方已经准备好了";
         }
 
         [RPC]
