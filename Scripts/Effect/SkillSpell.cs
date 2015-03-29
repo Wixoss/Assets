@@ -41,7 +41,7 @@ namespace Assets.Scripts
 
         private void 艾本之书(Card card)
         {
-            var targets = SkillManager.FindCardByCondition(x => x.MyCardColor == Card.CardColor.白);
+            var targets = SkillManager.FindCardByCondition(x => x.MyCardColor == Card.CardColor.白 && x.MyCardType == Card.CardType.精灵卡);
             var cardinfo = GameManager.CardInfo;
 
             cardinfo.ShowCardInfo(true);
